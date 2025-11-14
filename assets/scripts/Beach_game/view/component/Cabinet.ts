@@ -33,7 +33,7 @@ export class Cabinet extends Component {
         this.data = { x, y, len: len, index };
         UIUtils.setWidth(this.cabinet, GameUtil.CellW * len);
         this.content.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
-        this.contentW = GameUtil.CellW * len - 20;
+        this.contentW = GameUtil.CellW * len - 100;
         UIUtils.setWidth(this.content, this.contentW);
     }
 

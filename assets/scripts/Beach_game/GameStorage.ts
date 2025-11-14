@@ -13,8 +13,6 @@ export namespace GameStorage {
         coin: 0,
         /**钱数 */
         money: 0,
-        /**兑换券数 */
-        cash: 0,
         /**当前关卡 */
         curLevel: 1,
         /**上一关卡 */
@@ -88,15 +86,7 @@ export namespace GameStorage {
         _gameData.money = num;
         saveLocal();
     }
-    /**获取兑换券 */
-    export function getCash() {
-        return _gameData.cash;
-    }
-    /**增加兑换券 */
-    export function addCash(num: number) {
-        _gameData.cash += num;
-        saveLocal();
-    }
+   
     /**当前关卡等级 */
     export function getCurLevel() {
         return _gameData.curLevel;

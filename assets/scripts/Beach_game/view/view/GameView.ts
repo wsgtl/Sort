@@ -29,6 +29,7 @@ import { Label } from 'cc';
 import { GuideManger } from '../../manager/GuideManager';
 import { GuideMask } from '../guide/GuideMask';
 import { i18n } from '../../../Beach_common/i18n/I18nManager';
+import { Widget } from 'cc';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -89,23 +90,35 @@ export class GameView extends ViewComponent {
 
     fit() {
         const h = view.getVisibleSize().y;
-        const cha = h - 1138;
+        const cha = h - 1920;
         const cellH = GameUtil.CellH + 100;
-        if (cha > 0) {
-            if (cha > cellH) {//6行变7行
-                this.topContent.y = 464 + GameUtil.CellH / 2;
-                this.bottomContent.y = -628 - GameUtil.CellH / 2;
-                this.content.y = -313 - GameUtil.CellH / 2;
-                const _cha = h - 1138 - cellH;
-                this.top.y = 53 + _cha / 5;
-                this.progress.node.y = -23 + _cha / 6;
-                this.skills.y = 123 - _cha / 4;
-                this.showRowNum = 7;
-            } else {
-                this.top.y = 53 + cha / 5;
-                this.progress.node.y = -23 + cha / 6;
-                this.skills.y = 123 - cha / 4;
-            }
+        // if (cha > 0) {
+        //     if (cha > cellH) {//6行变7行
+        //         this.topContent.y = 464 + GameUtil.CellH / 2;
+        //         this.bottomContent.y = -628 - GameUtil.CellH / 2;
+        //         this.content.y = -313 - GameUtil.CellH / 2;
+        //         const _cha = h - 1138 - cellH;
+        //         this.top.y = 53 + _cha / 5;
+        //         this.progress.node.y = -23 + _cha / 6;
+        //         this.skills.y = 123 - _cha / 4;
+        //         this.showRowNum = 7;
+        //     } else {
+        //         this.top.y = 53 + cha / 5;
+        //         this.progress.node.y = -23 + cha / 6;
+        //         this.skills.y = 123 - cha / 4;
+        //     }
+
+        // }
+        if (cha > 150) {
+            this.topContent.getComponent(Widget).top = 0;
+            this.bottomContent.y = -860 - cha * .3;
+            this.content.y = -450 - cha * 0.2;
+            this.progress.node.scale = v3(1, 1, 1);
+        } else {
+            this.topContent.getComponent(Widget).top = -80;
+            this.bottomContent.y = -860 - cha * .2;
+            this.content.y = -450 - cha * 0.2;
+            this.progress.node.scale = v3(1, 0.9, 1);
 
         }
         console.log("h", h);
@@ -131,15 +144,15 @@ export class GameView extends ViewComponent {
         // if (isShowWin) {
         //     await this.showDif();
         // }
-        if(!GuideManger.isGuide()){
-            ViewManager.showLevelDialog(false,GameStorage.getCurLevel(),()=>{})
+        if (!GuideManger.isGuide()) {
+            ViewManager.showLevelDialog(false, GameStorage.getCurLevel(), () => { })
             await this.delay(1.5);
         }
         this.startGame();
-       
-       
+
+
     }
-    private startGame(){
+    private startGame() {
         this.initBoard();
         this.initGuide();
     }
@@ -259,7 +272,7 @@ export class GameView extends ViewComponent {
         ViewManager.showGameView();
     }
     async checkWin(type: ColletType) {
-        if (type > 0 && type <= ColletType.cash) {
+        if (type > 0 && type <= ColletType.money) {
             let reward: RewardType = type - 0;
             ViewManager.showReward(reward, () => {
                 this.rewardCb?.();
@@ -271,7 +284,7 @@ export class GameView extends ViewComponent {
         }
     }
     continueGame() {
-        ViewManager.showLevelDialog(true,GameStorage.getCurLevel(),()=>{
+        ViewManager.showLevelDialog(true, GameStorage.getCurLevel(), () => {
             ViewManager.showGameView(true);
         })
         AudioManager.playEffect("win");
@@ -437,7 +450,7 @@ export class GameView extends ViewComponent {
         /**只打乱显示行数内的收集物 */
         for (let i = 0; i < rowNum; i++) {
             const v = this.board[i];
-            if(!v)continue;
+            if (!v) continue;
             //先获取所有可显示的收集物
             v.forEach(ca => {
                 if (ca)

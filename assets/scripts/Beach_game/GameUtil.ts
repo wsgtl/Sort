@@ -32,8 +32,6 @@ export type CabinetData = {
 export enum ColletType {
    none = 0,
    money = 1,//现金
-   coin,//金币
-   cash,//兑换卡
    c1,
    c2,
    c3,
@@ -60,26 +58,24 @@ export enum RewardType {
    none = 0,
    money = 1,//现金
    coin,//金币
-   cash,//兑换卡
 }
 /**道具类别 */
 export enum PropType {
    none = 0,
    back = 1,//回退道具
    shuffle,//打乱道具
+   besom,//扫把道具
 }
 
 export namespace GameUtil {
-   export const CellW: number = 103;//格子宽
-   export const CellH: number = 122;//格子高
+   export const CellW: number = 140;//格子宽
+   export const CellH: number = 225;//格子高
    export const AllRow: number = 9;//生成的行数
    /**登陆后是否弹签到 */
    export const Daily = {isShow:false};
    /**每一级收集物组数 */
    export const LevelCollectionNum: number[] = [20, 20, 30, 40, 200];
 
-   /**兑换券收集到可提现数量 */
-   export const CashWithdrawNum: number = 100;
    /**道具金币价格 */
    export const PropCoins: number = 100;
    /**看广告获得的金币 */
@@ -88,39 +84,7 @@ export namespace GameUtil {
    export const SigninCoins: number[] = [100, 200, 300, 400, 500, 600, 1000];
    /**任务奖励金币数 */
    export const TaskCoin: number[] = [3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-   /**提现界面提示词 */
-   export const PurseTips: string[] = [
-      `           Game Policies and Prize 
-            Withdrawal Guidelines
-1.Earning and Viewing Prizes
-Tokens earned by playing games may result in winning prizes,which will be added to your balance.
-To view your balance,navigate to the main page of the game.
-2.Prize Fulfillment and Account
-Requirements
-All eligible cash prizes will be awarded using the specified method within the game.
-If you do not have an account,you can create one for free on the official website.
-Prize fulfillment is subject to the Terms of Service and Privacy Policy.`,
-`3. Withdrawal Process
-To withdraw funds, you must
-Enter your transfer account nformation.
-Follow the provided withdrawal instructions.
-Withdrawal requests are processed within 7 days.,
-4. withdrawal Limitsay
-The maximum amount for a single withdrawal is $500.
-All payments will be made in US Dollars (USD).
-5.Balance and Account Management
-If you delete the game from your device, your balance will be permanently deleted, and any unclaimed prizes without valid withdrawal requests will be forfeited.`,
 
-`6. incorrect Withdrawal Information
-Once funds are transferred to the specified account, we cannot redirect or recover funds due to incorrect account details or other errors.
-The player is solely responsible for ensuring the accuracy of the provided account information.
-7. Taxes and Fees
-You are solely responsible for any applicable taxes or transfer fees.
-The game reserves the right to withhold amounts from payments as required by government authorities.
-8. Inability to Fulfill Prizes
-If a prize cannot be fulfilled due to the winner's actions (e.g., failure to withdraw funds within the stipulateo timeframe, deletion of the winner's account), we reserve the right to forfeitthe prize.
-The decision regarding unfulfilled prizes is made at our sole discretion.`
-   ];
 
 
    /**柜子组合方式 */
@@ -181,12 +145,9 @@ The decision regarding unfulfilled prizes is made at our sole discretion.`
    export function getLevel1Collect() {
       const num = 10;
       let a: ColletType[] = [];
-      const cashNum = GameStorage.getCash();
-
+      
       for (let i = 2; i <= num; i++) {
          let type = i;
-         if (i == ColletType.cash && cashNum > CashWithdrawNum - 10) //防止第一关玩一百局凑够一百个兑换券   
-            type = 5;
          a.push(type);
          a.push(type);
          a.push(type);

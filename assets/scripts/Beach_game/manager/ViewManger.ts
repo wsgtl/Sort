@@ -18,16 +18,18 @@ export namespace ViewManager {
     let mainSceneNode: Node = null;
     let upperNode: Node = null;
     let lowerNode: Node = null;
+    let toperNode: Node = null;//最高层级
 
     let curViewType: ViewType;
     let curView: Node = null;
     export function getCurViewType() {
         return curViewType;
     }
-    export function setMainSceneNode(n: Node, upper: Node, lower: Node) {
+    export function setMainSceneNode(n: Node, upper: Node, lower: Node,toper:Node) {
         mainSceneNode = n;
         upperNode = upper;
         lowerNode = lower;
+        toperNode = toper;
     }
     let dialogNode: Node = null;
     let updialogNode: Node = null;

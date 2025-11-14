@@ -16,8 +16,8 @@ const { ccclass, property } = _decorator;
 export class Loading extends ViewComponent {
     @property(Progress)
     progress: Progress = null;
-    @property(NumFont)
-    num: NumFont = null;
+    @property(Label)
+    num: Label = null;
     @property(Label)
     loading: Label = null;
     @property(Node)
@@ -29,13 +29,11 @@ export class Loading extends ViewComponent {
             this.progress.progress = i / all;
             const num = Math.floor(i / all * 100);
             if (this.qq) this.qq.angle -= 10;
-            if (this.num) this.num.num = num + "%";
+            if (this.num) this.num.string = num + "%";
             if (this.loading) this.loading.string = "Loading... " + num + "%";
             if (i == all) {
                 this.scheduleOnce(() => {
-                    GuideManger.showHome();
-                    // ViewManager.showHome();
-                    // ViewManager.showGameView();
+                    ViewManager.showGameView();
                 }, 0.2);
             }
             await delay(0.03);
@@ -45,7 +43,7 @@ export class Loading extends ViewComponent {
         parent.addChild(this.node);
         this.showProgress();
         adHelper.init();
-        game.on(Game.EVENT_SHOW,()=>{adHelper.showInterstitial();console.log("回前台显示插屏广告")})
+        game.on(Game.EVENT_SHOW, () => { adHelper.showInterstitial(); console.log("回前台显示插屏广告") })
     }
 }
 
