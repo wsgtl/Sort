@@ -54,13 +54,15 @@ export class GameView extends ViewComponent {
     @property(Node)
     skills: Node = null;
     @property(Node)
-    dif: Node = null;
-    @property(Node)
     shuffleIcon: Node = null;
     @property(Node)
     btnBack: Node = null;
     @property(Node)
     btnShuffle: Node = null;
+    @property(Node)
+    btnBesom: Node = null;
+    @property(Label)
+    level: Label = null;
     @property(Progress2)
     progress: Progress2 = null;
     @property(Prefab)
@@ -85,6 +87,7 @@ export class GameView extends ViewComponent {
 
         this.btnBack.on(Button.EventType.CLICK, this.onBtnBack, this);
         this.btnShuffle.on(Button.EventType.CLICK, this.onBtnShuffle, this);
+        this.btnBesom.on(Button.EventType.CLICK, this.onBtnBesom, this);
 
     }
 
@@ -155,6 +158,7 @@ export class GameView extends ViewComponent {
     private startGame() {
         this.initBoard();
         this.initGuide();
+        this.showLevel();
     }
     private initBoard() {
         const arr = GameManger.instance.getInitBoard();
@@ -249,7 +253,10 @@ export class GameView extends ViewComponent {
             }
         }
     }
-
+    /**显示当前关卡 */
+    private showLevel() {
+        this.level.string = GameStorage.getCurLevel() + "";
+    }
 
 
     async gameOver() {
@@ -322,23 +329,13 @@ export class GameView extends ViewComponent {
         AudioManager.playBgm("bgm", 0.4);
     }
     showProgress(p: number = -1) {
-        this.progress.num.aligning = 1;
         if (p >= 0) {
             this.progress.progress = p;
         } else {
             this.progress.progress = GameManger.instance.getProgress();
         }
     }
-    /**显示难度飙升 */
-    private async showDif() {
-        this.dif.active = true;
-        AudioManager.playEffect("win");
-        await ActionEffect.scale(this.dif, 0.5, 1, 0, "backOut");
-        await ActionEffect.fadeOut(this.dif, 1);
-        // adHelper.showInterstitial();
 
-
-    }
     /**回退一步 */
     onBtnBack() {
         if (GameManger.instance.isAni || GameManger.instance.isGameOver) return;
@@ -492,10 +489,23 @@ export class GameView extends ViewComponent {
         await this.delay(0.4);
         GameManger.instance.isAni = false;
     }
+    onBtnBesom() {
+        if (GameManger.instance.isAni || GameManger.instance.isGameOver) { return; }
+        const tyep = PropType.besom;
+        const num = GameStorage.getPropNum(tyep);
+        if (num <= 0) {
+            ViewManager.showProp(tyep, () => { this.updateAllBtnStatus(); });
+            return;
+        }
+        this.shuffleCollets();
+        GameStorage.addPropNum(tyep, -1);
+        this.showPropBtnStatus(this.btnBesom, tyep);
+    }
     /**更新所有道具按钮状态 */
     private updateAllBtnStatus() {
         this.showPropBtnStatus(this.btnShuffle, PropType.shuffle);
         this.showPropBtnStatus(this.btnBack, PropType.back);
+        this.showPropBtnStatus(this.btnBesom, PropType.besom);
     }
     /**显示道具按钮状态 */
     private showPropBtnStatus(btn: Node, type: PropType) {

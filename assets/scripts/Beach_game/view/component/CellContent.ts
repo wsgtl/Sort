@@ -82,15 +82,15 @@ export class CellContent extends Component {
         for (let i = index; i < this.collects.length; i++) {//后面的收集品往后移动
             const c = this.collects[i];
             if (c) {
-                pro.push(c.moveTo(this.getPos(i)));
+                pro.push(c.cellMoveTo(this.getPos(i)));
             }
         }
         if (pro.length)
             await Promise.any(pro);
     }
     public getPos(x: number): Vec3 {
-        const w = 76.5;
-        return v3((x - 3.5) * w, 0);
+        const w = 132;
+        return v3((x - 3.5) * w, -30);
     }
     /**回退操作 */
     public getBackCollect() {

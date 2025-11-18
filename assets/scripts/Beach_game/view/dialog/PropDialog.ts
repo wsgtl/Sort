@@ -12,6 +12,8 @@ import { v3 } from 'cc';
 import { ButtonLock, GlobalButtonLock } from '../../../Beach_common/Decorator';
 import { AudioManager } from '../../manager/AudioManager';
 import { i18n } from '../../../Beach_common/i18n/I18nManager';
+import { Label } from 'cc';
+import { RichText } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('PropDialog')
@@ -20,10 +22,8 @@ export class PropDialog extends DialogComponent {
     btnReceive: Node = null;
     @property(Node)
     btnCoin: Node = null;
-    @property(Node)
-    add: Node = null;
-    @property(Node)
-    shine: Node = null;
+    @property(RichText)
+    limit: RichText = null;
     @property([Node])
     icons: Node[] = [];
     @property([Node])
@@ -66,18 +66,17 @@ export class PropDialog extends DialogComponent {
         this.cb?.();
 
         //动画
-        this.add.y = 0;
-        this.add.active = true;
-        tween(this.add)
-            .to(0.5, { y: 140 })
-            .start();
-        ActionEffect.fadeOut(this.add, 0.5);
+        // this.add.y = 0;
+        // this.add.active = true;
+        // tween(this.add)
+        //     .to(0.5, { y: 140 })
+        //     .start();
+        // ActionEffect.fadeOut(this.add, 0.5);
 
-        tween(this.shine)
-        .to(0.4,{scale:v3(1.5,1.5)})
-        .to(0.4,{scale:v3(1,1)})
-        .start();
         AudioManager.playEffect("good");
+    }
+    setLimit(){
+        this.limit.string=`<outline color=#a7511f width=2><color=#fff>Limit:</color><color=#47f051>3</color><color=#fff>/3</color>`
     }
 }
 

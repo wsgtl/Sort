@@ -11,32 +11,26 @@ import { Tween } from 'cc';
 import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
 import { v3 } from 'cc';
+import { Label } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Money')
 export class Money extends Component {
-    @property(NumFont)
-    num: NumFont = null;
+    @property(Label)
+    num: Label = null;
     @property(Node)
     btnGet: Node = null;
     @property(Node)
     tip: Node = null;
 
     protected onLoad(): void {
-        this.num.aligning = 1;
         this.showCurMoney();
         this.btnGet.on(Button.EventType.CLICK, this.onGet, this);
         MoneyManger.instance.setMoneyNode(this);
     }
     showNum(num: number) {
-        let n: string;
-        if (num >= 1000) {
-            n = Math.floor(num).toString();
-        } else {
-            n = FormatUtil.toXX_XX(num);
-        }
-        const str = LangStorage.getData().symbol + n
-        this.num.num = str;
+        const str = FormatUtil.toMoneyLabel(num);
+        this.num.string = str;
         const sc = str.length > 7 ? (7 / str.length) : 1;
         this.num.node.scale = v3(sc, sc);
     }

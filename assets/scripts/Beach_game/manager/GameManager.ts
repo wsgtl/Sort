@@ -103,16 +103,11 @@ export class GameManger {
         const num = GameUtil.LevelCollectionNum[this.curLevel - 1];
         // const num = 16;
         this.groupNum = num;
-        const cashRemainNum = GameUtil.CashWithdrawNum - GameStorage.getCash();
 
         const moneyNums=[2,3,4,5];
         const coinNums=[1,2,2,2];
         if (this.curLevel < 5) {
-            if (cashRemainNum > 5) {
-                carr.push(...Array(MathUtil.random(1, 3)).fill(ColletType.cash));
-            }
             carr.push(...Array(moneyNums[this.curLevel-1]).fill(ColletType.money));
-            carr.push(...Array(coinNums[this.curLevel-1]).fill(ColletType.coin));
             const n = num - carr.length;
             const kd = this.curLevel == 4 && this.lastLevel == 3;//在第四关卡下点
             for (let i = 0; i < n; i++) {
@@ -125,14 +120,7 @@ export class GameManger {
             })
             this.colletionArr.shuffle(3);
         } else {
-            if (cashRemainNum > 5) {
-                const max = Math.min(12, cashRemainNum - 3);
-                const min = Math.max(1, Math.floor(max / 2));
-
-                carr.push(...Array(MathUtil.random(min, max)).fill(ColletType.cash));
-            }
             carr.push(...Array(MathUtil.random(15, 20)).fill(ColletType.money));
-            carr.push(...Array(MathUtil.random(15, 20)).fill(ColletType.coin));
             const n = num - carr.length - 4;
             const p = Math.floor(n / 12);
             const yu = n % 12;

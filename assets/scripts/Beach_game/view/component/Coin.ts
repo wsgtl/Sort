@@ -4,12 +4,14 @@ import { GameStorage } from '../../GameStorage';
 import { ButtonLock } from '../../../Beach_common/Decorator';
 import { CoinManger } from '../../manager/CoinManger';
 import { v3 } from 'cc';
+import { Label } from 'cc';
+import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Coin')
 export class Coin extends Component {
-    @property(NumFont)
-    num: NumFont = null;
+    @property(Label)
+    num: Label = null;
 
     protected onLoad(): void {
         this.showCurCoin();
@@ -19,10 +21,7 @@ export class Coin extends Component {
         CoinManger.instance.setCoinNode(this);
     }
     showNum(num: number) {
-        const str = num.toString();
-        this.num.num = str;
-        const sc = str.length>5?(5/str.length):1;
-        this.num.node.scale = v3(sc,sc);
+        this.num.string = FormatUtil.toCoin(num);
     }
     showCurCoin() {
         this.showNum(GameStorage.getCoin());

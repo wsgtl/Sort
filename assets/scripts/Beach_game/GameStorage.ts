@@ -34,6 +34,7 @@ export namespace GameStorage {
         prop: {
             back: 0,//回退道具数量
             shuffle: 0,//打乱道具数量
+            besom: 0,//扫把道具数量
         },
         task: []//任务奖励领取情况
     }
@@ -86,7 +87,7 @@ export namespace GameStorage {
         _gameData.money = num;
         saveLocal();
     }
-   
+
     /**当前关卡等级 */
     export function getCurLevel() {
         return _gameData.curLevel;
@@ -135,7 +136,13 @@ export namespace GameStorage {
 
     /**获取道具数量 */
     export function getPropNum(type: PropType) {
-        return type == PropType.back ? _gameData.prop.back : _gameData.prop.shuffle;
+        if (type == PropType.back) {
+            return _gameData.prop.back;
+        } else if (type == PropType.shuffle) {
+            return _gameData.prop.shuffle;
+        } else {
+            return _gameData.prop.besom;
+        }
     }
     /**增加道具数量 */
     export function addPropNum(type: PropType, num: number) {
@@ -143,6 +150,8 @@ export namespace GameStorage {
             _gameData.prop.back += num;
         } else if (type == PropType.shuffle) {
             _gameData.prop.shuffle += num;
+        } else {
+            _gameData.prop.besom += num;
         }
         saveLocal();
     }

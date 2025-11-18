@@ -19,15 +19,15 @@ enum Aligning {
 export class NumFont extends Layout {
 
     @property({ type: SpriteAtlas, tooltip: '数字图集' })
-    protected spriteAtlas: SpriteAtlas = null;
+    public spriteAtlas: SpriteAtlas = null;
 
     protected _num: string = '';
 
     public get num(): string {
         return this._num;
     }
-    protected _layoutType: __private._cocos_ui_layout__Type = 1;//默认水平布局
-    protected _resizeMode: __private._cocos_ui_layout__ResizeMode = 1;//默认缩放模式
+    protected _layoutType: __private._cocos_ui_layout__LayoutType = 1;//默认水平布局
+    protected _resizeMode: __private._cocos_ui_layout__LayoutResizeMode = 1;//默认缩放模式
 
     @property({ type: String, tooltip: '数字' })
     public set num(value: string | number) {
@@ -46,28 +46,51 @@ export class NumFont extends Layout {
     @property({ type: Enum(Aligning), tooltip: "对其方式" })
     set aligning(a: Aligning) {
         this._aligning = a;
-        this.updateNum();
+        // this.updateNum();
     }
     get aligning() {
         return this._aligning;
     }
-    private _aligning: Aligning = Aligning.center;
+    private _aligning: Aligning = Aligning.bottom;
+
+    @property({ type: Number, tooltip: '空格宽度' })
+    public blankWidth: number = 10;
+    @property({ type: Number, tooltip: '缩放比例' })
+    public sc: number = 1;
+
 
     updateNum() {
         this.node.destroyAllChildren();
         const numArr = this.sliceArr(this._num, 1);
         numArr.forEach(item => {
             const node = new Node();
+            this.node.addChild(node);
+            if (item == " ") {//增加空格占位
+                UIUtils.setWidth(node, this.blankWidth);
+                return;
+            }
             // node.layer = Layers.Enum.UI_2D;
             const sprite = node.addComponent(Sprite);
             sprite.spriteFrame = this.spriteAtlas.getSpriteFrame(item);
             sprite.sizeMode = Sprite.SizeMode.TRIMMED;
-            this.node.addChild(node);
-            if (this._aligning != Aligning.center){ 
-                node.getComponent(UITransform).anchorPoint = v2(0.5, this._aligning == Aligning.bottom ? 0 : 1);
+
+            if (item == "_" || item == ",") {//.和,默认在下面
+                node.getComponent(UITransform).anchorPoint = v2(0.5, 0);
                 const h = UIUtils.getHeight(this.node);
-                node.y = h/2*(this._aligning == Aligning.bottom?-1:1);
+                node.y = h / 2 * (this._aligning == Aligning.bottom ? -1 : 1);
             }
+            if (this.sc != 1) {
+                // node.getComponent(UITransform).width *= this.sc;
+                // node.getComponent(UITransform).height *= this.sc;
+                UIUtils.setSizeScale(node,this.sc);
+            }
+
+
+            // if (this._aligning != Aligning.center) {
+            //     node.getComponent(UITransform).anchorPoint = v2(0.5, this._aligning == Aligning.bottom ? 0 : 1);
+            //     const h = UIUtils.getHeight(this.node);
+            //     node.y = h / 2 * (this._aligning == Aligning.bottom ? -1 : 1);
+            // }
         });
         this.node.getComponent(Layout)?.updateLayout(true);
     }

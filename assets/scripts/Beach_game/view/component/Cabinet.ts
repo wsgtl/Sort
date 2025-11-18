@@ -33,7 +33,9 @@ export class Cabinet extends Component {
         this.data = { x, y, len: len, index };
         UIUtils.setWidth(this.cabinet, GameUtil.CellW * len);
         this.content.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
-        this.contentW = GameUtil.CellW * len - 100;
+        const cx = [50, 30, 40, 50, 50, 50][len - 1];
+        this.content.x = cx;
+        this.contentW = GameUtil.CellW * len - cx * 2;
         UIUtils.setWidth(this.content, this.contentW);
     }
 
@@ -63,7 +65,7 @@ export class Cabinet extends Component {
     /**根据收集物的排序计算位置 */
     public getPos(x: number): Vec3 {
         const cw = this.contentW / this.data.len;
-        return v3(cw * (x + 0.5), 30);
+        return v3(cw * (x + 0.5), 0);
     }
     /**检查柜子是否清空 */
     public async checkClear() {
@@ -105,9 +107,9 @@ export class Cabinet extends Component {
         const re: Colletion[] = this.collects.filter(c => c?.inCabinet);
         return re;
     }
-    public findCollet(type:ColletType){
-        for(let c of this.collects){
-            if(c&&c.inCabinet&&c.data.type==type){
+    public findCollet(type: ColletType) {
+        for (let c of this.collects) {
+            if (c && c.inCabinet && c.data.type == type) {
                 return c;
             }
         }

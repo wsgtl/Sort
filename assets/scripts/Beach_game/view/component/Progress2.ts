@@ -2,6 +2,7 @@ import { _decorator, Component, Node } from 'cc';
 import { NumFont } from '../../../Beach_common/ui/NumFont';
 import { Sprite } from 'cc';
 import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
+import { Label } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Progress2')
@@ -22,15 +23,15 @@ export class Progress2 extends Component {
 
     @property(Node)
     icon: Node = null;
-    @property(NumFont)
-    num: NumFont = null;
+    @property(Label)
+    num: Label = null;
 
 
 
 
     private updateProgress() {
         this.icon.getComponent(Sprite).fillRange = this.progress;
-        if (this.num) this.num.num = FormatUtil.toXX_XX(this.progress * 100) + "%";
+        if (this.num) this.num.string = FormatUtil.toXX_XX(this.progress * 100) + "%";
     }
 }
 

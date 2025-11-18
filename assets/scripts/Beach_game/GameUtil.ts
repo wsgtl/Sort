@@ -68,7 +68,7 @@ export enum PropType {
 }
 
 export namespace GameUtil {
-   export const CellW: number = 140;//格子宽
+   export const CellW: number = 167;//格子宽
    export const CellH: number = 225;//格子高
    export const AllRow: number = 9;//生成的行数
    /**登陆后是否弹签到 */

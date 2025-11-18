@@ -1,0 +1,192 @@
+// Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      rasterizerState:
+        cullMode: none
+      properties:
+        alphaThreshold: { value: 0.5 }
+        bendAmount: { value: 0.0, editor: { type: slider, range: [-1, 1], step: 0.01 } }
+}%
+
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <builtin/uniforms/cc-global>
+  #if USE_LOCAL
+    #include <builtin/uniforms/cc-local>
+  #endif
+  #if SAMPLE_FROM_RT
+    #include <common/common-define>
+  #endif
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+
+  out vec4 color;
+  out vec2 uv0;
+
+  uniform BendParams {
+    float bendAmount;
+  };
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if USE_LOCAL
+      pos = cc_matWorld * pos;
+    #endif
+
+    #if USE_PIXEL_ALIGNMENT
+      pos = cc_matView * pos;
+      pos.xyz = floor(pos.xyz);
+      pos = cc_matProj * pos;
+    #else
+      pos = cc_matViewProj * pos;
+    #endif
+
+    uv0 = a_texCoord;
+    #if SAMPLE_FROM_RT
+      CC_HANDLE_RT_SAMPLE_FLIP(uv0);
+    #endif
+    color = a_color;
+
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  #include <builtin/internal/embedded-alpha>
+  #include <builtin/internal/alpha-test>
+
+  in vec4 color;
+
+  #if USE_TEXTURE
+    in vec2 uv0;
+    #pragma builtin(local)
+    layout(set = 2, binding = 12) uniform sampler2D cc_spriteTexture;
+  #endif
+
+  uniform BendParams {
+    float bendAmount;
+  };
+
+  // 调整后的C形弯曲：缩放跟上弯曲，最大弯曲30%
+  vec2 calculateAdjustedCBendUV(vec2 originalUV, float amount) {
+    if (amount == 0.0) return originalUV;
+    
+    // 计算整体UV偏移量 - 增加到弯曲量的50%
+    float uvOffset;
+    if (amount > 0.0) {
+      // 向右凸出：整体UV向左偏移（图片向右移动）
+      uvOffset = -abs(amount) * 0.15; // 从0.1增加到0.15
+    } else {
+      // 向左凸出：整体UV向右偏移（图片向左移动）
+      uvOffset = abs(amount) * 0.15; // 从0.1增加到0.15
+    }
+    
+    // 先应用整体UV偏移
+    vec2 offsetUV = originalUV + vec2(uvOffset, 0.0);
+    
+    // 计算C形弯曲曲线
+    float verticalParam = originalUV.y * 3.14159; // 0 到 π
+    float curve = sin(verticalParam); // 0 到 1 到 0
+    
+    // 计算弯曲量 - 减少到最大30%
+    float bend = curve * amount * 0.3; // 从0.4减少到0.3
+    
+    // 在偏移后的UV基础上应用弯曲
+    float bentX = offsetUV.x + bend;
+    
+    return vec2(bentX, originalUV.y);
+  }
+
+  // 更精确的控制版本
+  vec2 calculatePreciseCBendUV(vec2 originalUV, float amount) {
+    if (amount == 0.0) return originalUV;
+    
+    // 最大弯曲幅度为图片宽度的30%
+    const float maxBend = 0.3;
+    // 缩放比例要能容纳最大弯曲
+    const float scaleRatio = 0.5; // 缩放比例为弯曲量的50%
+    
+    float absAmount = abs(amount);
+    float uvOffset;
+    if (amount > 0.0) {
+      uvOffset = -absAmount * scaleRatio * maxBend;
+    } else {
+      uvOffset = absAmount * scaleRatio * maxBend;
+    }
+    
+    // 先应用整体UV偏移
+    vec2 offsetUV = originalUV + vec2(uvOffset, 0.0);
+    
+    // 计算C形弯曲曲线
+    float verticalParam = originalUV.y * 3.14159;
+    float curve = sin(verticalParam);
+    
+    // 计算弯曲量 - 使用最大弯曲幅度
+    float bend = curve * amount * maxBend;
+    
+    // 在偏移后的UV基础上应用弯曲
+    float bentX = offsetUV.x + bend;
+    
+    return vec2(bentX, originalUV.y);
+  }
+
+  // 检查UV是否超出原始纹理范围，如果超出则返回透明
+  vec4 sampleWithBorder(vec2 uv) {
+    // 如果UV超出[0,1]范围，返回透明
+    if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+      return vec4(0.0, 0.0, 0.0, 0.0); // 完全透明
+    }
+    
+    // 在边界处使用平滑过渡
+    float border = 0.02; // 2像素的边界过渡
+    float alpha = 1.0;
+    
+    if (uv.x < border) alpha *= uv.x / border;
+    else if (uv.x > 1.0 - border) alpha *= (1.0 - uv.x) / border;
+    
+    if (uv.y < border) alpha *= uv.y / border;
+    else if (uv.y > 1.0 - border) alpha *= (1.0 - uv.y) / border;
+    
+    vec4 texColor = CCSampleWithAlphaSeparated(cc_spriteTexture, uv);
+    return vec4(texColor.rgb, texColor.a * alpha);
+  }
+
+  vec4 frag () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+    #if USE_TEXTURE
+      // 使用调整后的C形弯曲（推荐）
+      vec2 bentUV = calculateAdjustedCBendUV(uv0, bendAmount);
+      
+      // 或者使用更精确控制的版本
+      // vec2 bentUV = calculatePreciseCBendUV(uv0, bendAmount);
+      
+      // 使用带边界检测的采样
+      o *= sampleWithBorder(bentUV);
+      
+      #if IS_GRAY
+        float gray  = 0.2126 * o.r + 0.7152 * o.g + 0.0722 * o.b;
+        o.r = o.g = o.b = gray;
+      #endif
+    #endif
+
+    o *= color;
+    ALPHA_TEST(o);
+    return o;
+  }
+}%

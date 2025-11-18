@@ -128,6 +128,11 @@ export namespace UIUtils {
         }
     }
 
+    /**通过调整宽高设置缩放 */
+    export function setSizeScale(node: Node, sc: number) {
+        needComponent(node, UITransform).width *= sc;
+        needComponent(node, UITransform).height *= sc;
+    }
     /**
      * 设置透明度
      * @param node
@@ -203,7 +208,7 @@ export namespace UIUtils {
      * @param localNode
      * @returns
      */
-    export function transformOtherPos2localNode(pos: Vec3, parent:Node,localNode: Node) {
+    export function transformOtherPos2localNode(pos: Vec3, parent: Node, localNode: Node) {
         const otherNodeWorldPosition = parent.getComponent(UITransform).convertToWorldSpaceAR(pos);
         // console.log('otherNodeWorldPosition:', otherNodeWorldPosition);
         const newPosition = localNode.parent.getComponent(UITransform).convertToNodeSpaceAR(otherNodeWorldPosition);
@@ -456,8 +461,8 @@ export namespace UIUtils {
         if (a) a.customEventData = data;
     }
     /**切换父节点，位置不变 */
-    export function changeParent(n:Node,parent:Node){
-        if(isVaild(n)&&isVaild(parent)){
+    export function changeParent(n: Node, parent: Node) {
+        if (isVaild(n) && isVaild(parent)) {
             const p = UIUtils.transformOtherNodePos2localNode(n, parent);
             n.position = p;
             parent.addChild(n);
