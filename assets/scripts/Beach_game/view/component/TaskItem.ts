@@ -50,7 +50,7 @@ export class TaskItem extends Component {
     private onClaim() {
         this.btnShow(2);
         CoinManger.instance.addCoin(this.coinNum, false);
-        ViewManager.showRewardAni(RewardType.coin, this.coinNum, () => { });
+        ViewManager.showRewardAni1(RewardType.coin, this.coinNum, () => { });
         GameStorage.receiveTask(this.levelNum);
         ReddotManager.instance.showTaskDot();
     }

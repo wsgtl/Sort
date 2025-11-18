@@ -3,6 +3,8 @@ import { ViewManager } from "./ViewManger";
 import { GameStorage } from "../GameStorage";
 import { Coin } from "../view/component/Coin";
 import { isVaild } from "../../Beach_common/utils/ViewUtil";
+import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
+import { MathUtil } from "../../Beach_common/utils/MathUtil";
 
 export class CoinManger {
     public static _instance: CoinManger = null;
@@ -12,8 +14,9 @@ export class CoinManger {
         }
         return this._instance;
     }
+
     private _curDialog: Node = null;
-    private _curCoin:Coin = null;
+    private _curCoin: Coin = null;
     /**记录当前弹窗，防止显示多个 */
     public setDialog(cur: Node) {
         this._curDialog = cur;
@@ -33,22 +36,40 @@ export class CoinManger {
         }
     }
     /**增加金币 */
-    public addCoin(num:number,isShow: boolean = true) {
-        GameStorage.addCoin(num);
-        if(isShow){//立即显示
-            if(isVaild(this._curCoin)){
+    public addCoin(num: number, isShow: boolean = true, isAni: boolean = true) {
+        const last = GameStorage.getCoin();
+        const cur = GameStorage.addCoin(num);
+        if (isShow) {//立即显示
+            if (isVaild(this._curCoin)) {
                 this._curCoin.showCurCoin();
             }
-        }   
+        } else {
+            if (isAni) {
+                ActionEffect.numAddAni(last, cur, (n: number) => { this.showNum(n) }, true);
+                this.scaleAni();
+            }
+
+        }
     }
-    public showNum(num:number){
+    public showNum(num: number) {
         if (isVaild(this._curCoin)) {
             this._curCoin.showNum(num);
         }
     }
-    public showCurNum(){
+    public showCurNum() {
         if (isVaild(this._curCoin)) {
             this._curCoin.showCurCoin();
         }
+    }
+    /**获取奖励金币 */
+    public getReward(bl: number = 1) {
+        return Math.floor(MathUtil.random(10, 40) * 1000 * bl);
+    }
+    /**奖励关每个元素的金币 */
+    public getPassReward() {
+        return MathUtil.random(50, 200);
+    }
+    public scaleAni() {
+        ActionEffect.rewardScaleAni(this._curCoin.node);
     }
 }

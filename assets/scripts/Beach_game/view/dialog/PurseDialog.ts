@@ -29,7 +29,7 @@ export class PurseDialog extends DialogComponent {
         this.fit();
         MoneyManger.instance.setDialog(this.node);
         // this.topAni();
-        const str = FormatUtil.toMoneyLabel(GameStorage.getMoney());
+        const str = MoneyManger.instance.getMoneyString();
         this.num.string = str;
         if (str.length > 8) {
             const sc = 8 / str.length;

@@ -20,6 +20,8 @@ import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { GuideManger } from '../../manager/GuideManager';
 import { Money } from '../component/Money';
 import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
+import { Label } from 'cc';
+import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('RewardDialog')
@@ -27,129 +29,95 @@ export class RewardDialog extends DialogComponent {
     @property(Node)
     btnReceive: Node = null;
     @property(Node)
-    btnNo: Node = null;
+    btnClaim: Node = null;
     @property(Node)
-    iconNode: Node = null;
-    @property([Node])
-    titleNode: Node[] = [];
-    @property(NumFont)
-    num: NumFont = null;
+    btnClaimSmall: Node = null;
+    @property(Node)
+    normalContent: Node = null;
+    @property(Node)
+    doubleContent: Node = null;
 
 
-    type: RewardType;
+
     cb: Function;
+    isAd: boolean = false;
     private rewardNum: number = 1;//奖励数量
-    private reciveNum: number = 1;//看广告领取倍率
-    show(parent: Node, args?: any) {
-        parent.addChild(this.node);
-        this.init(args.type);
+    private reciveNum: number = 1;//看广告奖励数
+    showStart(args?: any) {
         this.cb = args.cb;
+        this.isAd = args.isAd;
+        this.init();
     }
-    init(type: RewardType) {
+    init() {
         AudioManager.playEffect("reward", 2);
-        this.type = type;
-        for (let i = 1; i <= 3; i++) {
-            this.iconNode.getChildByName("icon" + i).active = type == i;
-        }
-        this.titleNode.forEach((v, i) => {
-            v.active = i == type - 1;
-        })
-        if (type == RewardType.money) {
-            this.showReciveNum(2);
-            const data = LangStorage.getData();
-            this.rewardNum = Math.floor(MathUtil.random(5, 20) * data.rate);
-            this.num.num = data.symbol + this.rewardNum;
-            this.showMoneyNode();
-        } else if (type == RewardType.coin) {
-            this.showReciveNum(2);
-            this.rewardNum = MathUtil.random(3, 10);
-            this.num.num = "x" + this.rewardNum;
-        } else {
-            this.showReciveNum(1);
-            this.rewardNum = 1;
-            this.num.num = "x" + this.rewardNum;
-        }
-        this.btnNo.once(Button.EventType.CLICK, this.onBtnNo, this);
+
+        this.btnClaimSmall.once(Button.EventType.CLICK, this.onClaim, this);
+        this.btnClaim.once(Button.EventType.CLICK, this.onClaim, this);
         this.btnReceive.on(Button.EventType.CLICK, this.onBtnReceive, this);
 
-        this.btnNo.active = false;
-        delay(1.5, this.btnNo).then(() => {
-            if (!isVaild(this.btnNo)) return;
-            this.btnNo.active = true;
-            ActionEffect.fadeIn(this.btnNo, 0.5);
-        })
+        this.rewardNum = MoneyManger.instance.getReward();
+        this.reciveNum = this.reciveNum * 2;
+        this.normalContent.getChildByName("moneyNode").getChildByName("num").getComponent(Label).string = FormatUtil.toMoney(this.rewardNum);
 
-    }
-    private showReciveNum(n: number) {
-        this.reciveNum = n;
-        this.btnReceive.getChildByName("r1").active = n == 1;
-        this.btnReceive.getChildByName("r2").active = n == 2;
-    }
-    onBtnNo() {
-        this.closeAni();
-        if (!this.addCash(0))
-            this.addReward(this.rewardNum);
-        if (GameStorage.getCurLevel() > 1) {//第二局后有概率弹插屏广告
-            adHelper.timesToShowInterstitial();
+        this.normalContent.active = !this.isAd;
+        this.doubleContent.active = this.isAd;
+        if (this.isAd) {
+            this.startDouble();
         }
     }
+    startDouble() {
+        const small = this.doubleContent.getChildByName("money_small");
+        const big = this.doubleContent.getChildByName("money_big");
+        const jt = this.doubleContent.getChildByName("jt");
+        small.getChildByName("moneyNode").getChildByName("num").getComponent(Label).string = FormatUtil.toMoney(this.rewardNum);
+        big.getChildByName("moneyNode").getChildByName("num").getComponent(Label).string = FormatUtil.toMoney(this.reciveNum);
+
+    }
+    onClaim() {
+        this.closeAni();
+        this.addReward(this.rewardNum);
+    }
     onBtnReceive() {
-        adHelper.showRewardVideo(() => {
+        adHelper.showRewardVideo("领取钱奖励", () => {
             this.closeAni();
-            if (!this.addCash(this.rewardNum))
-                this.addReward(this.rewardNum * this.reciveNum);
+            this.addReward(this.reciveNum);
         }, ViewManager.adNotReady)
     }
     private addReward(num: number) {
-        const type = this.type;
-        if (type == RewardType.money) {
-            MoneyManger.instance.addMoney(num, false);
-        } else if (type == RewardType.coin) {
-            CoinManger.instance.addCoin(num, false);
-        } else {
-            GameStorage.addCash(num);
-        }
-        ViewManager.showRewardAni(type, num, this.cb);
-    }
-
-    addCash(addNum: number) {
-        if (this.type != RewardType.cash) return false;
-        if (!GameStorage.getIsCash() || addNum > 0) {
-            GameStorage.setIsCash();
-            ViewManager.showCash(null, addNum, this.cb);
-        }
-        return true;
-    }
-
-    protected onDestroy(): void {
-        this.mnBack();
+        MoneyManger.instance.addMoney(num, false);
+        ViewManager.showRewardAni1(RewardType.money, num, this.cb);
     }
 
 
-    private mn: Node;
-    private mnParent: Node;
-    private mnPos: Vec3;
-    private mnIndex: number;
-    showMoneyNode() {
-        const money = MoneyManger.instance.getMoneyNode();
-        money.showTips();
-        const mn = money.node;
-        this.mnPos = mn.position.clone();
-        this.mn = mn;
-        this.mnParent = mn.parent;
-        this.mnIndex = mn.getSiblingIndex();
-        UIUtils.changeParent(mn, this.node.parent);
-        this.mn.getComponent(Money).setBtnInter(false);
-    }
-    mnBack() {
-        if (isVaild(this.mn) && isVaild(this.mnParent)) {
-            this.mn.position = this.mnPos;
-            this.mnParent.insertChild(this.mn, this.mnIndex);
-            this.mn.getComponent(Money).setBtnInter(true);
-        } else {
-            this.mn?.destroy();
-        }
-    }
+    // protected onDestroy(): void {
+    //     this.mnBack();
+    // }
+
+
+    // private mn: Node;
+    // private mnParent: Node;
+    // private mnPos: Vec3;
+    // private mnIndex: number;
+    // showMoneyNode() {
+    //     const money = MoneyManger.instance.getMoneyNode();
+    //     money.showTips();
+    //     const mn = money.node;
+    //     this.mnPos = mn.position.clone();
+    //     this.mn = mn;
+    //     this.mnParent = mn.parent;
+    //     this.mnIndex = mn.getSiblingIndex();
+    //     UIUtils.changeParent(mn, this.node.parent);
+    //     this.mn.getComponent(Money).setBtnInter(false);
+    // }
+    // mnBack() {
+    //     if (isVaild(this.mn) && isVaild(this.mnParent)) {
+    //         this.mn.position = this.mnPos;
+    //         this.mnParent.insertChild(this.mn, this.mnIndex);
+    //         this.mn.getComponent(Money).setBtnInter(true);
+    //     } else {
+    //         this.mn?.destroy();
+    //     }
+    // }
 }
 
 

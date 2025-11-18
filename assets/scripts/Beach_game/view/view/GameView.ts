@@ -30,6 +30,7 @@ import { GuideManger } from '../../manager/GuideManager';
 import { GuideMask } from '../guide/GuideMask';
 import { i18n } from '../../../Beach_common/i18n/I18nManager';
 import { Widget } from 'cc';
+import { ConfigConst } from '../../manager/ConfigConstManager';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -234,7 +235,7 @@ export class GameView extends ViewComponent {
         const sy = GameManger.instance.getResidueCollet();
         if (sy <= 0) return;
         let num = 0;
-        const len = GameUtil.AllRow;
+        const len = Math.min(GameUtil.AllRow,this.board.length);
         const last = this.board[len - 1];
         last.forEach(v => {
             if (v) num++;
@@ -258,48 +259,60 @@ export class GameView extends ViewComponent {
         this.level.string = GameStorage.getCurLevel() + "";
     }
 
+    /**结束流程，先弹复活弹窗，没复活则弹失败 */
+    public failProcess() {
+        const rn = GameStorage.getPropCurLevel(PropType.resurrection);
+        if (rn.all >= GameUtil.PropLimit) {
+            this.gameOver(false);
+            return;
+        }
+        ViewManager.showResurrect(() => {
+            this.resurrect();
+        }, () => {
+            this.gameOver(false);
+        })
+    }
 
-    async gameOver() {
-
+    async gameOver(isWin: boolean) {
         Tween.stopAllByTarget(this.node);
         // Tween.stopAllByTarget(this.jd.getComponent(UITransform));
-
         AudioManager.stopBgm();
         await nextFrame();
         await delay(0.4);
-        ViewManager.showGameOver(this.node, { score: 1 }, () => {
+        ViewManager.showGameOver(this.node, isWin, () => {
             this.replay();
-        }, () => {
-            this.revivie();
         }, () => {
             this.continueGame();
         })
     }
+
     replay() {
         ViewManager.showGameView();
     }
+    private rewardTime: number = 0;
     async checkWin(type: ColletType) {
-        if (type > 0 && type <= ColletType.money) {
-            let reward: RewardType = type - 0;
-            ViewManager.showReward(reward, () => {
+        if (type == ColletType.money) {
+            this.rewardTime++;
+            const isAd = this.rewardTime >= ConfigConst.Other.RewardDoubleShowNum;
+            if (isAd)
+                this.rewardTime = 0;
+            ViewManager.showReward(isAd, () => {
                 this.rewardCb?.();
             });
         }
         if (GameManger.instance.getProgress() == 0) {
             GameManger.instance.isGameOver = true;
-            this.continueGame();
+            this.gameOver(true);
         }
     }
     continueGame() {
-        ViewManager.showLevelDialog(true, GameStorage.getCurLevel(), () => {
-            ViewManager.showGameView(true);
-        })
         AudioManager.playEffect("win");
         GameStorage.nextLevel();
+        ViewManager.showGameView(true);
     }
 
     /**复活 */
-    private async revivie() {
+    private async resurrect() {
         this.playBgm();
         AudioManager.playEffect("revive");
         GameManger.instance.revive();

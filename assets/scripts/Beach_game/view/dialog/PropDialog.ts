@@ -1,68 +1,112 @@
-import { _decorator, Component, Node } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
-import { GameUtil, PropType } from '../../GameUtil';
-import { Button } from 'cc';
-import { GameStorage } from '../../GameStorage';
-import { ViewManager } from '../../manager/ViewManger';
-import { CoinManger } from '../../manager/CoinManger';
-import { adHelper, AdHelper } from '../../../Beach_common/native/AdHelper';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { tween } from 'cc';
-import { v3 } from 'cc';
-import { ButtonLock, GlobalButtonLock } from '../../../Beach_common/Decorator';
-import { AudioManager } from '../../manager/AudioManager';
-import { i18n } from '../../../Beach_common/i18n/I18nManager';
-import { Label } from 'cc';
-import { RichText } from 'cc';
+import { _decorator, RichText, Button, Label, Node } from "cc";
+import { GlobalButtonLock } from "../../../Beach_common/Decorator";
+import { i18n } from "../../../Beach_common/i18n/I18nManager";
+import { adHelper } from "../../../Beach_common/native/AdHelper";
+import { DialogComponent } from "../../../Beach_common/ui/DialogComtnet";
+import { GameStorage } from "../../GameStorage";
+import { PropType, GameUtil } from "../../GameUtil";
+import { AudioManager } from "../../manager/AudioManager";
+import { CoinManger } from "../../manager/CoinManger";
+import { ViewManager } from "../../manager/ViewManger";
+
 const { ccclass, property } = _decorator;
 
 @ccclass('PropDialog')
 export class PropDialog extends DialogComponent {
     @property(Node)
-    btnReceive: Node = null;
+    btnClaim: Node = null;
+    @property(Node)
+    btnResurrect: Node = null;
     @property(Node)
     btnCoin: Node = null;
+    @property(Node)
+    btnAddCoin: Node = null;
+    @property(Node)
+    btnOver: Node = null;
     @property(RichText)
     limit: RichText = null;
     @property([Node])
     icons: Node[] = [];
     @property([Node])
     strs: Node[] = [];
+
+    private curCoin: number = 100;
+    private curLimit: number = 3;
     type: PropType;
     cb: Function;
+    onlyCloseCb:Function;
+    isResurrect: boolean;
     show(parent: Node, args?: any) {
         parent.addChild(this.node);
         this.cb = args.cb;
+        this.isResurrect = args.isResurrect;
+        this.onlyCloseCb = args.closeCb;
         this.init(args.type);
-        this.btnReceive.on(Button.EventType.CLICK, this.onReceive, this);
+        this.btnClaim.on(Button.EventType.CLICK, this.onClaim, this);
+        this.btnResurrect.on(Button.EventType.CLICK, this.onResurrect, this);
         this.btnCoin.on(Button.EventType.CLICK, this.onCoin, this);
-
+        this.btnAddCoin.on(Node.EventType.TOUCH_START, this.onAddCoin, this);
+        this.btnOver.on(Button.EventType.CLICK, ()=>{
+            this.closeAni();
+            this.onlyCloseCb?.();
+        });
     }
     @GlobalButtonLock(1)
-    private onReceive() {
-        adHelper.showRewardVideo(() => {
-            this.addProp();
-        },ViewManager.adNotReady)
+    private onClaim() {
+        adHelper.showRewardVideo("获取道具", () => {
+            this.addProp(true);
+        }, ViewManager.adNotReady)
+    }
+    @GlobalButtonLock(1)
+    private onResurrect() {
+        adHelper.showRewardVideo("复活", () => {
+            this.resurrect();
+        }, ViewManager.adNotReady)
     }
     @GlobalButtonLock(1)
     private onCoin() {
         const coin = GameStorage.getCoin();
-        if (coin < GameUtil.PropCoins) {
+        if (coin < this.curCoin) {
             // ViewManager.showTips("No enough gold coin");
             ViewManager.showTips(i18n.string("str_nogold"));
             return;
         }
-        CoinManger.instance.addCoin(-GameUtil.PropCoins);
-        this.addProp();
+        CoinManger.instance.addCoin(-this.curCoin);
+        if (this.isResurrect)
+            this.resurrect();
+        else
+            this.addProp(false);
+    }
+    @GlobalButtonLock(1)
+    private onAddCoin() {
+        adHelper.showRewardVideo("加金币", () => {
+            this.addCoin();
+        }, ViewManager.adNotReady);
+    }
+    private addCoin() {
+        CoinManger.instance.addCoin(GameUtil.ReceiveCoins, false);
+    }
+    /**复活 */
+    private resurrect() {
+        this.cb?.();
+        this.closeAni();
     }
     init(type: PropType) {
         this.type = type;
         this.icons.forEach((v, i) => { v.active = i == type - 1 });
         this.strs.forEach((v, i) => { v.active = i == type - 1 });
+        const limit = GameUtil.PropLimit;
+        const cn = GameStorage.getPropCurLevel(type);
+        this.btnClaim.active = cn.ad == 0;
+        this.curCoin = GameUtil.PropCoins[cn.coin];
+        this.curLimit = limit - cn.all;
+        this.btnCoin.getChildByName("Layout").getChildByName("num").getComponent(Label).string = this.curCoin + "";
+        this.setLimit();
+        this.btnAddCoin.getChildByName("num").getComponent(Label).string = "+" + GameUtil.ReceiveCoins;
     }
-    addProp() {
-       
-        GameStorage.addPropNum(this.type, 1);
+    addProp(isAd: boolean) {
+
+        GameStorage.addPropNum(this.type, 1, isAd);
         this.cb?.();
 
         //动画
@@ -75,8 +119,8 @@ export class PropDialog extends DialogComponent {
 
         AudioManager.playEffect("good");
     }
-    setLimit(){
-        this.limit.string=`<outline color=#a7511f width=2><color=#fff>Limit:</color><color=#47f051>3</color><color=#fff>/3</color>`
+    setLimit() {
+        this.limit.string = `<outline color=#a7511f width=2><color=#fff>Limit:</color><color=#47f051>${this.curLimit}</color><color=#fff>/${GameUtil.PropLimit}</color>`
     }
 }
 

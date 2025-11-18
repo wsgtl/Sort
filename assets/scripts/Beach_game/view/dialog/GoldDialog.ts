@@ -25,7 +25,7 @@ export class GoldDialog extends DialogComponent {
         adHelper.showRewardVideo(()=>{
             this.closeAni();
             CoinManger.instance.addCoin(GameUtil.ReceiveCoins);
-            ViewManager.showRewardAni(RewardType.coin,GameUtil.ReceiveCoins,()=>{});
+            ViewManager.showRewardAni1(RewardType.coin,GameUtil.ReceiveCoins,()=>{});
         },ViewManager.adNotReady)
       
     }

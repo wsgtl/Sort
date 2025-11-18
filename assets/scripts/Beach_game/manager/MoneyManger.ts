@@ -4,6 +4,10 @@ import { GameStorage } from "../GameStorage";
 import { isVaild } from "../../Beach_common/utils/ViewUtil";
 import { Money } from "../view/component/Money";
 import { EventTracking } from "../../Beach_common/native/EventTracking";
+import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
+import { LangStorage } from "../../Beach_common/localStorage/LangStorage";
+import { MathUtil } from "../../Beach_common/utils/MathUtil";
+import { FormatUtil } from "../../Beach_common/utils/FormatUtil";
 
 export class MoneyManger {
     public static _instance: MoneyManger = null;
@@ -23,7 +27,7 @@ export class MoneyManger {
     public setMoneyNode(cur: Money) {
         this._curMoney = cur;
     }
-    public getMoneyNode(){
+    public getMoneyNode() {
         return this._curMoney;
     }
     /**显示弹窗 */
@@ -33,23 +37,44 @@ export class MoneyManger {
         }
     }
     /**增加钱 */
-    public addMoney(num: number, isShow: boolean = true) {
+    public addMoney(num: number, isShow: boolean = true, isAni: boolean = true) {
+        const last = GameStorage.getMoney();
         const curMoney = GameStorage.addMoney(num);
-        EventTracking.sendEventCoin(curMoney);
         if (isShow) {//立即显示
             if (isVaild(this._curMoney)) {
                 this._curMoney.showCurMoney();
             }
+        } else {
+            if (isAni) {
+                ActionEffect.numAddAni(last, curMoney, (n: number) => { this.showNum(n) });
+                this.scaleAni();
+            }
+
         }
     }
-    public showNum(num:number){
+    public showNum(num: number) {
         if (isVaild(this._curMoney)) {
             this._curMoney.showNum(num);
         }
     }
-    public showCurNum(){
+    public showCurNum() {
         if (isVaild(this._curMoney)) {
             this._curMoney.showCurMoney();
         }
+    }
+
+    /**获取奖励钱 */
+    public getReward() {
+        return MathUtil.random(400, 1200) / 100;
+    }
+    public rate(money: number) {
+        return LangStorage.getData().rate * money;
+    }
+    public scaleAni() {
+        ActionEffect.rewardScaleAni(this._curMoney.node);
+    }
+    /**获取钱的显示 比如：$33.21 */
+    public getMoneyString(point: string = ".") {
+        return FormatUtil.toMoney(GameStorage.getMoney(), point, false);
     }
 }

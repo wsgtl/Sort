@@ -8,12 +8,8 @@ import { v3 } from "cc";
 import { v2 } from "cc";
 import { Vec2 } from "cc";
 import { GameStorage } from "./GameStorage";
+import { MathUtil } from "../Beach_common/utils/MathUtil";
 
-/**结算数据 */
-export type GameOverData = {
-   score: number,
-   // isWin: boolean
-}
 
 /**格子数据 */
 export type CellData = {
@@ -65,19 +61,19 @@ export enum PropType {
    back = 1,//回退道具
    shuffle,//打乱道具
    besom,//扫把道具
+   resurrection//复活
 }
 
 export namespace GameUtil {
+   export const IsTest:boolean = true;
    export const CellW: number = 167;//格子宽
    export const CellH: number = 225;//格子高
-   export const AllRow: number = 9;//生成的行数
-   /**登陆后是否弹签到 */
-   export const Daily = {isShow:false};
+   export const AllRow: number = 12;//生成的行数
+   export const PropLimit: number = 3;//道具每回合限制数量
    /**每一级收集物组数 */
    export const LevelCollectionNum: number[] = [20, 20, 30, 40, 200];
-
    /**道具金币价格 */
-   export const PropCoins: number = 100;
+   export const PropCoins: number[] = [100, 300, 500];
    /**看广告获得的金币 */
    export const ReceiveCoins: number = 30;
    /**签到金币数 */
@@ -145,7 +141,7 @@ export namespace GameUtil {
    export function getLevel1Collect() {
       const num = 10;
       let a: ColletType[] = [];
-      
+
       for (let i = 2; i <= num; i++) {
          let type = i;
          a.push(type);
@@ -171,7 +167,10 @@ export namespace GameUtil {
          [0, 4, 0, 0, 0, 0],
       ]
    }
-
+   /**获取随机ID */
+   export function gerRandomId() {
+      return MathUtil.random(100000, 999999);
+   }
 
 }
 

@@ -29,7 +29,7 @@ export class Money extends Component {
         MoneyManger.instance.setMoneyNode(this);
     }
     showNum(num: number) {
-        const str = FormatUtil.toMoneyLabel(num);
+        const str = FormatUtil.toMoney(num);
         this.num.string = str;
         const sc = str.length > 7 ? (7 / str.length) : 1;
         this.num.node.scale = v3(sc, sc);

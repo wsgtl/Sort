@@ -2,7 +2,7 @@ import { prefabs } from "../../Beach_common/recycle/AssetUtils";
 import ViewComponent from "../../Beach_common/ui/ViewComponent";
 import { isVaild } from '../../Beach_common/utils/ViewUtil';
 import { Node } from 'cc';
-import { GameOverData, PropType, RewardType } from "../GameUtil";
+import { PropType, RewardType } from "../GameUtil";
 import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
 import { delay } from "../../Beach_common/utils/TimeUtil";
 import { i18n } from "../../Beach_common/i18n/I18nManager";
@@ -25,7 +25,7 @@ export namespace ViewManager {
     export function getCurViewType() {
         return curViewType;
     }
-    export function setMainSceneNode(n: Node, upper: Node, lower: Node,toper:Node) {
+    export function setMainSceneNode(n: Node, upper: Node, lower: Node, toper: Node) {
         mainSceneNode = n;
         upperNode = upper;
         lowerNode = lower;
@@ -101,11 +101,11 @@ export namespace ViewManager {
     }
 
     /** 结束界面 */
-    export function showGameOver(parent: Node, data: GameOverData, tryagainCb: CallableFunction, reviveCb: CallableFunction, continueCb: CallableFunction) {
+    export function showGameOver(parent: Node, isWin: boolean, restartCb: CallableFunction, continueCb: CallableFunction) {
         prefabs.instantiate("prefabs/dialog/gameOver").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(parent, { data, tryagainCb, reviveCb, continueCb });
+                script.show(parent, { isWin, restartCb, continueCb });
             }
         })
     }
@@ -215,20 +215,20 @@ export namespace ViewManager {
         })
     }
     /** 语言设置界面 */
-    export function showLangSettings(cb:Function) {
+    export function showLangSettings(cb: Function) {
         prefabs.instantiate("prefabs/dialog/langSettings").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(updialogNode ?? mainSceneNode,{cb});
+                script.show(updialogNode ?? mainSceneNode, { cb });
             }
         })
     }
     /** 奖励界面 */
-    export function showReward(type: RewardType, cb: Function) {
+    export function showReward(isAd: boolean, cb: Function) {
         prefabs.instantiate("prefabs/dialog/reward").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { type, cb });
+                script.show(upperNode, { isAd, cb });
             }
         })
     }
@@ -246,16 +246,34 @@ export namespace ViewManager {
         prefabs.instantiate("prefabs/dialog/prop").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { type, cb });
+                script.show(upperNode, { type, cb, isResurrect: false });
+            }
+        })
+    }
+    /** 复活界面 */
+    export function showResurrect(cb: Function, closeCb: Function) {
+        prefabs.instantiate("prefabs/dialog/prop").then((dialog) => {
+            if (isVaild(dialog)) {
+                const script = dialog.getComponent(ViewComponent);
+                script.show(upperNode, { type: PropType.resurrection, cb, isResurrect: true, closeCb });
             }
         })
     }
     /** 奖励动画界面 */
-    export function showRewardAni(type: RewardType, num: number, cb: Function) {
+    export function showRewardAni1(type: RewardType, num: number, cb: Function) {
         prefabs.instantiate("prefabs/dialog/rewardAni").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { type, num, cb });
+                script.show(upperNode, { type, num, cb, ani: 1 });
+            }
+        })
+    }
+    /** 奖励动画2 */
+    export function showRewardAni2(type: RewardType, from: Node, to: Node, cb: Function) {
+        prefabs.instantiate("prefabs/dialog/rewardAni").then((dialog) => {
+            if (isVaild(dialog)) {
+                const script = dialog.getComponent(ViewComponent);
+                script.show(upperNode, { type, from, to, cb, ani: 2 });
             }
         })
     }

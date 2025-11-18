@@ -28,6 +28,7 @@ export namespace FormatUtil {
     /** 将数字转换为指定格式的字符串，如 1000.302 变成 "1,000_302" */
     export function toXXDXX(
         num: number,
+        point: string,
         xsd: number = 4,
         useGrouping: boolean = true,
         minDecimalDigits: number = 0 // 新增参数：小数部分最小位数
@@ -62,40 +63,36 @@ export namespace FormatUtil {
             }
 
             if (decimalPart.length > 0) {
-                return `${integerPart}_${decimalPart}`;
+                return `${integerPart}${point}${decimalPart}`;
             }
         } else if (minDecimalDigits > 0) {
             // 如果没有小数部分但要求最小位数，则添加指定数量的小数零
             const zeros = '0'.repeat(minDecimalDigits);
-            return `${integerPart}_${zeros}`;
+            return `${integerPart}${point}${zeros}`;
         }
 
         return integerPart;
     }
 
     /**将数字改为1,000.00这种格式,并控制小数点数量 */
-    export function toXXDXXxsd(num: number, useGrouping: boolean = true, minDecimalDigits: number = 0) {
+    export function toXXDXXxsd(num: number, point: string, useGrouping: boolean = true, minDecimalDigits: number = 0) {
         const xsd = num > 1 ? 2 :
             num > 0.01 ? 3 :
                 num > 0.001 ? 4 :
                     num > 0.0001 ? 5 : 6;
-        return FormatUtil.toXXDXX(num, xsd, useGrouping, minDecimalDigits);
+        return FormatUtil.toXXDXX(num, point, xsd, useGrouping, minDecimalDigits);
     }
 
-    /**显示钱格式 */
-    export function toMoney(num: number, useGrouping: boolean = false, minDecimalDigits: number = 0) {
-        return LangStorage.getData().symbol + " " + FormatUtil.toXXDXXxsd(num, useGrouping, minDecimalDigits);
-    }
     /**显示钱格式 $33.33 */
-    export function toMoneyLabel(num: number, useGrouping: boolean = false, minDecimalDigits: number = 0) {
-        return toMoney(num, useGrouping, minDecimalDigits).replace("_", ".");
+    export function toMoney(num: number, point: string = ".", useGrouping: boolean = false, minDecimalDigits: number = 0) {
+        return LangStorage.getData().symbol + " " + FormatUtil.toXXDXXxsd(num, point, useGrouping, minDecimalDigits);
     }
     /**显示金币格式 3,000,000
      * @param useGrouping 是否使用，
      */
-    export function toCoin(num: number, useGrouping: boolean = false) {
+    export function toCoin(num: number,point: string = ".",  useGrouping: boolean = false) {
         if (useGrouping)
-            return toXXDXXxsd(num, useGrouping);
+            return toXXDXXxsd(num,point, useGrouping);
         return num.toString();
     }
 }

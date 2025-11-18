@@ -1,9 +1,12 @@
 import { instantiate, Node, Tween, tween, UIOpacity, UITransform, v3, Vec2, Vec3 } from 'cc';
 import { UIUtils } from '../utils/UIUtils';
-import { awaitTween } from '../utils/TimeUtil';
+import { awaitTween, delay, tweenPromise } from '../utils/TimeUtil';
 import BezierCurve from './BezierCurve';
 import { Sprite } from 'cc';
 import { TweenEasing } from 'cc';
+import { math } from 'cc';
+import { __private } from 'cc';
+import { sp } from 'cc';
 
 export namespace ActionEffect {
 
@@ -116,7 +119,19 @@ export namespace ActionEffect {
             }).start();
         });
     }
+    /**放大又缩小动画 */
+    export function scaleBigToSmall(node: Node, big: number, small: number, duration: number) {
+        return new Promise<void>(res => {
+            tween(node)
+                .to(duration / 2, { scale: v3(big, big, 1) })
+                .to(duration / 2, { scale: v3(small, small, 1) })
+                .call(() => {
+                    res();
+                })
+                .start();
+        })
 
+    }
 
     export function alpha(node: Node, duration: number = 0.12, alphaIn: number = 0, before: number = -1) {
         return new Promise<void>((resolve) => {
@@ -258,6 +273,66 @@ export namespace ActionEffect {
             }).start();
         });
     }
+    /**
+ * 三次贝塞尔曲线运动（兼容 Cocos Creator 3.8.3）
+ * @param node 目标节点
+ * @param controlPoint1 控制点1（世界坐标）
+ * @param controlPoint2 控制点2（世界坐标）
+ * @param endPoint 终点（世界坐标）
+ * @param duration 运动时间（秒）
+ * @returns Promise<void> 运动结束时触发
+ */
+    export function bezier3To(
+        node: Node,
+        controlPoint1: Vec3,
+        controlPoint2: Vec3,
+        endPoint: Vec3,
+        duration: number = 1
+    ): Promise<void> {
+        return new Promise((resolve) => {
+            const startPoint = node.position.clone(); // 起点为节点当前局部坐标
+            const startTime = Date.now();
+
+            let tw = tween({ t: 0 });
+            tw.to(duration, { t: 1 }, {
+                onUpdate: (target: any) => {
+                    if (!node || !node.isValid) {
+                        resolve();
+                        tw?.stop();
+                        tw = null;
+                        return;
+                    }
+                    const t = target.t;
+                    const newPos = cubicBezier(
+                        startPoint,
+                        controlPoint1,
+                        controlPoint2,
+                        endPoint,
+                        t
+                    );
+                    node.position = newPos; // 直接修改局部坐标
+                }
+            })
+                .call(() => resolve())
+                .start();
+        });
+    }
+    /** 三次贝塞尔曲线公式 */
+    function cubicBezier(p0: Vec3, p1: Vec3, p2: Vec3, p3: Vec3, t: number): Vec3 {
+        const x =
+            Math.pow(1 - t, 3) * p0.x +
+            3 * t * Math.pow(1 - t, 2) * p1.x +
+            3 * Math.pow(t, 2) * (1 - t) * p2.x +
+            Math.pow(t, 3) * p3.x;
+
+        const y =
+            Math.pow(1 - t, 3) * p0.y +
+            3 * t * Math.pow(1 - t, 2) * p1.y +
+            3 * Math.pow(t, 2) * (1 - t) * p2.y +
+            Math.pow(t, 3) * p3.y;
+
+        return new Vec3(x, y, p0.z); // 保持原始Z轴
+    }
 
 
     export function hitColloid(node: Node, height: number) {
@@ -328,12 +403,12 @@ export namespace ActionEffect {
         });
     }
     /**播放图集动画 */
-    export function playAni(sp: Sprite, num: number, t: number) {
+    export function playAni(sp: Sprite, num: number, t: number, endShow: boolean = false) {
         return new Promise<void>(res => {
             for (let i = 0; i <= num; i++) {
                 sp.scheduleOnce(() => {
                     if (i == num) {
-                        sp.node.active = false;
+                        sp.node.active = endShow;
                         res();
                     } else {
                         sp.spriteFrame = sp.spriteAtlas.getSpriteFrame((i + 1).toString());
@@ -341,5 +416,57 @@ export namespace ActionEffect {
                 }, t * i)
             }
         })
+    }
+
+    /**旋转 */
+    export function angle(node: Node, angle: number, duration: number, easing?: TweenEasing) {
+        return new Promise<void>(res => {
+            tween(node)
+                .to(duration, { angle }, { easing })
+                .call(() => { res() })
+                .start();
+        })
+    }
+    /**数字增加动画 */
+    export async function numAddAni(start: number, end: number, show: Function, isInt: boolean = false, all: number = 5, node?: Node) {
+        const item = (end - start) / all;
+        for (let i = 1; i <= all; i++) {
+            let cur = i == all ? end : start + i * item;
+            if (isInt) cur = Math.floor(cur);
+            show(cur);
+            if (i != all) {
+                await delay(0.05, node);
+            }
+        }
+    }
+
+    /**spine动画播放一次后关闭 */
+    export function skAniOnce(sk: sp.Skeleton, name: string, isShow: boolean = false) {
+        return new Promise<void>(res => {
+            sk.node.active = true;
+            sk.setCompleteListener(null);
+            sk.setAnimation(1, name, false);
+            sk.setCompleteListener(() => {
+                if (!isShow) sk.node.active = false;
+                res();
+            })
+        })
+
+    }
+    /**spine动画循环播放 */
+    export function skAni(sk: sp.Skeleton, name: string) {
+        sk.node.active = true;
+        sk.setCompleteListener(null);
+        sk.setAnimation(1, name, true);
+    }
+    /**飞钱后缩放动画 */
+    export async function rewardScaleAni(node: Node) {
+        await tweenPromise(node, t => t
+            .to(0.1, { scale: v3(1.1, 1.1, 1) })
+            .to(0.1, { scale: v3(1, 1, 1) })
+            .to(0.1, { scale: v3(1.1, 1.1, 1) })
+            .to(0.1, { scale: v3(1, 1, 1) })
+        )
+
     }
 }

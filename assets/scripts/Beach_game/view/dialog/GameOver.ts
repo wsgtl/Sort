@@ -1,61 +1,72 @@
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
 import { Button } from 'cc';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
-import { SpriteFrame } from 'cc';
-import { Sprite } from 'cc';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
-import { GameStorage } from '../../GameStorage';
 import { AudioManager } from '../../manager/AudioManager';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { tween } from 'cc';
-import { ViewManager } from '../../manager/ViewManger';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
 import { adHelper } from '../../../Beach_common/native/AdHelper';
-import { MathUtil } from '../../../Beach_common/utils/MathUtil';
-import { GameOverData } from '../../GameUtil';
 import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
+import { Label } from 'cc';
+import { view } from 'cc';
+import { MoneyManger } from '../../manager/MoneyManger';
+import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameOver')
 export class GameOver extends DialogComponent {
     @property(Node)
-    btnRevive: Node = null;
+    btnClaim: Node = null;
     @property(Node)
-    btnCancel: Node = null;
+    btnRestart: Node = null;
+    @property(Node)
+    winContent: Node = null;
+    @property(Node)
+    failContent: Node = null;
+    @property(Node)
+    statusShow: Node = null;
+    @property(Label)
+    moneyLabel: Label = null;
 
 
-
-    async show(parent: Node, args?: any) {
-        parent.addChild(this.node);
-        this.btnCancel.on(Button.EventType.CLICK, () => {
+    private isWin: boolean = false;
+    private claimMoneyNum: number = 0;
+    async showStart(args?: any) {
+        this.isWin = args.isWin;
+        this.btnClaim.on(Button.EventType.CLICK, () => {
             this.setCanClick(false);
-            // ViewManager.showHome();
-            args.tryagainCb();
+            args.continueCb();
+            this.closeAni();
+            MoneyManger.instance.addMoney(this.claimMoneyNum,false);
         })
 
-        this.btnRevive.on(Button.EventType.CLICK, () => {
-            AudioManager.playEffect("btn");
+        this.btnRestart.on(Button.EventType.CLICK, () => {
+            args.restartCb();
             this.setCanClick(false);
-            adHelper.showRewardVideo(() => {
-                this.node.destroy();
-                args.reviveCb?.();
-            },()=>{
-                ViewManager.adNotReady();
-                this.setCanClick(true);
-            })
+            this.closeAni();
         })
-       
-        AudioManager.playEffect("failed");
-        adHelper.showInterstitial();
+
+        adHelper.showInterstitial("结算页");
+        this.init();
+
     }
-  
+    private init() {
+        this.winContent.active = this.isWin;
+        this.failContent.active = !this.isWin;
+        if (this.isWin) {
+            AudioManager.playEffect("win");
+            this.claimMoneyNum=MoneyManger.instance.getReward();
+            this.moneyLabel.string = FormatUtil.toMoney(this.claimMoneyNum);
+        }
+        else {
+            AudioManager.playEffect("failed");
+            this.moneyLabel.string = MoneyManger.instance.getMoneyString();
+        }
+
+    }
+
 
     private setCanClick(v: boolean) {
-        this.btnRevive.getComponent(Button).interactable = v;
-        this.btnCancel.getComponent(Button).interactable = v;
+        this.btnClaim.getComponent(Button).interactable = v;
+        this.btnRestart.getComponent(Button).interactable = v;
     }
-    
+
 
 }
 

@@ -194,7 +194,7 @@ export class GameManger {
         if (this.isGameOver) return;
         this.isGameOver = true;
         console.log("游戏失败");
-        this.gv.gameOver();
+        this.gv.failProcess();
     }
     public revive() {
         this.isAni = false;

@@ -23,19 +23,15 @@ export namespace GameStorage {
         cellLock: [],
         /**新手引导完成第几步 0：没完成 1：完成主页引导 2：完成游戏页引导 */
         guideStep: 0,
-        /**签到 */
-        daily: {
-            /**测试天数 */
-            testDay: 1,
-            lastDay: 0,//上次签到时间戳，按天数计算
-            weekDay: 1,//当前可签到星期几
-            isReceive: false,//今天是否已经领取
-        },
         prop: {
             back: 0,//回退道具数量
             shuffle: 0,//打乱道具数量
             besom: 0,//扫把道具数量
         },
+        /**道具在当前关卡金币已领取数量 */
+        propCurLevel: [0, 0, 0, 0],
+        /**道具在当前关卡视频取数量 */
+        propCurLevelAd: [0, 0, 0, 0],
         task: []//任务奖励领取情况
     }
     const key = ITEM_STORAGE.Game;
@@ -65,6 +61,7 @@ export namespace GameStorage {
     export function addCoin(num: number) {
         _gameData.coin += num;
         saveLocal();
+        return _gameData.coin;
     }
     /**设置金币数 */
     export function setCoin(num: number) {
@@ -107,32 +104,6 @@ export namespace GameStorage {
         saveLocal();
     }
 
-    /**当前签到信息 */
-    export function getDaily() {
-        // const day = _gameData.daily.weekDay;
-        // const ld = _gameData.daily.lastDay;
-        // const ct = Date.now();
-        // // 转换为天数（1天 = 24小时 × 60分钟 × 60秒 × 1000毫秒）
-        // const curDay = Math.floor(ct / (24 * 60 * 60 * 1000));
-        // if (curDay - ld > 0) {
-        //     _gameData.daily.lastDay = curDay;
-        //     _gameData.daily.weekDay = day == 7 ? 1 : day + 1;
-        //     saveLocal();
-        // }
-        return _gameData.daily;
-    }
-    /**签到 */
-    export function signin(lastDay: number) {
-        _gameData.daily.lastDay = lastDay;
-        _gameData.daily.isReceive = true;
-        saveLocal();
-    }
-    /**下一天 */
-    export function nextDay(lastDay: number) {
-        _gameData.daily.weekDay = _gameData.daily.weekDay == 7 ? 1 : _gameData.daily.weekDay + 1;
-        _gameData.daily.isReceive = false;
-        saveLocal();
-    }
 
     /**获取道具数量 */
     export function getPropNum(type: PropType) {
@@ -145,7 +116,7 @@ export namespace GameStorage {
         }
     }
     /**增加道具数量 */
-    export function addPropNum(type: PropType, num: number) {
+    export function addPropNum(type: PropType, num: number, isAd: boolean = false) {
         if (type == PropType.back) {
             _gameData.prop.back += num;
         } else if (type == PropType.shuffle) {
@@ -153,7 +124,31 @@ export namespace GameStorage {
         } else {
             _gameData.prop.besom += num;
         }
+        if (num > 0)
+            if (isAd)
+                _gameData.propCurLevelAd[type - 1] += 1;
+            else
+                _gameData.propCurLevel[type - 1] += 1;
         saveLocal();
+    }
+    /**获取道具已领取状态 */
+    export function getPropCurLevel(type: PropType) {
+        const coin = _gameData.propCurLevel[type - 1];
+        const ad = _gameData.propCurLevel[type - 1];
+        return { coin, ad, all: coin + ad };
+    }
+    /**重开游戏，道具领取数量重置 */
+    export function renewPropCurLevel() {
+        _gameData.propCurLevel = [0, 0, 0];
+        _gameData.propCurLevelAd = [0, 0, 0];
+        saveLocal();
+    }
+    /**复活一次 */
+    export function resurrection(isAd: boolean) {
+        if (isAd)
+            _gameData.propCurLevelAd[PropType.resurrection - 1] += 1;
+        else
+            _gameData.propCurLevel[PropType.resurrection - 1] += 1;
     }
 
     /**当前任务领取情况 */

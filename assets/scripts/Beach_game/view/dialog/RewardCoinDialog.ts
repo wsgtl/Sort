@@ -73,7 +73,7 @@ export class RewardCoinDialog extends DialogComponent {
     private addReward(num: number) {
         this.cb?.(); 
         CoinManger.instance.addCoin(num, false);
-        ViewManager.showRewardAni(RewardType.coin, num, ()=>{});
+        ViewManager.showRewardAni1(RewardType.coin, num, ()=>{});
     }
 
 
