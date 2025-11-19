@@ -8,5 +8,7 @@
     "str_aritoday": "Já recebeu hoje",
     "str_thead": "O anúncio não está pronto. Por favor, tente novamente mais tarde.",
     "str_nogold": "Não há moedas suficientes",
-    "str_tacurrently": "Ainda não há itens para extrair"
+    "str_tacurrently": "Ainda não há itens para extrair",
+    "str_task_minutes": "Jogue por %s minutos",
+    "str_prop_unusable": "Prop indutilizável"
 }

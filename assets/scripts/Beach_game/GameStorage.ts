@@ -17,8 +17,6 @@ export namespace GameStorage {
         curLevel: 1,
         /**上一关卡 */
         lastLevel: 1,
-        /**是否开启过兑换券奖励弹窗 */
-        isCash: 0,
         /**剩余位置是否解锁 */
         cellLock: [],
         /**新手引导完成第几步 0：没完成 1：完成主页引导 2：完成游戏页引导 */
@@ -150,7 +148,17 @@ export namespace GameStorage {
         else
             _gameData.propCurLevel[PropType.resurrection - 1] += 1;
     }
-
+    /**当前游戏时长 */
+    export function getGameTime() {
+        const t = BaseStorageNS.getItem(ITEM_STORAGE.GameTime);
+        return t ? JSON.parse(t) : 0;
+    }
+    /**增加游戏时长 */
+    export function addGameTime(t: number) {
+        let cur = getGameTime();
+        cur += t;
+        BaseStorageNS.setItem(ITEM_STORAGE.GameTime,cur);
+    }
     /**当前任务领取情况 */
     export function getTask() {
         return _gameData.task;
@@ -178,14 +186,5 @@ export namespace GameStorage {
         _gameData.guideStep = step;
         saveLocal();
     }
-    /**是否开启过兑换券奖励弹窗 */
-    export function getIsCash() {
-        return _gameData.isCash;
-    }
-    /**保存开启过兑换券奖励弹窗 */
-    export function setIsCash() {
-        if (_gameData.isCash == 1) return;
-        _gameData.isCash = 1;
-        saveLocal();
-    }
+
 }

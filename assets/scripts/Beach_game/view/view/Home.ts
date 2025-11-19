@@ -37,7 +37,6 @@ export class Home extends ViewComponent {
     onLoad() {
         this.btnStart.on(Button.EventType.CLICK, this.onStart,this);
         this.btnSignin.on(Button.EventType.CLICK, this.onSignin, this);
-        this.btnCash.on(Button.EventType.CLICK, this.onCash, this);
         this.btnH5.on(Button.EventType.CLICK, this.onH5, this);
 
         this.initReddot();
@@ -49,23 +48,21 @@ export class Home extends ViewComponent {
     onSignin() {
         ViewManager.showDaily(this.upDialogNode);
     }
-    onCash() {
-        ViewManager.showCash(this.upDialogNode);
-    }
+
     onH5() {
         NativeFun.showH5Game();
     }
     /**初始化红点显示 */
     initReddot() {
-        const signinDot = this.btnSignin.getChildByName("reddot");
-        const taskDot = this.btnTask.getChildByName("icon").getChildByName("reddot");
-        ReddotManager.instance.init(signinDot, taskDot);
-        const dailyShow = ReddotManager.instance.showSigninDot();
-        ReddotManager.instance.showTaskDot();
-        if (dailyShow && !GameUtil.Daily.isShow && !GuideManger.isGuide()) {//每日签到登陆弹一次
-            this.onSignin();
-            GameUtil.Daily.isShow = true;
-        }
+        // const signinDot = this.btnSignin.getChildByName("reddot");
+        // const taskDot = this.btnTask.getChildByName("icon").getChildByName("reddot");
+        // ReddotManager.instance.init(signinDot, taskDot);
+        // const dailyShow = ReddotManager.instance.showSigninDot();
+        // ReddotManager.instance.showTaskDot();
+        // if (dailyShow && !GameUtil.Daily.isShow && !GuideManger.isGuide()) {//每日签到登陆弹一次
+        //     this.onSignin();
+        //     GameUtil.Daily.isShow = true;
+        // }
     }
 }
 

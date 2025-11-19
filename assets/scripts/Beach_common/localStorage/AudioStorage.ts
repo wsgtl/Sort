@@ -10,6 +10,8 @@ export namespace AudioStorage {
         isPlay: true,
         /**是否能播放BGM */
         isPlayBGM: true,
+        /**是否能震动 */
+        isShock: true,
     }
 
     /**
@@ -44,6 +46,15 @@ export namespace AudioStorage {
     /**设置是否播放BGM */
     export function setIsPlayBGM(v:boolean){
         _audioData.isPlayBGM=v;
+        saveLocal();
+    }
+        /**是否可以震动 */
+    export function getIsShock(){
+        return _audioData.isShock;
+    }
+    /**设置是否震动 */
+    export function setIsShock(v:boolean){
+        _audioData.isShock=v;
         saveLocal();
     }
 }

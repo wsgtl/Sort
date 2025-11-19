@@ -65,9 +65,10 @@ export enum PropType {
 }
 
 export namespace GameUtil {
-   export const IsTest:boolean = true;
+   export const IsTest: boolean = true;
    export const CellW: number = 167;//格子宽
    export const CellH: number = 225;//格子高
+   export const DownW: number = 132;//下方每个格子宽
    export const AllRow: number = 12;//生成的行数
    export const PropLimit: number = 3;//道具每回合限制数量
    /**每一级收集物组数 */
@@ -78,11 +79,17 @@ export namespace GameUtil {
    export const ReceiveCoins: number = 30;
    /**签到金币数 */
    export const SigninCoins: number[] = [100, 200, 300, 400, 500, 600, 1000];
-   /**任务奖励金币数 */
-   export const TaskCoin: number[] = [3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+   /**任务分钟 */
+   export const TaskMinutes: number[] = [10, 20, 30, 40, 50, 60, 90, 100, 120];
+   /**任务加的钱 美元 */
+   export const TaskMoney: number = 5;
 
 
-
+   /**当前游戏时长 分钟 */
+   export function getCurMinutes() {
+      const time = GameStorage.getGameTime();
+      return Math.floor(time / 60);
+   }
    /**柜子组合方式 */
    export const Cabinets: number[][] = [
       [2, 0, 2, 0, 2, 0],

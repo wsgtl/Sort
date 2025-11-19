@@ -7,6 +7,7 @@ import Debugger from "../../Beach_common/Debugger";
 import { sys } from "cc";
 import { MathUtil } from "../../Beach_common/utils/MathUtil";
 import { AudioStorage } from "../../Beach_common/localStorage/AudioStorage";
+import { NativeFun } from "../../Beach_common/native/NativeFun";
 
 export namespace AudioManager {
     const debug = Debugger('AudioManager');
@@ -27,23 +28,25 @@ export namespace AudioManager {
     export function setIsPlay(v: boolean) {
         return AudioStorage.setIsPlay(v);
     }
-
+    export function getIsShock() {
+        return AudioStorage.getIsShock();
+    }
+    export function setIsShock(v: boolean) {
+        return AudioStorage.setIsShock(v);
+    }
+    /**震动
+      * @param duration 震动时间,毫秒
+      * @param amplitude 震动幅度 1~255
+      */
+    export function vibrate(duration: number, amplitude: number = -1) {
+        if (!AudioManager.getIsShock()) return;
+        NativeFun.vibrate(duration, amplitude);
+    }
     export function setBgmNode(b: AudioSource) {
         bgmNode = b;
     }
     export function playEffect(name: string, v: number = 1) {
         if (!AudioStorage.getIsPlay()) return;
-        if (v >= 2) {
-            const n = Math.floor(v);
-            for (let i = 0; i < n; i++) {
-                _playEffect(name, v);
-            }
-        } else {
-            _playEffect(name, v);
-        }
-
-    }
-    function _playEffect(name: string, v: number = 1) {
         if (!bgmNode || !bgmNode.isValid)
             return;
 
@@ -53,10 +56,10 @@ export namespace AudioManager {
                 const effectNode = new Node();
                 const as = effectNode.addComponent(AudioSource);
                 as.loop = false;
-                as.volume = v;
+                as.volume = Math.min(1,v);
                 as.playOnAwake = false;
                 bgmNode.node.addChild(effectNode);
-                as.playOneShot(ac);
+                as.playOneShot(ac, v > 1 ? v : undefined);
                 // 加入列表
                 // this.insertClip(key, ac.getDuration());
                 delay(ac.getDuration()).then(() => {
@@ -64,6 +67,37 @@ export namespace AudioManager {
                 });
             }
         });
+    }
+    export function playEffectOne(name: string, v: number = 1) {
+        return new Promise<AudioSource>(res => {
+            if (!AudioStorage.getIsPlay()) return;
+            if (!bgmNode || !bgmNode.isValid)
+                return res(null);
+
+            resources.load(`sounds/effect/${name}`, AudioClip, (err, ac) => {
+                if (ac) {
+
+                    const effectNode = new Node();
+                    const as = effectNode.addComponent(AudioSource);
+                    ac.name = name;
+                    as.clip = ac;
+                    as.loop = false;
+                    as.volume = v;
+                    as.playOnAwake = true;
+                    bgmNode.node.addChild(effectNode);
+                    as.play();
+                    // 加入列表
+                    // this.insertClip(key, ac.getDuration());
+                    delay(ac.getDuration()).then(() => {
+                        destroyNode(effectNode);
+                    });
+                    res(as);
+                } else {
+                    res(null);
+                }
+            });
+        })
+
     }
     export function getBgm() {
         return bgmNode;

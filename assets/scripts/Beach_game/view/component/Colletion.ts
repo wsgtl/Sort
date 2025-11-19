@@ -68,7 +68,7 @@ export class Colletion extends Component {
     /**在底部横移 */
     async cellMoveTo(pos: Vec3, duration: number = 0.2): Promise<void> {
         await tweenPromise(this.node, t => t
-            .to(duration, { position: pos,scale: v3(0.85, 1.05, 1) }, { easing: "backOut" })
+            .to(duration, { position: pos, scale: v3(0.85, 1.05, 1) }, { easing: "backOut" })
             .to(0.1, { scale: v3(1, 1, 1) })
         )
 
@@ -91,11 +91,15 @@ export class Colletion extends Component {
     }
     async moveToCells(pos: Vec3) {
         AudioManager.playEffect("drop");
-        this.cabinetData = this.cabinet.data;
-        this.inCabinet = false;
-        this.cabinet.checkClear();
+        let time = 0.1;
+        if (this.inCabinet) {
+            this.cabinetData = this.cabinet.data;
+            this.inCabinet = false;
+            this.cabinet.checkClear();
+            time=0.2;
+        }
         ActionEffect.scale(this.collection, 0.2, 0.8);
-        await this.dropTo(pos, 0.2);
+        await this.dropTo(pos, time);
     }
     async moveBack(cabinet: Cabinet) {
         this.cabinet = cabinet;

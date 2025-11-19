@@ -12,12 +12,9 @@ const { ccclass, property } = _decorator;
 export class DialogBox extends Component {
     @property(TipsAni)
     tips:TipsAni = null;
-    @property([SpriteFrame])
-    sf:SpriteFrame[]=[];
 
     init(strIndex:number){
-        // this.tips.node.getComponent(Sprite).spriteFrame = this.sf[strIndex];
-        sprites.setTo(this.tips.node, i18n.curLangPath("str_guide"+(strIndex+1)));
+        sprites.setTo(this.tips.node, i18n.curLangPath("str_guide"+(strIndex)));
         this.tips.init();
         this.tips.stopAni();
         Tween.stopAllByTarget(this.node);

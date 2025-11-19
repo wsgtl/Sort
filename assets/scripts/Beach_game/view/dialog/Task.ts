@@ -6,32 +6,35 @@ import { GameStorage } from '../../GameStorage';
 import { instantiate } from 'cc';
 import { TaskItem } from '../component/TaskItem';
 import { Prefab } from 'cc';
+import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
+import { GameUtil } from '../../GameUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Task')
-export class Task extends ViewComponent {
+export class Task extends DialogComponent {
     @property(Node)
     viewNode: Node = null;
     @property(Prefab)
     item: Prefab = null;
     @property(Node)
     content: Node = null;
-
-    protected start(): void {
-        const h = view.getVisibleSize().y;
-        const cha = h - 1138;
-        UIUtils.setHeight(this.viewNode, cha + 750);
+    protected onLoad(): void {
+        // const h = view.getVisibleSize().y;
+        // const cha = h - 1138;
+        // UIUtils.setHeight(this.viewNode, cha + 750);
         this.initItems();
     }
+
     private initItems() {
         const tasks = GameStorage.getTask();
-        const curLevel = GameStorage.getCurLevel();
-        for (let i = 0; i < 10; i++) {
+        const minutes = GameUtil.getCurMinutes();
+        const tm = GameUtil.TaskMinutes;
+        tm.forEach((v, i) => {
+            if (tasks[i] == 1) return;
             const item = instantiate(this.item);
             this.content.addChild(item);
-            const level: number = i + 1;
-            item.getComponent(TaskItem).init(level, curLevel, tasks[level]);
-        }
+            item.getComponent(TaskItem).init(i, minutes, v <= minutes);
+        })
     }
 
 }

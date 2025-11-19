@@ -5489,7 +5489,9 @@
     "btnAddCoin": {
       "__id__": 211
     },
-    "btnOver": null,
+    "btnOver": {
+      "__id__": 41
+    },
     "limit": {
       "__id__": 208
     },

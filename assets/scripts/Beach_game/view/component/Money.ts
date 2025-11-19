@@ -43,13 +43,13 @@ export class Money extends Component {
     }
 
     showTips() {
-        Tween.stopAllByTarget(this.tip);
-        UIUtils.setAlpha(this.tip, 1);
-        this.tip.active = true;
-        ActionEffect.scale(this.tip, 0.3, 1, 0, "backOut");
-        delay(4, this.tip).then(() => {
-            ActionEffect.fadeOut(this.tip);
-        })
+        // Tween.stopAllByTarget(this.tip);
+        // UIUtils.setAlpha(this.tip, 1);
+        // this.tip.active = true;
+        // ActionEffect.scale(this.tip, 0.3, 1, 0, "backOut");
+        // delay(4, this.tip).then(() => {
+        //     ActionEffect.fadeOut(this.tip);
+        // })
     }
     /**设置按钮是否可点击 */
     setBtnInter(v: boolean) {

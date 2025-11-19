@@ -11,42 +11,36 @@ import { instantiate } from 'cc';
 import { Widget } from 'cc';
 import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { DialogBox } from './DialogBox';
+import { view, v3 } from 'cc';
+import { EventTracking } from '../../../Beach_common/native/EventTracking';
+import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('GuideHome')
 export class GuideHome extends ViewComponent {
     @property(Node)
-    guideNode: Node = null;
+    bg:Node = null;
     @property(Node)
-    btnPlay: Node = null;
-    @property(DialogBox)
-    box: DialogBox = null;
-    @property(Hand)
-    handNode: Hand = null;
-    onLoad() {
-        this.btnPlay.on(Button.EventType.CLICK, () => {
+    btnStart:Node = null;
+    @property(TipsAni)
+    tips:TipsAni = null;
+
+    private isAni:boolean = false;
+    protected start(): void {
+        // EventTracking.sendOneEvent("guideHome");
+        const y = view.getVisibleSize().y;
+        this.bg.scale=v3(1,y/UIUtils.getHeight(this.bg));
+        this.tips.init();
+        this.tips.startAni(3);
+        this.btnStart.on(Button.EventType.CLICK,()=>{
+            if(this.isAni)return;
+            // EventTracking.sendOneEvent("guideHomeClick");
+            this.isAni = true;
             ViewManager.showGameView();
-            GuideManger.passHomeStep();
-        }, this);
-        this.box.init(0);
-        this.setp1();
+            // GuideManger.passCashStep();
+        })
     }
-    private async setp1() {
-        this.guideNode.active = true;
-        this.btnPlay.active = false; 
-        ActionEffect.fadeIn(this.guideNode,0.3);
-        this.box.ani();
-        await delay(1.5);
-        this.guideNode.once(Node.EventType.TOUCH_START,this.setp2,this);
-    }
-    private async setp2() {
-        this.guideNode.active = false;
-        this.btnPlay.active = true;
-        this.btnPlay.getComponent(Widget).updateAlignment();
-        this.handNode.node.position = this.btnPlay.position;
-        this.handNode.node.x += 50;
-        this.handNode.play(true, true);
-    }
+
 }
 
 

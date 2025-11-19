@@ -31,6 +31,8 @@ import { GuideMask } from '../guide/GuideMask';
 import { i18n } from '../../../Beach_common/i18n/I18nManager';
 import { Widget } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
+import { MoneyManger } from '../../manager/MoneyManger';
+import { ReddotManager } from '../../manager/ReddotManager';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -62,6 +64,8 @@ export class GameView extends ViewComponent {
     btnShuffle: Node = null;
     @property(Node)
     btnBesom: Node = null;
+    @property(Node)
+    btnTask: Node = null;
     @property(Label)
     level: Label = null;
     @property(Progress2)
@@ -89,7 +93,9 @@ export class GameView extends ViewComponent {
         this.btnBack.on(Button.EventType.CLICK, this.onBtnBack, this);
         this.btnShuffle.on(Button.EventType.CLICK, this.onBtnShuffle, this);
         this.btnBesom.on(Button.EventType.CLICK, this.onBtnBesom, this);
-
+        this.btnTask.on(Button.EventType.CLICK, this.onTask, this);
+        this.addGameTime();
+        ReddotManager.instance.init(this.btnTask.getChildByName("dot"));
     }
 
     fit() {
@@ -235,7 +241,7 @@ export class GameView extends ViewComponent {
         const sy = GameManger.instance.getResidueCollet();
         if (sy <= 0) return;
         let num = 0;
-        const len = Math.min(GameUtil.AllRow,this.board.length);
+        const len = Math.min(GameUtil.AllRow, this.board.length);
         const last = this.board[len - 1];
         last.forEach(v => {
             if (v) num++;
@@ -289,14 +295,14 @@ export class GameView extends ViewComponent {
     replay() {
         ViewManager.showGameView();
     }
-    private rewardTime: number = 0;
+    private rewardTimes: number = 0;
     async checkWin(type: ColletType) {
         if (type == ColletType.money) {
-            this.rewardTime++;
-            const isAd = this.rewardTime >= ConfigConst.Other.RewardDoubleShowNum;
+            this.rewardTimes++;
+            const isAd = this.rewardTimes >= ConfigConst.Other.RewardDoubleShowNum;
             if (isAd)
-                this.rewardTime = 0;
-            ViewManager.showReward(isAd, () => {
+                this.rewardTimes = 0;
+            ViewManager.showReward(MoneyManger.instance.getReward(), isAd, () => {
                 this.rewardCb?.();
             });
         }
@@ -398,6 +404,19 @@ export class GameView extends ViewComponent {
             this.board.splice(sy, 0, []);
             let a = this.board;
             ca = this.createCabinet(data.len, data.x, data.y, [], data.index);
+            //计算该柜子的在父节点的顺序
+            let sx = data.x-1;
+            let si = 0;
+            for (let y = data.y; y >= 0; y--) {
+                const bo = this.board[y];
+                for (let x = sx; x >= 0; x--) {
+                    if (bo[x]) {
+                        si++;
+                    }
+                }
+                sx = 5;
+            }
+            ca.node.setSiblingIndex(si);//设置顺序
             for (let i = 0; i < this.board.length; i++) {
                 for (let j = 0; j < 6;) {
                     const ca = this.board[i][j];
@@ -504,15 +523,23 @@ export class GameView extends ViewComponent {
     }
     onBtnBesom() {
         if (GameManger.instance.isAni || GameManger.instance.isGameOver) { return; }
-        const tyep = PropType.besom;
-        const num = GameStorage.getPropNum(tyep);
+        const type = PropType.besom;
+        const num = GameStorage.getPropNum(type);
         if (num <= 0) {
-            ViewManager.showProp(tyep, () => { this.updateAllBtnStatus(); });
+            ViewManager.showProp(type, () => { this.updateAllBtnStatus(); });
             return;
         }
-        this.shuffleCollets();
-        GameStorage.addPropNum(tyep, -1);
-        this.showPropBtnStatus(this.btnBesom, tyep);
+        if (this.cleanUp()) {
+            GameStorage.addPropNum(type, -1);
+            this.showPropBtnStatus(this.btnBesom, type);
+        }
+
+    }
+    /**扫把道具，清理3个到空白区域 */
+    private cleanUp() {
+        if (!this.cellContent.canCleanUp()) { ViewManager.showTips(i18n.string("str_prop_unusable")); return false; }//没有物品时无法使用该道具
+        this.cellContent.cleanUp();
+        return true;
     }
     /**更新所有道具按钮状态 */
     private updateAllBtnStatus() {
@@ -536,6 +563,17 @@ export class GameView extends ViewComponent {
         }
     }
 
+    onTask() {
+        ViewManager.showTask();
+    }
+
+    async addGameTime() {
+        ReddotManager.instance.showTaskDot();
+        const t = 5;
+        await delay(t);
+        GameStorage.addGameTime(t);
+        this.addGameTime();
+    }
 
     private gm: GuideMask;
     /**新手引导 */
@@ -551,11 +589,11 @@ export class GameView extends ViewComponent {
                     this.guidStpe2();
                 });
             }
-            this.gm.showCellContent(this.cellContent.node.parent);
+            // this.gm.showCellContent(this.cellContent.node.parent);
         })
     }
     private guidStpe2() {
-        this.gm.showTips(2);
+        this.gm.showTips(1);
         const co = this.findMoney();
         if (co) {
             this.gm.showCollect(co, () => {
@@ -564,7 +602,7 @@ export class GameView extends ViewComponent {
         }
     }
     private guidStpe3() {
-        this.gm.showTips(3);
+        this.gm.showTips(1);
         const co = this.findMoney();
         if (co) {
             this.gm.showCollect(co, async () => {
@@ -585,7 +623,7 @@ export class GameView extends ViewComponent {
     }
     private guidStpe5() {
         this.gm.node.active = true;
-        this.gm.showTips(4);
+        // this.gm.showTips(4);
         this.gm.showMoneyNode(this.top.getChildByName("money"));
     }
 

@@ -178,21 +178,13 @@ export namespace ViewManager {
             }
         })
     }
-    /** 兑换券界面 */
-    export function showCash(parent: Node, addNum: number = 0, cb?: Function) {
-        prefabs.instantiate("prefabs/dialog/cash").then((dialog) => {
-            if (isVaild(dialog)) {
-                const script = dialog.getComponent(ViewComponent);
-                script.show(parent ?? upperNode, { addNum, cb });
-            }
-        })
-    }
+
     /** 钱包提现界面 */
     export function showPurse() {
         prefabs.instantiate("prefabs/dialog/purse").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(updialogNode ?? mainSceneNode);
+                script.show(upperNode ?? mainSceneNode);
             }
         })
     }
@@ -201,7 +193,7 @@ export namespace ViewManager {
         prefabs.instantiate("prefabs/dialog/gold").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(updialogNode ?? mainSceneNode);
+                script.show(upperNode ?? mainSceneNode);
             }
         })
     }
@@ -210,7 +202,7 @@ export namespace ViewManager {
         prefabs.instantiate("prefabs/dialog/settings").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(updialogNode ?? mainSceneNode);
+                script.show(upperNode ?? mainSceneNode);
             }
         })
     }
@@ -219,16 +211,16 @@ export namespace ViewManager {
         prefabs.instantiate("prefabs/dialog/langSettings").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(updialogNode ?? mainSceneNode, { cb });
+                script.show(upperNode ?? mainSceneNode, { cb });
             }
         })
     }
     /** 奖励界面 */
-    export function showReward(isAd: boolean, cb: Function) {
+    export function showReward(rewardNum:number,isAd: boolean, cb: Function) {
         prefabs.instantiate("prefabs/dialog/reward").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { isAd, cb });
+                script.show(upperNode, { isAd, cb,rewardNum });
             }
         })
     }
@@ -282,7 +274,7 @@ export namespace ViewManager {
         prefabs.instantiate("prefabs/dialog/addCell").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(updialogNode ?? mainSceneNode, { cb });
+                script.show(upperNode ?? mainSceneNode, { cb });
             }
         })
     }
@@ -308,6 +300,15 @@ export namespace ViewManager {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
                 script.show(upperNode, { isWin, level, cb });
+            }
+        })
+    }
+    /** 胜利和当前关卡界面 */
+    export function showBigWinDialog(isAd: boolean) {
+        prefabs.instantiate("prefabs/dialog/bigWin").then((dialog) => {
+            if (isVaild(dialog)) {
+                const script = dialog.getComponent(ViewComponent);
+                script.show(upperNode, { isAd});
             }
         })
     }

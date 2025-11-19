@@ -39,7 +39,7 @@ export class PurseDialog extends DialogComponent {
             // v.string = GameUtil.PurseTips[i];
             v.string = i18n.string("purse_tip_" + (i + 1));
         })
-        MoneyManger.instance.getMoneyNode().showTips();
+        // MoneyManger.instance.getMoneyNode().showTips();
     }
     // private topAni() {
     //     ActionEffect.scale(this.top, 0.3, 1, 0, "backOut");

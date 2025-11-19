@@ -21,7 +21,7 @@ export class AddCell extends DialogComponent {
     }
     onBtnFree(){
         this.btnFree.getComponent(Button).interactable = false;
-        adHelper.showRewardVideo(()=>{
+        adHelper.showRewardVideo("增加拓展位",()=>{
             GameStorage.setCellUnlock(GameStorage.getCurLevel());
             this.closeAni();
             this.cb?.();

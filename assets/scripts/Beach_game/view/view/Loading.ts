@@ -10,6 +10,7 @@ import { GuideManger } from '../../manager/GuideManager';
 import { sys } from 'cc';
 import { game } from 'cc';
 import { Game } from 'cc';
+import { ConfigConst } from '../../manager/ConfigConstManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Loading')
@@ -33,7 +34,10 @@ export class Loading extends ViewComponent {
             if (this.loading) this.loading.string = "Loading... " + num + "%";
             if (i == all) {
                 this.scheduleOnce(() => {
-                    ViewManager.showGameView();
+                    if (GuideManger.isGuide() && !ConfigConst.isShowA)
+                        ViewManager.showGuideHome();
+                    else
+                        ViewManager.showGameView();
                 }, 0.2);
             }
             await delay(0.03);
@@ -43,7 +47,7 @@ export class Loading extends ViewComponent {
         parent.addChild(this.node);
         this.showProgress();
         adHelper.init();
-        game.on(Game.EVENT_SHOW, () => { adHelper.showInterstitial(); console.log("回前台显示插屏广告") })
+        // game.on(Game.EVENT_SHOW, () => { adHelper.showInterstitial(); console.log("回前台显示插屏广告") })
     }
 }
 

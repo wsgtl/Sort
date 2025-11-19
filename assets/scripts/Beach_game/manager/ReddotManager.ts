@@ -16,39 +16,37 @@ export class ReddotManager {
         }
         return this._instance;
     }
-    private signinDot: Node;
+
     private taskDot: Node;
-    public init(signinDot: Node, taskDot: Node) {
-        this.signinDot = signinDot;
+    public init(taskDot: Node) {
         this.taskDot = taskDot;
     }
     /**显示签到红点 */
-    public showSigninDot() {
-        const daily = GameStorage.getDaily();
-        let isShow = false;
-        if (daily.isReceive) {
-            const ld = daily.lastDay;
-            const curDay = GameUtil.getCurDay();
-            if (curDay - ld > 0) {//可领取
-                isShow = true;
-            }
-        } else {
-            isShow = true;
-        }
-        if (isVaild(this.signinDot)) {
-            this.signinDot.active = isShow;
-        }
-        return isShow;
-    }
+    // public showSigninDot() {
+    //     const daily = GameStorage.getDaily();
+    //     let isShow = false;
+    //     if (daily.isReceive) {
+    //         const ld = daily.lastDay;
+    //         const curDay = GameUtil.getCurDay();
+    //         if (curDay - ld > 0) {//可领取
+    //             isShow = true;
+    //         }
+    //     } else {
+    //         isShow = true;
+    //     }
+    //     if (isVaild(this.signinDot)) {
+    //         this.signinDot.active = isShow;
+    //     }
+    //     return isShow;
+    // }
     /**显示任务红点 */
-    public showTaskDot() {
-        const tasks = GameStorage.getTask();
-        const curLevel = GameStorage.getCurLevel();
+    public showTaskDot() {    
+        const minutes = GameUtil.getCurMinutes();
+        const task = GameStorage.getTask();
         let isShow = false;
-        for (let i = 1; i < curLevel; i++) {
-            if (!tasks[i]) {//有一个任务奖励没领取就显示红点
-                isShow = true;
-                break;
+        for (let i in GameUtil.TaskMinutes) {
+            if (task[i] != 1) {
+                if (GameUtil.TaskMinutes[i] <= minutes) { isShow = true; break; }
             }
         }
         if (isVaild(this.taskDot)) {

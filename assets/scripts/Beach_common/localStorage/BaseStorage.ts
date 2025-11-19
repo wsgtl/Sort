@@ -13,6 +13,7 @@ export enum ITEM_STORAGE {
     GameGift = "Beach_gamegift",
     AbTest = "Beach_ab_test",
     WebConfig = "Beach_web_config",
+    GameTime = "Beach_gametime",
 }
 
 /**

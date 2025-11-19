@@ -67,8 +67,8 @@ export class PropDialog extends DialogComponent {
     private onCoin() {
         const coin = GameStorage.getCoin();
         if (coin < this.curCoin) {
-            // ViewManager.showTips("No enough gold coin");
-            ViewManager.showTips(i18n.string("str_nogold"));
+            // ViewManager.showTips(i18n.string("str_nogold"));
+            ViewManager.showGold();
             return;
         }
         CoinManger.instance.addCoin(-this.curCoin);
@@ -108,6 +108,7 @@ export class PropDialog extends DialogComponent {
 
         GameStorage.addPropNum(this.type, 1, isAd);
         this.cb?.();
+        this.closeAni();
 
         //动画
         // this.add.y = 0;

@@ -11,16 +11,19 @@ import { Vec3 } from 'cc';
 import { Money } from '../component/Money';
 import { Button } from 'cc';
 import { GuideManger } from '../../manager/GuideManager';
+import { v3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('GuideMask')
 export class GuideMask extends ViewComponent {
     @property(DialogBox)
     db: DialogBox = null;
-    @property(Hand)
-    hand: Hand = null;
-    @property(Hand)
-    bw: Hand = null;
+    @property(Node)
+    hand: Node = null;
+    // @property(Hand)
+    // hand: Hand = null;
+    // @property(Hand)
+    // bw: Hand = null;
     @property(Node)
     content: Node = null;
     @property(Node)
@@ -41,13 +44,14 @@ export class GuideMask extends ViewComponent {
 
     showCollect(co: Colletion, next: Function) {
         co.changeParent(this.content);
-        this.hand.node.active = true;
-        this.hand.node.position = co.node.position.clone();
-        this.hand.play(true, false);
-        this.db.node.y = co.node.y + 150;
+        this.hand.active = true;
+        const p = co.node.position.clone();
+        this.hand.position = v3(p.x,p.y+70);
+        // this.hand.play(true, false);
+        this.db.node.y = co.node.y + 350;
         co.node.once(Node.EventType.TOUCH_START, () => {
             GameManger.instance.moveToCell(co);
-            this.bw.node.active = false;
+            // this.bw.node.active = false;
             next();
         })
     }
@@ -61,10 +65,10 @@ export class GuideMask extends ViewComponent {
         this.ccParent = cc.parent;
         this.ccIndex = cc.getSiblingIndex();
         UIUtils.changeParent(cc, this.content);
-        this.bw.node.active = true;
-        this.bw.node.y = cc.y;
-        this.bw.node.x = -260;
-        this.bw.play(false, true);
+        // this.bw.node.active = true;
+        // this.bw.node.y = cc.y;
+        // this.bw.node.x = -260;
+        // this.bw.play(false, true);
     }
     ccBack() {
         if (isVaild(this.cc) && isVaild(this.ccParent)) {
@@ -89,10 +93,10 @@ export class GuideMask extends ViewComponent {
             GuideManger.passGameStep();
         })
 
-        this.hand.node.active = true;
-        this.hand.node.y = mn.position.y;
-        this.hand.node.x = -30;
-        this.hand.play(true, false);
+        this.hand.active = true;
+        this.hand.y = mn.position.y;
+        this.hand.x = -30;
+        // this.hand.play(true, false);
         this.db.node.y = mn.y - 250;
     }
     mnBack() {
@@ -102,12 +106,12 @@ export class GuideMask extends ViewComponent {
         }
     }
     hideHand(){
-        this.hand.node.active = false;
+        this.hand.active = false;
     }
     hideAll() {
         this.node.active = false;
         this.db.node.active = false;
-        this.hand.node.active = false;
+        this.hand.active = false;
     }
     
 

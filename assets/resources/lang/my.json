@@ -6,5 +6,7 @@
     "str_aritoday": "Saya telah mendakwanya hari ini",
     "str_thead": "Iklan belum siap, sila cuba lagi kemudian",
     "str_nogold": "Tidak ada syiling emas yang mencukupi",
-    "str_tacurrently": "Pada masa ini tiada item tersedia untuk pengeluaran"
+    "str_tacurrently": "Pada masa ini tiada item tersedia untuk pengeluaran",
+    "str_task_minutes": "Main %s minit",
+    "str_prop_unusable": "Prop tidak boleh guna"
 }

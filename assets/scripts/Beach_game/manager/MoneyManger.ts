@@ -64,8 +64,8 @@ export class MoneyManger {
     }
 
     /**获取奖励钱 */
-    public getReward() {
-        return MathUtil.random(400, 1200) / 100;
+    public getReward(bl: number = 1) {
+        return bl * MathUtil.random(400, 1200) / 100;
     }
     public rate(money: number) {
         return LangStorage.getData().rate * money;

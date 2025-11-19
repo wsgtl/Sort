@@ -8,5 +8,7 @@
     "str_aritoday": "Already received it today",
     "str_thead": "The ad is not ready yet,please try again later",
     "str_nogold": "No enough gold coin",
-    "str_tacurrently": "There are currently no objects that can be withdrawn"
+    "str_tacurrently": "There are currently no objects that can be withdrawn",
+    "str_task_minutes": "Play %s minutes",
+    "str_prop_unusable": "Prop unusable"
 }

@@ -12,25 +12,25 @@ const { ccclass, property } = _decorator;
 @ccclass('SettingDialog')
 export class SettingDialog extends DialogComponent {
     @property(Node)
-    btnHome: Node = null;
-    @property(Node)
     btnPrivacy: Node = null;
     @property(Node)
     btnMusic: Node = null;
     @property(Node)
     btnSound: Node = null;
     @property(Node)
+    btnVibration: Node = null;
+    @property(Node)
     btnLang: Node = null;
     protected onLoad(): void {
         SettingManger.instance.setDialog(this.node);
-        this.btnHome.active = ViewManager.getCurViewType() == ViewType.gameview;
         this.btnMusic.on(Button.EventType.CLICK, this.onBtnMusic, this);
-        this.btnHome.on(Button.EventType.CLICK, this.onBtnHome, this);
         this.btnPrivacy.on(Button.EventType.CLICK, this.onBtnPrivacy, this);
         this.btnSound.on(Button.EventType.CLICK, this.onBtnSound, this);
-        this.btnLang.on(Button.EventType.CLICK, this.onBtnLang, this);
+        this.btnVibration.on(Button.EventType.CLICK, this.onBtnVibration, this);
+        // this.btnLang.on(Button.EventType.CLICK, this.onBtnLang, this);
         this.showMute(this.btnMusic, AudioManager.getIsPlayBGM());
         this.showMute(this.btnSound, AudioManager.getIsPlay());
+        this.showMute(this.btnVibration, AudioManager.getIsShock());
     }
     onBtnHome() {
         ViewManager.showHome();
@@ -46,8 +46,12 @@ export class SettingDialog extends DialogComponent {
         this.showMute(this.btnMusic, mute);
     }
     onBtnSound() {
-        AudioManager.setIsPlay(!AudioManager.getIsPlay());
+    AudioManager.setIsPlay(!AudioManager.getIsPlay());
         this.showMute(this.btnSound, AudioManager.getIsPlay());
+    }
+    onBtnVibration() {
+        AudioManager.setIsPlay(!AudioManager.getIsPlay());
+        this.showMute(this.btnVibration, AudioManager.getIsPlay());
     }
     onBtnLang(){
         this.node.active = false;

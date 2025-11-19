@@ -6,5 +6,7 @@
     "str_aritoday": "Sie ist heute empfangen worden",
     "str_thead": "Die werbung ist noch nicht in form, bitte versuchen sie es später noch einmal",
     "str_nogold": "Nicht genug goldmünzen.",
-    "str_tacurrently": "Derzeit gibt es noch keine gegenstände, die erkennbar sind"
+    "str_tacurrently": "Derzeit gibt es noch keine gegenstände, die erkennbar sind",
+    "str_task_minutes": "Spiele %s Minuten",
+    "str_prop_unusable": "Gegenstand unbrauchbar"
 }

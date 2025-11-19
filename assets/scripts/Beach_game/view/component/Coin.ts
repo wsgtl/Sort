@@ -31,7 +31,7 @@ export class Coin extends Component {
         CoinManger.instance.showDialog();
     }
     protected onDestroy(): void {
-        // CoinManger.instance.setCoinNode(null);
+        CoinManger.instance.setCoinNode(null);
     }
 }
 

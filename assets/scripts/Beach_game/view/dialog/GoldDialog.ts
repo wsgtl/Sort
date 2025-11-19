@@ -12,17 +12,21 @@ const { ccclass, property } = _decorator;
 @ccclass('GoldDialog')
 export class GoldDialog extends DialogComponent {
     @property(Node)
-    btnReceive: Node = null;
+    btnClaim: Node = null;
+    @property(Node)
+    btnNt: Node = null;
+
     protected onLoad(): void {
         CoinManger.instance.setDialog(this.node);
-        this.btnReceive.on(Button.EventType.CLICK, this.onReceive, this);
+        this.btnClaim.on(Button.EventType.CLICK, this.onReceive, this);
+        this.btnNt.on(Button.EventType.CLICK, ()=>{this.closeAni();});
     }
     protected onDestroy(): void {
         CoinManger.instance.setDialog(null);
     }
     onReceive() {
         EventTracking.sendEventCoin(GameStorage.getCoin());
-        adHelper.showRewardVideo(()=>{
+        adHelper.showRewardVideo("增加金币",()=>{
             this.closeAni();
             CoinManger.instance.addCoin(GameUtil.ReceiveCoins);
             ViewManager.showRewardAni1(RewardType.coin,GameUtil.ReceiveCoins,()=>{});

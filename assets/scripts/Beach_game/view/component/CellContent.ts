@@ -5,17 +5,20 @@ import { v3 } from 'cc';
 import { GameManger } from '../../manager/GameManager';
 import { delay } from '../../../Beach_common/utils/TimeUtil';
 import { Cabinet } from './Cabinet';
-import { CabinetData } from '../../GameUtil';
+import { CabinetData, GameUtil } from '../../GameUtil';
 import { AudioManager } from '../../manager/AudioManager';
 import { GameStorage } from '../../GameStorage';
 import { ViewManager } from '../../manager/ViewManger';
 import { GuideManger } from '../../manager/GuideManager';
+import { CleanArea } from './CleanArea';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellContent')
 export class CellContent extends Component {
     @property(Node)
     btnCell:Node = null;
+    @property(CleanArea)
+    cleanArea:CleanArea = null;
     public collects: Colletion[] = [];
 
     onLoad(){
@@ -89,7 +92,7 @@ export class CellContent extends Component {
             await Promise.any(pro);
     }
     public getPos(x: number): Vec3 {
-        const w = 132;
+        const w = GameUtil.DownW;
         return v3((x - 3.5) * w, -30);
     }
     /**回退操作 */
@@ -109,6 +112,19 @@ export class CellContent extends Component {
     }
     private get cellNum(){
         return  GameStorage.isCellLock(GameStorage.getCurLevel())?8:7;
+    }
+    public canCleanUp(){
+        return this.collects.length>0;
+    }
+    /**清理三个物品到空区域 */
+    public cleanUp(){
+        let times = Math.min(3,this.collects.length);
+        const cos:Colletion[]=[];
+        for(let i=0;i<times;i++){
+            cos.push(this.collects.shift());
+        }
+        this.moveAfterCollet(0);
+        this.cleanArea.cleanTo(cos);
     }
 }
 

@@ -46,6 +46,8 @@ export class RewardDialog extends DialogComponent {
     showStart(args?: any) {
         this.cb = args.cb;
         this.isAd = args.isAd;
+        this.rewardNum = args.rewardNum;
+        this.reciveNum = this.rewardNum * 2;
         this.init();
     }
     init() {
@@ -55,8 +57,8 @@ export class RewardDialog extends DialogComponent {
         this.btnClaim.once(Button.EventType.CLICK, this.onClaim, this);
         this.btnReceive.on(Button.EventType.CLICK, this.onBtnReceive, this);
 
-        this.rewardNum = MoneyManger.instance.getReward();
-        this.reciveNum = this.reciveNum * 2;
+        // this.rewardNum = MoneyManger.instance.getReward();
+        // this.reciveNum = this.reciveNum * 2;
         this.normalContent.getChildByName("moneyNode").getChildByName("num").getComponent(Label).string = FormatUtil.toMoney(this.rewardNum);
 
         this.normalContent.active = !this.isAd;

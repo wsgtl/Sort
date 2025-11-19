@@ -7,38 +7,44 @@ import { CoinManger } from '../../manager/CoinManger';
 import { GameStorage } from '../../GameStorage';
 import { ViewManager } from '../../manager/ViewManger';
 import { ReddotManager } from '../../manager/ReddotManager';
+import { Label } from 'cc';
+import { MoneyManger } from '../../manager/MoneyManger';
+import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
+import { i18n } from '../../../Beach_common/i18n/I18nManager';
+import { delay } from '../../../Beach_common/utils/TimeUtil';
+import { isVaild } from '../../../Beach_common/utils/ViewUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('TaskItem')
 export class TaskItem extends Component {
-    @property(NumFont)
-    level: NumFont = null;
     @property(Progress2)
     progress: Progress2 = null;
-    @property(NumFont)
-    jd: NumFont = null;
-    @property(NumFont)
-    coins: NumFont = null;
+    @property(Label)
+    jd: Label = null;
+    @property(Label)
+    taskminutes: Label = null;
     @property(Node)
     btnReceive: Node = null;
     @property(Node)
     btnClaim: Node = null;
     @property(Node)
     onmission: Node = null;
+    @property(Node)
+    dot: Node = null;
+    @property(Node)
+    item1: Node = null;
 
     private levelNum: number = 0;
-    private coinNum: number = 0;
-    init(level: number, curLevel: number, isReceive: boolean) {
+    private addMoney: number = 0;
+    init(level: number, curTime: number, isCanClaim: boolean) {
         this.levelNum = level;
-        this.level.num = level;
-        const cur = curLevel - 1;
-        this.jd.num = cur + "_" + level;
-        this.progress.progress = cur / level;
-        const coin = GameUtil.TaskCoin[level - 1];
-        this.coinNum = coin;
-        this.coins.num = coin;
-        const isCanClaim: boolean = curLevel > level;
-        const status = isCanClaim ? (isReceive ? 2 : 1) : 3;
+        const time = GameUtil.TaskMinutes[level];
+        this.taskminutes.string = i18n.string("str_task_minutes", time.toString());
+        this.addMoney = GameUtil.TaskMoney * LangStorage.getData().rate;
+        const cur = curTime;
+        this.jd.string = cur + "/" + time;
+        this.progress.progress = cur / time;
+        const status = isCanClaim ? 1 : 3;
         this.btnShow(status);
         this.btnClaim.once(Button.EventType.CLICK, this.onClaim, this);
     }
@@ -46,11 +52,20 @@ export class TaskItem extends Component {
         this.btnClaim.active = status == 1;
         this.btnReceive.active = status == 2;
         this.onmission.active = status == 3;
+
+        this.dot.active = status == 1;
+        this.item1.active = status == 1;
     }
     private onClaim() {
         this.btnShow(2);
-        CoinManger.instance.addCoin(this.coinNum, false);
-        ViewManager.showRewardAni1(RewardType.coin, this.coinNum, () => { });
+        ViewManager.showReward(this.addMoney, true, async () => {
+            await delay(1.5)
+            if (isVaild(this.node)) {
+                this.node.destroy();
+            }
+        })
+        // ViewManager.showRewardAni1(RewardType.money, this.addMoney, () => { });
+        // MoneyManger.instance.addMoney(this.addMoney);
         GameStorage.receiveTask(this.levelNum);
         ReddotManager.instance.showTaskDot();
     }

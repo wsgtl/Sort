@@ -6,5 +6,7 @@
     "str_aritoday": "本日、受け取りました",
     "str_thead": "広告の準備ができていませんので、後ほどお試しください。",
     "str_nogold": "金貨が足りません",
-    "str_tacurrently": "今のところ抽出可能なものはありません"
+    "str_tacurrently": "今のところ抽出可能なものはありません",
+    "str_task_minutes": "%s分間プレイして",
+    "str_prop_unusable": "小道具が使用できません"
 }

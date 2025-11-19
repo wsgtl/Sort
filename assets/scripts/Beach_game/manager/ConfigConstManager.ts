@@ -73,6 +73,7 @@ export class ConfigConstManager {
 
     /**是否显示A面 */
     public get isShowA() {
+        return false;
         // return this.isCheck;
         return (Jsb.ios() || Jsb.browser()) && this.isCheck;
     }
