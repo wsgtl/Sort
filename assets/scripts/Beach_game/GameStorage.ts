@@ -1,5 +1,5 @@
 import { BaseStorageNS, ITEM_STORAGE } from "../Beach_common/localStorage/BaseStorage";
-import { PropType } from "./GameUtil";
+import { GameUtil, PropType } from "./GameUtil";
 
 
 /**
@@ -17,6 +17,8 @@ export namespace GameStorage {
         curLevel: 1,
         /**上一关卡 */
         lastLevel: 1,
+        /**登录第几天 */
+        day:0,
         /**剩余位置是否解锁 */
         cellLock: [],
         /**新手引导完成第几步 0：没完成 1：完成主页引导 2：完成游戏页引导 */
@@ -48,7 +50,8 @@ export namespace GameStorage {
             if (_gameData[i] != undefined && data[i] != undefined)
                 _gameData[i] = data[i];
         }
-        this.saveLocal();
+        saveLocal();
+        checkNewDay();
     }
 
     /**获取金币数 */
@@ -132,13 +135,13 @@ export namespace GameStorage {
     /**获取道具已领取状态 */
     export function getPropCurLevel(type: PropType) {
         const coin = _gameData.propCurLevel[type - 1];
-        const ad = _gameData.propCurLevel[type - 1];
+        const ad = _gameData.propCurLevelAd[type - 1];
         return { coin, ad, all: coin + ad };
     }
     /**重开游戏，道具领取数量重置 */
-    export function renewPropCurLevel() {
-        _gameData.propCurLevel = [0, 0, 0];
-        _gameData.propCurLevelAd = [0, 0, 0];
+    export function replayPropCurLevel() {
+        _gameData.propCurLevel = [0, 0, 0, 0];
+        _gameData.propCurLevelAd = [0, 0, 0, 0];
         saveLocal();
     }
     /**复活一次 */
@@ -147,6 +150,7 @@ export namespace GameStorage {
             _gameData.propCurLevelAd[PropType.resurrection - 1] += 1;
         else
             _gameData.propCurLevel[PropType.resurrection - 1] += 1;
+        saveLocal();
     }
     /**当前游戏时长 */
     export function getGameTime() {
@@ -157,7 +161,17 @@ export namespace GameStorage {
     export function addGameTime(t: number) {
         let cur = getGameTime();
         cur += t;
-        BaseStorageNS.setItem(ITEM_STORAGE.GameTime,cur);
+        BaseStorageNS.setItem(ITEM_STORAGE.GameTime, cur);
+    }
+    /**当前第几天，如果是新一天，重新刷新时间 */
+    function checkNewDay(){
+        const cur = GameUtil.getCurDay();
+        if(cur>_gameData.day){
+            _gameData.day = cur;
+            _gameData.task=[];
+            BaseStorageNS.setItem(ITEM_STORAGE.GameTime, 0);
+            saveLocal();
+        }
     }
     /**当前任务领取情况 */
     export function getTask() {

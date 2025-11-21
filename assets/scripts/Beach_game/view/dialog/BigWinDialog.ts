@@ -7,6 +7,8 @@ import { ViewManager } from '../../manager/ViewManger';
 import { RewardType } from '../../GameUtil';
 import { Label } from 'cc';
 import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
+import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
+import { delay } from '../../../Beach_common/utils/TimeUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('BigWinDialog')
@@ -17,6 +19,8 @@ export class BigWinDialog extends DialogComponent {
     btnNt: Node = null;
     @property(Node)
     jt: Node = null;
+    @property([Node])
+    gs: Node[] = [];
     @property(Label)
     moneyNode: Label = null;
 
@@ -31,10 +35,11 @@ export class BigWinDialog extends DialogComponent {
             this.btnNt.destroy();
             this.btnClaim.getChildByName("Layout").getChildByName("sp").active = false;
         }
+        this.showLight();
     }
     protected onLoad(): void {
         this.btnClaim.on(Button.EventType.CLICK, this.onReceive, this);
-        this.btnNt.on(Button.EventType.CLICK, () => { this.closeAni(); });
+        this.btnNt.on(Button.EventType.CLICK, () => {if(this.isStop)return; this.closeAni(); });
     }
     private isStop: boolean = false;
     private speed: number = 180;
@@ -53,6 +58,7 @@ export class BigWinDialog extends DialogComponent {
 
     }
     onReceive() {
+        if (this.isStop) return;
         this.isStop = true;
         if (this.isAd)
             adHelper.showRewardVideo("气泡转轮", () => {
@@ -61,7 +67,8 @@ export class BigWinDialog extends DialogComponent {
         else
             this.claimMoney();
     }
-    claimMoney() {
+    async claimMoney() {
+        await delay(1);
         this.closeAni();
         const money = this.getMoney();
         MoneyManger.instance.addMoney(money);
@@ -69,5 +76,14 @@ export class BigWinDialog extends DialogComponent {
     }
     private getMoney() {
         return this.rewardNum * this.bl;
+    }
+    private gn:number=0;
+    private async showLight(){
+        this.gs.forEach((v,i)=>{
+            v.active = this.gn==i;
+        })
+        await delay(0.3,this.node);
+        this.gn=1-this.gn;
+        this.showLight();
     }
 }

@@ -4,7 +4,7 @@ import { i18n } from "../../../Beach_common/i18n/I18nManager";
 import { adHelper } from "../../../Beach_common/native/AdHelper";
 import { DialogComponent } from "../../../Beach_common/ui/DialogComtnet";
 import { GameStorage } from "../../GameStorage";
-import { PropType, GameUtil } from "../../GameUtil";
+import { PropType, GameUtil, RewardType } from "../../GameUtil";
 import { AudioManager } from "../../manager/AudioManager";
 import { CoinManger } from "../../manager/CoinManger";
 import { ViewManager } from "../../manager/ViewManger";
@@ -34,7 +34,7 @@ export class PropDialog extends DialogComponent {
     private curLimit: number = 3;
     type: PropType;
     cb: Function;
-    onlyCloseCb:Function;
+    onlyCloseCb: Function;
     isResurrect: boolean;
     show(parent: Node, args?: any) {
         parent.addChild(this.node);
@@ -46,7 +46,7 @@ export class PropDialog extends DialogComponent {
         this.btnResurrect.on(Button.EventType.CLICK, this.onResurrect, this);
         this.btnCoin.on(Button.EventType.CLICK, this.onCoin, this);
         this.btnAddCoin.on(Node.EventType.TOUCH_START, this.onAddCoin, this);
-        this.btnOver.on(Button.EventType.CLICK, ()=>{
+        this.btnOver.on(Button.EventType.CLICK, () => {
             this.closeAni();
             this.onlyCloseCb?.();
         });
@@ -60,7 +60,7 @@ export class PropDialog extends DialogComponent {
     @GlobalButtonLock(1)
     private onResurrect() {
         adHelper.showRewardVideo("复活", () => {
-            this.resurrect();
+            this.resurrect(true);
         }, ViewManager.adNotReady)
     }
     @GlobalButtonLock(1)
@@ -73,7 +73,7 @@ export class PropDialog extends DialogComponent {
         }
         CoinManger.instance.addCoin(-this.curCoin);
         if (this.isResurrect)
-            this.resurrect();
+            this.resurrect(false);
         else
             this.addProp(false);
     }
@@ -84,12 +84,14 @@ export class PropDialog extends DialogComponent {
         }, ViewManager.adNotReady);
     }
     private addCoin() {
-        CoinManger.instance.addCoin(GameUtil.ReceiveCoins, false);
+        CoinManger.instance.addCoin(GameUtil.ReceiveCoins, false, false);
+        ViewManager.showRewardAni1(RewardType.coin, GameUtil.ReceiveCoins, () => { }, this.btnAddCoin);
     }
     /**复活 */
-    private resurrect() {
+    private resurrect(isAd: boolean) {
         this.cb?.();
         this.closeAni();
+        GameStorage.resurrection(isAd);
     }
     init(type: PropType) {
         this.type = type;
@@ -97,7 +99,8 @@ export class PropDialog extends DialogComponent {
         this.strs.forEach((v, i) => { v.active = i == type - 1 });
         const limit = GameUtil.PropLimit;
         const cn = GameStorage.getPropCurLevel(type);
-        this.btnClaim.active = cn.ad == 0;
+        this.btnClaim.active = type != PropType.resurrection && cn.ad == 0;
+        this.btnResurrect.active = type == PropType.resurrection && cn.ad == 0;
         this.curCoin = GameUtil.PropCoins[cn.coin];
         this.curLimit = limit - cn.all;
         this.btnCoin.getChildByName("Layout").getChildByName("num").getComponent(Label).string = this.curCoin + "";

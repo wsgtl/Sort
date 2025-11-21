@@ -469,4 +469,14 @@ export namespace ActionEffect {
         )
 
     }
+
+    /**获取钱后字上浮动画 */
+    export async function addRewardLabelAni(an: Node) {
+        Tween.stopAllByTarget(an);
+        an.active = true;
+        an.y = 0;
+        ActionEffect.fadeIn(an);
+        await tweenPromise(an, t => t.to(0.1, { y: 50 }).delay(.5));
+        an.active = false;
+    }
 }

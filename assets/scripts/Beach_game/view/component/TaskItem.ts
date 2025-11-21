@@ -41,7 +41,7 @@ export class TaskItem extends Component {
         const time = GameUtil.TaskMinutes[level];
         this.taskminutes.string = i18n.string("str_task_minutes", time.toString());
         this.addMoney = GameUtil.TaskMoney * LangStorage.getData().rate;
-        const cur = curTime;
+        const cur = Math.min(curTime,time);
         this.jd.string = cur + "/" + time;
         this.progress.progress = cur / time;
         const status = isCanClaim ? 1 : 3;

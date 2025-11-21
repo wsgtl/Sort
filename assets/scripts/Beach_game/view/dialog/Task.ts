@@ -18,6 +18,8 @@ export class Task extends DialogComponent {
     item: Prefab = null;
     @property(Node)
     content: Node = null;
+    @property(Node)
+    taskContent: Node = null;
     protected onLoad(): void {
         // const h = view.getVisibleSize().y;
         // const cha = h - 1138;
@@ -32,7 +34,7 @@ export class Task extends DialogComponent {
         tm.forEach((v, i) => {
             if (tasks[i] == 1) return;
             const item = instantiate(this.item);
-            this.content.addChild(item);
+            this.taskContent.addChild(item);
             item.getComponent(TaskItem).init(i, minutes, v <= minutes);
         })
     }

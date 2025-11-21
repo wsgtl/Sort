@@ -6,6 +6,7 @@ import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 import { GameStorage } from '../../GameStorage';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { view } from 'cc';
+import { GameManger } from '../../manager/GameManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('StatusShow')
@@ -21,10 +22,15 @@ export class StatusShow extends Component {
 
     protected onLoad(): void {
         this.moneyNum.string = MoneyManger.instance.getMoneyString();
-        this.tips.string = `Matching <color=#ee521f>183</color> items this level`;
+
         const y = this.node.y;
         const h = view.getVisibleSize().y - 1920;
-        this.node.y = y - h * 0.4;
+        this.node.y = y - h * 0.3;
+
+        const n = GameManger.instance.getCollectNum();
+        this.tips.string = `Matching <color=#ee521f>${n.all}</color> items this level`;
+        this.jdNum.string = n.clear + "/" + n.all;
+        this.jd.fillRange = n.clear / n.all;
     }
 }
 

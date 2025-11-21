@@ -2,10 +2,12 @@ import { _decorator, Component, Node } from 'cc';
 import { GameManger } from '../../manager/GameManager';
 import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { Vec3 } from 'cc';
-import { GameUtil } from '../../GameUtil';
+import { CellData, GameUtil } from '../../GameUtil';
 import { v3 } from 'cc';
 import { EventTouch } from 'cc';
 import { Colletion } from './Colletion';
+import { Prefab } from 'cc';
+import { instantiate } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('CleanArea')
@@ -24,7 +26,7 @@ export class CleanArea extends Component {
         const co = this.collects[index];
         if (co) {
             this.collects.splice(index, 1);
-            this.moveAfterCollet(index + 1);
+            this.moveAfterCollet(index);
             GameManger.instance.moveToCell(co);
         }
     }
@@ -53,6 +55,25 @@ export class CleanArea extends Component {
         }
         if (pro.length)
             await Promise.any(pro);
+    }
+    public getCellDatas() {
+        const cells: CellData[] = [];
+        this.collects.forEach(v => { cells.push(v.data) });
+        return cells;
+    }
+    /**恢复 */
+    public recoverCells(colletionPrefab: Prefab, cleanCells: CellData[]) {
+        cleanCells.forEach((v, i) => {
+            const pos = this.getPos(i);
+            const c = instantiate(colletionPrefab);
+            this.node.addChild(c);
+            c.position = pos;
+            const colletion = c.getComponent(Colletion);
+            colletion.init(v,true);
+            // colletion.setParent(this.node);
+            this.collects[i] = colletion;
+        })
+
     }
 }
 

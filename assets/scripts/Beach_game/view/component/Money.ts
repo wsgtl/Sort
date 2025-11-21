@@ -6,7 +6,7 @@ import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 import { ButtonLock } from '../../../Beach_common/Decorator';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
+import { delay, tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { Tween } from 'cc';
 import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
@@ -22,6 +22,9 @@ export class Money extends Component {
     btnGet: Node = null;
     @property(Node)
     tip: Node = null;
+    @property(Label)
+    addNum: Label = null;
+
 
     protected onLoad(): void {
         this.showCurMoney();
@@ -33,6 +36,17 @@ export class Money extends Component {
         this.num.string = str;
         const sc = str.length > 7 ? (7 / str.length) : 1;
         this.num.node.scale = v3(sc, sc);
+    }
+    async showAddNum(num: number) {
+        this.addNum.string = "+" + FormatUtil.toMoney(num);
+        const an = this.addNum.node;
+        ActionEffect.addRewardLabelAni(an);
+        // Tween.stopAllByTarget(an);
+        // an.active = true;
+        // an.y = 0;
+        // ActionEffect.fadeIn(an);
+        // await tweenPromise(an, t => t.to(0.1, { y: 50 }).delay(.5));
+        // an.active = false;
     }
     showCurMoney() {
         this.showNum(GameStorage.getMoney());

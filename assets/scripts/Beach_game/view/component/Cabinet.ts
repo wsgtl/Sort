@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { CabinetData, CellData, ColletType, GameUtil } from '../../GameUtil';
+import { CabinetAllData, CabinetData, CellData, ColletType, GameUtil } from '../../GameUtil';
 import { EventTouch } from 'cc';
 import { Vec3 } from 'cc';
 import { v3 } from 'cc';
@@ -12,6 +12,8 @@ import { GameManger } from '../../manager/GameManager';
 import { isVaild } from '../../../Beach_common/utils/ViewUtil';
 import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { tween } from 'cc';
+import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
+import { AudioManager } from '../../manager/AudioManager';
 const { ccclass, property } = _decorator;
 
 /**柜子 */
@@ -59,13 +61,14 @@ export class Cabinet extends Component {
         // console.log("点击x:" + (index + this.data.x), "y:" + this.data.y);
         const co = this.collects[index];
         if (co && co.inCabinet) {
+            AudioManager.playEffect("clickCollecion");
             GameManger.instance.moveToCell(co);
         }
     }
     /**根据收集物的排序计算位置 */
     public getPos(x: number): Vec3 {
         const cw = this.contentW / this.data.len;
-        return v3(cw * (x + 0.5), 0);
+        return v3(cw * (x + 0.5), 20);
     }
     /**检查柜子是否清空 */
     public async checkClear() {
@@ -78,26 +81,26 @@ export class Cabinet extends Component {
         if (num > 0) {
             return false;
         } else {
-            this.isClear = true;
-            await ActionEffect.fadeOut(this.node, 0.2);
-            this.node.destroy();
-            GameManger.instance.clearCabinet();
+            await this.clearAni();
         }
+    }
+    private async clearAni() {
+        AudioManager.vibrate(100,200);
+        this.isClear = true;
+        await ActionEffect.fadeOut(this.node, 0.2);
+        this.node.destroy();
+        GameManger.instance.clearCabinet();
     }
     public setY(y: number) {
         this.data.y = y;
     }
     /**坠落 */
-    public dropTo(y: number, duration: number = 0.2) {
-        return new Promise<void>(res => {
-            this.data.y = y;
-            const pos = GameUtil.getCabinetPos(this.data.x, y);
-            tween(this.node)
-                .to(0.2, { position: pos })
-                .call(() => { res() })
-                .start();
-        })
-
+    public async dropTo(y: number, duration: number = 0.2) {
+        this.data.y = y;
+        const pos = GameUtil.getCabinetPos(this.data.x, y);
+        await tweenPromise(this.node, t => t
+            .to(0.2, { position: pos }, { easing: "bounceOut" })
+        )
     }
     public backCollet(colletion: Colletion) {
         this.collects[colletion.data.index] = colletion;
@@ -113,6 +116,12 @@ export class Cabinet extends Component {
                 return c;
             }
         }
+    }
+    /**返回格子所有数据 */
+    public getCabinetAllData(): CabinetAllData {
+        const cells: CellData[] = [];
+        this.collects.forEach((v, i) => { if (v?.inCabinet) cells[i] = v.data })
+        return { cabinet: this.data, cells };
     }
 }
 

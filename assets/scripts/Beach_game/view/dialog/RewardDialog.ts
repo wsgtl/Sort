@@ -22,6 +22,7 @@ import { Money } from '../component/Money';
 import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
 import { Label } from 'cc';
 import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
+import { v3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('RewardDialog')
@@ -67,12 +68,21 @@ export class RewardDialog extends DialogComponent {
             this.startDouble();
         }
     }
-    startDouble() {
+    async startDouble() {
         const small = this.doubleContent.getChildByName("money_small");
         const big = this.doubleContent.getChildByName("money_big");
         const jt = this.doubleContent.getChildByName("jt");
         small.getChildByName("moneyNode").getChildByName("num").getComponent(Label).string = FormatUtil.toMoney(this.rewardNum);
         big.getChildByName("moneyNode").getChildByName("num").getComponent(Label).string = FormatUtil.toMoney(this.reciveNum);
+        jt.scale=v3();
+        big.scale=v3();
+        small.scale=v3();
+        this.btnReceive.scale = v3();
+        await delay(0.3,this.node);
+        await ActionEffect.scale(small,0.3,1,0,"backOut");
+        await ActionEffect.scale(jt,0.3,1,0,"backOut");
+        ActionEffect.scale(this.btnReceive,0.3,1,0,"backOut");
+        await ActionEffect.scale(big,0.3,1,0,"backOut");
 
     }
     onClaim() {
@@ -86,7 +96,7 @@ export class RewardDialog extends DialogComponent {
         }, ViewManager.adNotReady)
     }
     private addReward(num: number) {
-        MoneyManger.instance.addMoney(num, false);
+        MoneyManger.instance.addMoney(num, false,false);
         ViewManager.showRewardAni1(RewardType.money, num, this.cb);
     }
 

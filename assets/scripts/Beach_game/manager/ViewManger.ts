@@ -6,6 +6,7 @@ import { PropType, RewardType } from "../GameUtil";
 import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
 import { delay } from "../../Beach_common/utils/TimeUtil";
 import { i18n } from "../../Beach_common/i18n/I18nManager";
+import { Vec2 } from "cc";
 
 
 export enum ViewType {
@@ -216,11 +217,11 @@ export namespace ViewManager {
         })
     }
     /** 奖励界面 */
-    export function showReward(rewardNum:number,isAd: boolean, cb: Function) {
+    export function showReward(rewardNum: number, isAd: boolean, cb: Function) {
         prefabs.instantiate("prefabs/dialog/reward").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { isAd, cb,rewardNum });
+                script.show(upperNode, { isAd, cb, rewardNum });
             }
         })
     }
@@ -252,11 +253,11 @@ export namespace ViewManager {
         })
     }
     /** 奖励动画界面 */
-    export function showRewardAni1(type: RewardType, num: number, cb: Function) {
+    export function showRewardAni1(type: RewardType, num: number, cb: Function,from: Node=null) {
         prefabs.instantiate("prefabs/dialog/rewardAni").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { type, num, cb, ani: 1 });
+                script.show(upperNode, { type, num, cb, ani: 1 ,from});
             }
         })
     }
@@ -266,6 +267,15 @@ export namespace ViewManager {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
                 script.show(upperNode, { type, from, to, cb, ani: 2 });
+            }
+        })
+    }
+    /** 奖励动画3 */
+    export function showRewardAni3(type: RewardType, num: number, from: Node,py:Vec2, cb: Function) {
+        prefabs.instantiate("prefabs/dialog/rewardAni").then((dialog) => {
+            if (isVaild(dialog)) {
+                const script = dialog.getComponent(ViewComponent);
+                script.show(upperNode, { type, from, num, cb, ani: 3 ,py});
             }
         })
     }
@@ -308,7 +318,7 @@ export namespace ViewManager {
         prefabs.instantiate("prefabs/dialog/bigWin").then((dialog) => {
             if (isVaild(dialog)) {
                 const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { isAd});
+                script.show(upperNode, { isAd });
             }
         })
     }

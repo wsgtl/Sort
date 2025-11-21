@@ -15,7 +15,7 @@ export class DialogComponent extends ViewComponent {
     btnClose: Node = null;
 
     isAni: boolean = false;
-    closeCb:Function=null;
+    closeCb: Function = null;
     start() {
         this.startAni();
         this.node.on(Node.EventType.TOUCH_START, () => { });
@@ -35,9 +35,13 @@ export class DialogComponent extends ViewComponent {
     /**关闭动画 */
     async closeAni() {
         if (this.isAni) return;
+        const time = 0.3;
         // AudioManager.vibrate(1,155);
         this.isAni = true;
-        await ActionEffect.fadeOut(this.node, 0.3);
+        if (this.bg) ActionEffect.fadeOut(this.bg, time);
+        if (this.content) ActionEffect.scale(this.content, time, 0, 1, "backIn");
+        if (!this.bg && !this.content) ActionEffect.fadeOut(this.node, time);
+        await delay(time, this.node);
         this.node.destroy();
         this.closeCb?.();
     }

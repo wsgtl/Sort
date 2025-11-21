@@ -56,6 +56,11 @@ export class CoinManger {
             this._curCoin.showNum(num);
         }
     }
+    public showAddNum(num: number) {
+        if (isVaild(this._curCoin)) {
+            this._curCoin.showAddNum(num);
+        }
+    }
     public showCurNum() {
         if (isVaild(this._curCoin)) {
             this._curCoin.showCurCoin();

@@ -15,8 +15,8 @@ import { Tween } from 'cc';
 import { view } from 'cc';
 import { EventTouch } from 'cc';
 import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { CabinetData, CellData, ColletType, GameUtil, PropType, RewardType } from '../../GameUtil';
-import { delay, nextFrame } from '../../../Beach_common/utils/TimeUtil';
+import { CabinetAllData, CabinetData, CellData, ColletType, GameUtil, PropType, RewardType } from '../../GameUtil';
+import { delay, nextFrame, tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { GameManger } from '../../manager/GameManager';
 import { Progress2 } from '../component/Progress2';
 import { Colletion } from '../component/Colletion';
@@ -94,40 +94,25 @@ export class GameView extends ViewComponent {
         this.btnShuffle.on(Button.EventType.CLICK, this.onBtnShuffle, this);
         this.btnBesom.on(Button.EventType.CLICK, this.onBtnBesom, this);
         this.btnTask.on(Button.EventType.CLICK, this.onTask, this);
-        this.addGameTime();
+
         ReddotManager.instance.init(this.btnTask.getChildByName("dot"));
+        this.addGameTime();
     }
 
     fit() {
         const h = view.getVisibleSize().y;
         const cha = h - 1920;
         const cellH = GameUtil.CellH + 100;
-        // if (cha > 0) {
-        //     if (cha > cellH) {//6行变7行
-        //         this.topContent.y = 464 + GameUtil.CellH / 2;
-        //         this.bottomContent.y = -628 - GameUtil.CellH / 2;
-        //         this.content.y = -313 - GameUtil.CellH / 2;
-        //         const _cha = h - 1138 - cellH;
-        //         this.top.y = 53 + _cha / 5;
-        //         this.progress.node.y = -23 + _cha / 6;
-        //         this.skills.y = 123 - _cha / 4;
-        //         this.showRowNum = 7;
-        //     } else {
-        //         this.top.y = 53 + cha / 5;
-        //         this.progress.node.y = -23 + cha / 6;
-        //         this.skills.y = 123 - cha / 4;
-        //     }
 
-        // }
         if (cha > 150) {
-            this.topContent.getComponent(Widget).top = 0;
-            this.bottomContent.y = -860 - cha * .3;
-            this.content.y = -450 - cha * 0.2;
+            this.topContent.getComponent(Widget).top = -30;
+            this.bottomContent.y = -860 - cha * .45;
+            this.content.y = -490 - cha * 0.4;
             this.progress.node.scale = v3(1, 1, 1);
         } else {
             this.topContent.getComponent(Widget).top = -80;
             this.bottomContent.y = -860 - cha * .2;
-            this.content.y = -450 - cha * 0.2;
+            this.content.y = -490 - cha * 0.2;
             this.progress.node.scale = v3(1, 0.9, 1);
 
         }
@@ -141,32 +126,67 @@ export class GameView extends ViewComponent {
 
     show(parent: Node, args?: any) {
         parent.addChild(this.node);
-        this.init(args.isShowWin);
-
+        this.init();
     }
 
-    async init(isShowWin: boolean) {
+    async init() {
         this.playBgm();
         GameManger.clearInstance();
         GameManger.instance.init(this);
-        this.showProgress(1);
         this.updateAllBtnStatus();
-        // if (isShowWin) {
-        //     await this.showDif();
-        // }
+        this.showLevel();
+
+
+        this.showProgress(1);
+        this.startGame();
         if (!GuideManger.isGuide()) {
             ViewManager.showLevelDialog(false, GameStorage.getCurLevel(), () => { })
             await this.delay(1.5);
         }
-        this.startGame();
-
 
     }
     private startGame() {
-        this.initBoard();
-        this.initGuide();
-        this.showLevel();
+
+        if (!GuideManger.isGuide()) {
+            const data = GameManger.instance.recoverGameData();//恢复数据
+            if (data) {
+                this.recoverBoard(data.board, data.cells, data.cleanCells);
+            } else {
+                this.initBoard();
+            }
+        } else {
+            this.initBoard();
+            this.initGuide();
+        }
     }
+    /**恢复盘面 */
+    private recoverBoard(board: CabinetAllData[][], cells: CellData[], cleanCells: CellData[]) {
+        let si=0;
+        board.forEach((b, i) => {
+            this.board[i] = [];
+            b.forEach((v, j) => {
+                if (v) {
+                    const pos = GameUtil.getCabinetPos(j, i);
+                    const c = instantiate(this.cabinetPrefab);
+                    this.cabinetContent.addChild(c);
+                    let sb = c.getSiblingIndex();
+                    c.setSiblingIndex(si++);
+                    // this.cabinetContent.insertChild(c,si++);
+                    c.position = pos;
+                    const cabinet = c.getComponent(Cabinet);
+                    cabinet.init(v.cabinet.len, j, i, v.cabinet.index);//创建柜子
+                    this.board[i][j] = cabinet;
+                    v.cells.forEach(ce => {
+                        cabinet.createCollection(ce);//创建收集物
+                    })
+
+                }
+            })
+        })
+        this.cellContent.recoverCells(this.colletionPrefab, cells, cleanCells);
+        this.showProgress();
+    }
+    /**初始化盘面 */
     private initBoard() {
         const arr = GameManger.instance.getInitBoard();
         arr.forEach((v, i) => {
@@ -180,13 +200,15 @@ export class GameView extends ViewComponent {
                     j++;
                 }
             }
-
         })
+
+        GameManger.instance.saveBoard();
     }
 
-    private cabinetIndex: number = 1;
+    // private cabinetIndex: number = 1;
     private createCabinet(len: number, x: number, y: number, cds: CellData[], cabinetIndex: number = -1) {
-        if (cabinetIndex == -1) cabinetIndex = this.cabinetIndex++
+        // if (cabinetIndex == -1) cabinetIndex = this.cabinetIndex++
+        if (cabinetIndex == -1) cabinetIndex = MathUtil.random(1000000000, 9999999999);
         const pos = GameUtil.getCabinetPos(x, y);
         const c = instantiate(this.cabinetPrefab);
         this.cabinetContent.addChild(c);
@@ -195,7 +217,8 @@ export class GameView extends ViewComponent {
         cabinet.init(len, x, y, cabinetIndex);
         this.board[y][x] = cabinet;
         for (let i = x; i < x + len; i++) {
-            cabinet.createCollection(cds[i]);
+            if (cds[i])
+                cabinet.createCollection(cds[i]);
         }
         return cabinet;
     }
@@ -293,6 +316,8 @@ export class GameView extends ViewComponent {
     }
 
     replay() {
+        GameStorage.replayPropCurLevel();
+        GameManger.instance.replayBoard();
         ViewManager.showGameView();
     }
     private rewardTimes: number = 0;
@@ -300,6 +325,8 @@ export class GameView extends ViewComponent {
         if (type == ColletType.money) {
             this.rewardTimes++;
             const isAd = this.rewardTimes >= ConfigConst.Other.RewardDoubleShowNum;
+            // const isAd = true;
+
             if (isAd)
                 this.rewardTimes = 0;
             ViewManager.showReward(MoneyManger.instance.getReward(), isAd, () => {
@@ -312,6 +339,8 @@ export class GameView extends ViewComponent {
         }
     }
     continueGame() {
+        GameStorage.replayPropCurLevel();
+        GameManger.instance.replayBoard();
         AudioManager.playEffect("win");
         GameStorage.nextLevel();
         ViewManager.showGameView(true);
@@ -322,7 +351,8 @@ export class GameView extends ViewComponent {
         this.playBgm();
         AudioManager.playEffect("revive");
         GameManger.instance.revive();
-        this.backSkill();
+        // this.backSkill();
+        this.cleanUp();
     }
 
     private delay(time: number, node?: Node) {
@@ -345,13 +375,14 @@ export class GameView extends ViewComponent {
 
 
     playBgm() {
-        AudioManager.playBgm("bgm", 0.4);
+        AudioManager.playBgm("bgm", 0.3);
     }
     showProgress(p: number = -1) {
         if (p >= 0) {
             this.progress.progress = p;
         } else {
-            this.progress.progress = GameManger.instance.getProgress();
+            const _p = GameManger.instance.getProgress();
+            tweenPromise(this.progress, t => t.to(0.15, { progress: _p }));
         }
     }
 
@@ -378,12 +409,14 @@ export class GameView extends ViewComponent {
             ViewManager.showTips(i18n.string("str_tacurrently"));
             return false;
         }
-        const ca = this.getCabinet(co.cabinetData);
+        AudioManager.vibrate(50,100);
+        const ca = this.getCabinet(co.data.cabinet);
         ca.backCollet(co);
         co.moveBack(ca);
         GameManger.instance.isAni = true;
         this.delay(0.3).then(() => {
             GameManger.instance.isAni = false;
+            GameManger.instance.saveBoard();
         })
         AudioManager.playEffect("back");
         return true;
@@ -405,7 +438,7 @@ export class GameView extends ViewComponent {
             let a = this.board;
             ca = this.createCabinet(data.len, data.x, data.y, [], data.index);
             //计算该柜子的在父节点的顺序
-            let sx = data.x-1;
+            let sx = data.x - 1;
             let si = 0;
             for (let y = data.y; y >= 0; y--) {
                 const bo = this.board[y];
@@ -472,6 +505,7 @@ export class GameView extends ViewComponent {
         this.showPropBtnStatus(this.btnShuffle, tyep);
     }
     private async shuffleCollets() {
+        AudioManager.vibrate(300,50);
         AudioManager.playEffect("wind1");
         GameManger.instance.isAni = true;
         const collets: Colletion[] = [];
@@ -520,6 +554,7 @@ export class GameView extends ViewComponent {
         }
         await this.delay(0.4);
         GameManger.instance.isAni = false;
+        GameManger.instance.saveBoard();
     }
     onBtnBesom() {
         if (GameManger.instance.isAni || GameManger.instance.isGameOver) { return; }
@@ -550,9 +585,20 @@ export class GameView extends ViewComponent {
     /**显示道具按钮状态 */
     private showPropBtnStatus(btn: Node, type: PropType) {
         const num = GameStorage.getPropNum(type);
-        const add = btn.getChildByName("add");
-        const numbg = btn.getChildByName("numbg");
+        const b = btn.getChildByName("btn");
+        const add = b.getChildByName("add");
+        const numbg = b.getChildByName("numbg");
         const propNum = numbg.getChildByName("num");
+        const all = GameStorage.getPropCurLevel(type).all;
+        if (all >= GameUtil.PropLimit && num <= 0) {
+            add.active = false;
+            numbg.active = false;
+            btn.getComponent(Button).interactable = false;
+            UIUtils.setAllGray(btn, true, true);
+            return;
+        }
+        btn.getComponent(Button).interactable = true;
+        UIUtils.setAllGray(btn, false, true);
         if (num <= 0) {
             add.active = true;
             numbg.active = false;
@@ -578,7 +624,6 @@ export class GameView extends ViewComponent {
     private gm: GuideMask;
     /**新手引导 */
     private initGuide() {
-        if (!GuideManger.isGuide()) return;
         ViewManager.showGuideMask((n: Node) => {
             this.gm = n.getComponent(GuideMask);
             this.gm.showMask();
@@ -646,6 +691,26 @@ export class GameView extends ViewComponent {
         console.log('应用回到前台');
         // 恢复游戏逻辑
     }
+
+    /**保存游戏数据，下次回来复原 */
+    public getBoardData() {
+        const bd: CabinetAllData[][] = [];
+        this.board.forEach((b, i) => {
+            bd[i] = [];
+            b.forEach((v, j) => {
+                if (v)
+                    bd[i][j] = v.getCabinetAllData();
+            })
+        })
+        const cd = this.cellContent.getCellDatas();
+        // GameManger.instance.saveBoard(bd, cd.cells, cd.cleanCells);
+        return {
+            board: bd,
+            cells: cd.cells,
+            cleanCells: cd.cleanCells
+        }
+    }
+
 }
 
 

@@ -5,29 +5,34 @@ import { v3 } from 'cc';
 import { GameManger } from '../../manager/GameManager';
 import { delay } from '../../../Beach_common/utils/TimeUtil';
 import { Cabinet } from './Cabinet';
-import { CabinetData, GameUtil } from '../../GameUtil';
+import { CabinetData, CellData, ColletType, GameUtil, RewardType } from '../../GameUtil';
 import { AudioManager } from '../../manager/AudioManager';
 import { GameStorage } from '../../GameStorage';
 import { ViewManager } from '../../manager/ViewManger';
 import { GuideManger } from '../../manager/GuideManager';
 import { CleanArea } from './CleanArea';
+import { v2 } from 'cc';
+import { CoinManger } from '../../manager/CoinManger';
+import { Prefab } from 'cc';
+import { instantiate } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellContent')
 export class CellContent extends Component {
     @property(Node)
-    btnCell:Node = null;
+    btnCell: Node = null;
     @property(CleanArea)
-    cleanArea:CleanArea = null;
+    cleanArea: CleanArea = null;
     public collects: Colletion[] = [];
 
-    onLoad(){
+    onLoad() {
         this.showBtnCell();
-        this.btnCell.on(Node.EventType.TOUCH_START,()=>{
-            if(GuideManger.isGuide())return;
-             ViewManager.showAddCell(()=>{this.showBtnCell();})},this);
+        this.btnCell.on(Node.EventType.TOUCH_START, () => {
+            if (GuideManger.isGuide()) return;
+            ViewManager.showAddCell(() => { this.showBtnCell(); })
+        }, this);
     }
-    private showBtnCell(){
+    private showBtnCell() {
         this.btnCell.active = !GameStorage.isCellLock(GameStorage.getCurLevel());
     }
 
@@ -37,20 +42,25 @@ export class CellContent extends Component {
         const type = collet.data.type;
         const clear: number[] = [];
         const num = this.cellNum;
+        let someI = -1;
         for (let i = 0; i < num; i++) {
             const cur = this.collects[i];
             if (cur) {
-                if (cur.data.type == collet.data.type) {
+                if (cur.data.type == type) {//一样的物品会插队
                     clear.push(i);
+                    someI = i + 1;//记录相同的物品下一个位置
                 }
-                if (cur.data.type > collet.data.type) {//排序在前的收集品会插到中间
-                    index = i;
-                    break;
-                }
+                // if (cur.data.type > type) {//排序在前的收集品会插到中间
+                //     index = i;
+                //     break;
+                // }
             } else {
                 index = i;
                 break;
             }
+        }
+        if (someI >= 0) {
+            index = someI;
         }
         this.collects.splice(index, 0, collet);
         this.moveAfterCollet(index + 1);
@@ -61,11 +71,24 @@ export class CellContent extends Component {
         if (clear.length >= 2) {//消除三连收集品
             AudioManager.playEffect("clear");
             const start = clear[0];
-            for (let i = clear[0]; i <= index; i++) {//清除三个相连的收集品
+            for (let i = start; i <= index; i++) {//清除三个相连的收集品
                 const co = this.collects[i];
                 if (co) {
                     GameManger.instance.recordClearCollet(co.data.type);
+                    if (i != start + 1) {
+                        const pos = this.getPos(start + 1);
+                        co.moveTo(pos)
+                    } else {
+                        if (type != ColletType.money) {//非钱
+                            delay(0.2, this.node).then(() => {
+                                 AudioManager.playEffect("getCoin");
+                                CoinManger.instance.addCoin(GameUtil.CollectionClearCoins, false, false);
+                                ViewManager.showRewardAni3(RewardType.coin, GameUtil.CollectionClearCoins, co.node, v2(0, 100), () => { });
+                            })
+                        }
+                    }
                     co.clearAni();
+
                 }
             }
             GameManger.instance.showProgress();
@@ -79,6 +102,7 @@ export class CellContent extends Component {
             }
         }
         GameManger.instance.isAni = false;
+        GameManger.instance.saveBoard();
     }
     private async moveAfterCollet(index: number) {
         const pro: Promise<void>[] = [];
@@ -93,7 +117,7 @@ export class CellContent extends Component {
     }
     public getPos(x: number): Vec3 {
         const w = GameUtil.DownW;
-        return v3((x - 3.5) * w, -30);
+        return v3((x - 3.5) * w, -40);
     }
     /**回退操作 */
     public getBackCollect() {
@@ -110,21 +134,47 @@ export class CellContent extends Component {
         this.moveAfterCollet(index);
         return co;
     }
-    private get cellNum(){
-        return  GameStorage.isCellLock(GameStorage.getCurLevel())?8:7;
+    private get cellNum() {
+        return GameStorage.isCellLock(GameStorage.getCurLevel()) ? 8 : 7;
     }
-    public canCleanUp(){
-        return this.collects.length>0;
+    public canCleanUp() {
+        return this.collects.length > 0;
     }
     /**清理三个物品到空区域 */
-    public cleanUp(){
-        let times = Math.min(3,this.collects.length);
-        const cos:Colletion[]=[];
-        for(let i=0;i<times;i++){
+    public async cleanUp() {
+        AudioManager.vibrate(100,100);
+        GameManger.instance.isAni = true;
+        let times = Math.min(3, this.collects.length);
+        const cos: Colletion[] = [];
+        for (let i = 0; i < times; i++) {
             cos.push(this.collects.shift());
         }
         this.moveAfterCollet(0);
         this.cleanArea.cleanTo(cos);
+        await delay(0.2);
+        GameManger.instance.isAni = false;
+        GameManger.instance.saveBoard();
+    }
+
+    public getCellDatas() {
+        const cells: CellData[] = [];
+        this.collects.forEach(v => { cells.push(v.data) });
+        const cleanCells = this.cleanArea.getCellDatas();
+        return { cells, cleanCells };
+    }
+    /**恢复 */
+    public recoverCells(colletionPrefab: Prefab, cells: CellData[], cleanCells: CellData[]) {
+        cells.forEach((v, i) => {
+            const pos = this.getPos(i);
+            const c = instantiate(colletionPrefab);
+            this.node.addChild(c);
+            c.position = pos;
+            const colletion = c.getComponent(Colletion);
+            colletion.init(v, true);
+            // colletion.setParent(this.node);
+            this.collects[i] = colletion;
+        })
+        this.cleanArea.recoverCells(colletionPrefab, cleanCells);
     }
 }
 

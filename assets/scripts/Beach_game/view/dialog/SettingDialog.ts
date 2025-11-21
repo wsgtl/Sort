@@ -36,26 +36,26 @@ export class SettingDialog extends DialogComponent {
         ViewManager.showHome();
     }
     onBtnPrivacy() {//跳转隐私协议
-        NativeFun.jumpWeb("https://sites.google.com/view/dkkfdkciuviuciviousii928907887/home");
-        
+        NativeFun.jumpWeb("https://sites.google.com/view/jjioui39881jxcfhjhdjfcxweueeee/home");
+
     }
     onBtnMusic() {
         const mute = !AudioManager.getIsPlayBGM();
         AudioManager.setIsPlayBGM(mute);
-        mute ? AudioManager.pauseBgm() : AudioManager.resumeBgm();
+        mute ? AudioManager.resumeBgm() : AudioManager.pauseBgm();
         this.showMute(this.btnMusic, mute);
     }
     onBtnSound() {
-    AudioManager.setIsPlay(!AudioManager.getIsPlay());
+        AudioManager.setIsPlay(!AudioManager.getIsPlay());
         this.showMute(this.btnSound, AudioManager.getIsPlay());
     }
     onBtnVibration() {
         AudioManager.setIsPlay(!AudioManager.getIsPlay());
         this.showMute(this.btnVibration, AudioManager.getIsPlay());
     }
-    onBtnLang(){
+    onBtnLang() {
         this.node.active = false;
-        ViewManager.showLangSettings(()=>{this.node.active = true;})
+        ViewManager.showLangSettings(() => { this.node.active = true; })
     }
     private showMute(node: Node, isHide: boolean) {
         node.getChildByName("close").active = !isHide;

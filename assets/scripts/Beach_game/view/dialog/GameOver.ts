@@ -7,6 +7,8 @@ import { Label } from 'cc';
 import { view } from 'cc';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
+import { ViewManager } from '../../manager/ViewManger';
+import { RewardType } from '../../GameUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameOver')
@@ -31,9 +33,12 @@ export class GameOver extends DialogComponent {
         this.isWin = args.isWin;
         this.btnClaim.on(Button.EventType.CLICK, () => {
             this.setCanClick(false);
-            args.continueCb();
             this.closeAni();
-            MoneyManger.instance.addMoney(this.claimMoneyNum,false);
+            MoneyManger.instance.addMoney(this.claimMoneyNum, false);
+            ViewManager.showRewardAni1(RewardType.money, this.claimMoneyNum, () => {
+                args.continueCb();
+            })
+
         })
 
         this.btnRestart.on(Button.EventType.CLICK, () => {
@@ -51,7 +56,7 @@ export class GameOver extends DialogComponent {
         this.failContent.active = !this.isWin;
         if (this.isWin) {
             AudioManager.playEffect("win");
-            this.claimMoneyNum=MoneyManger.instance.getReward();
+            this.claimMoneyNum = MoneyManger.instance.getReward();
             this.moneyLabel.string = FormatUtil.toMoney(this.claimMoneyNum);
         }
         else {

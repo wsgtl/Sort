@@ -16,6 +16,7 @@ export type CellData = {
    type: ColletType,
    cellNum: number,//格子一组多少个
    index: number,//柜子中从左到右第几个
+   cabinet?: CabinetData//柜子数据
 }
 /**柜子数据 */
 export type CabinetData = {
@@ -23,6 +24,11 @@ export type CabinetData = {
    y: number,
    len: number,
    index: number
+}
+/**柜子所有数据 */
+export type CabinetAllData = {
+   cabinet: CabinetData,
+   cells: CellData[]
 }
 /**收集物类别 */
 export enum ColletType {
@@ -69,10 +75,11 @@ export namespace GameUtil {
    export const CellW: number = 167;//格子宽
    export const CellH: number = 225;//格子高
    export const DownW: number = 132;//下方每个格子宽
-   export const AllRow: number = 12;//生成的行数
+   export const AllRow: number = 16;//生成的行数
    export const PropLimit: number = 3;//道具每回合限制数量
+   export const CollectionClearCoins: number = 3;//物品每次消除增加金币数
    /**每一级收集物组数 */
-   export const LevelCollectionNum: number[] = [20, 20, 30, 40, 200];
+   export const LevelCollectionNum: number[] = [10, 150, 250, 330, 400];
    /**道具金币价格 */
    export const PropCoins: number[] = [100, 300, 500];
    /**看广告获得的金币 */
@@ -80,11 +87,15 @@ export namespace GameUtil {
    /**签到金币数 */
    export const SigninCoins: number[] = [100, 200, 300, 400, 500, 600, 1000];
    /**任务分钟 */
-   export const TaskMinutes: number[] = [10, 20, 30, 40, 50, 60, 90, 100, 120];
+   export const TaskMinutes: number[] = [10, 30, 60, 90, 120];
    /**任务加的钱 美元 */
    export const TaskMoney: number = 5;
+   /**收集品随机出现钱的概率 */
+   export const ProMoney: number = 0.14;
 
-
+   export function getMoneyNodeNums(num:number){
+      return Math.ceil(num * GameUtil.ProMoney)
+   }
    /**当前游戏时长 分钟 */
    export function getCurMinutes() {
       const time = GameStorage.getGameTime();
@@ -94,22 +105,22 @@ export namespace GameUtil {
    export const Cabinets: number[][] = [
       [2, 0, 2, 0, 2, 0],
       [0, 2, 0, 2, 0, 0],
-      [2, 0, 0, 2, 0, 0],
-      [2, 0, 0, 3, 0, 0],
+      // [2, 0, 0, 3, 0, 0],
       [2, 0, 3, 0, 0, 0],
       [0, 2, 0, 3, 0, 0],
       [3, 0, 0, 3, 0, 0],
       [3, 0, 0, 2, 0, 0],
-      [3, 0, 0, 0, 2, 0],
+      // [3, 0, 0, 0, 2, 0],
       [0, 3, 0, 0, 2, 0],
       [4, 0, 0, 0, 2, 0],
       [2, 0, 4, 0, 0, 0],
       [0, 4, 0, 0, 0, 0],
       [5, 0, 0, 0, 0, 0],
       [0, 5, 0, 0, 0, 0],
+      [6, 0, 0, 0, 0, 0],
    ];
    /**获取随机柜子方式 */
-   export function getRadnomCabinets(n: number = 0) {
+   export function getRandomCabinets(n: number = 0) {
       let arr = Cabinets;
       if (n == 3) {
          arr = [[0, 3, 0, 0, 0, 0], [0, 0, 3, 0, 0, 0], [3, 0, 0, 0, 0, 0]];
@@ -165,20 +176,20 @@ export namespace GameUtil {
    /**第一关柜子排布 */
    export function getLevel1Cabinet() {
       return [
-         [2, 0, 0, 2, 0, 0],
+         [5, 0, 0, 0, 0, 0],
          [0, 2, 0, 2, 0, 0],
          [2, 0, 4, 0, 0, 0],
-         [3, 0, 0, 0, 2, 0],
-         [2, 0, 0, 2, 0, 0],
+         [0, 3, 0, 0, 2, 0],
+         [0, 2, 0, 2, 0, 0],
          [0, 0, 3, 0, 0, 0],
-         [0, 4, 0, 0, 0, 0],
+         [0, 3, 0, 0, 0, 0],
       ]
    }
    /**获取随机ID */
    export function gerRandomId() {
       return MathUtil.random(100000, 999999);
    }
-
+   
 }
 
 

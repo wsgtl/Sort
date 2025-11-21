@@ -57,6 +57,11 @@ export class MoneyManger {
             this._curMoney.showNum(num);
         }
     }
+    public showAddNum(num: number) {
+        if (isVaild(this._curMoney)) {
+            this._curMoney.showAddNum(num);
+        }
+    }
     public showCurNum() {
         if (isVaild(this._curMoney)) {
             this._curMoney.showCurMoney();

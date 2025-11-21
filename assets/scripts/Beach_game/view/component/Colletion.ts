@@ -31,9 +31,12 @@ export class Colletion extends Component {
     /**第几个被点击的 */
     step: number = 0;
     cabinetData: CabinetData;
-    init(data: CellData) {
+    /**到底部缩放比例 */
+    sc: number = 0.8;
+    init(data: CellData, isBottom: boolean = false) {
         this.data = data;
         this.setType(data.type);
+        if (isBottom) this.collection.scale = v3(this.sc, this.sc, 1);
     }
     setType(type: ColletType) {
         this.data.type = type;
@@ -43,6 +46,7 @@ export class Colletion extends Component {
     }
     setParent(parent: Cabinet) {
         this.cabinet = parent;
+        this.data.cabinet = this.cabinet.data;
     }
     /**切换父节点，位置不变 */
     changeParent(n: Node) {
@@ -93,13 +97,14 @@ export class Colletion extends Component {
         AudioManager.playEffect("drop");
         let time = 0.1;
         if (this.inCabinet) {
-            this.cabinetData = this.cabinet.data;
+        // this.cabinetData = this.cabinet.data;
             this.inCabinet = false;
-            this.cabinet.checkClear();
-            time=0.2;
+            this.cabinet?.checkClear();
+            time = 0.2;
         }
-        ActionEffect.scale(this.collection, 0.2, 0.8);
+        ActionEffect.scale(this.collection, 0.2, this.sc);
         await this.dropTo(pos, time);
+        AudioManager.vibrate(50,100);
     }
     async moveBack(cabinet: Cabinet) {
         this.cabinet = cabinet;
