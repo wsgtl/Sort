@@ -54,8 +54,8 @@ export class RewardDialog extends DialogComponent {
     init() {
         AudioManager.playEffect("reward", 2);
 
-        this.btnClaimSmall.once(Button.EventType.CLICK, this.onClaim, this);
-        this.btnClaim.once(Button.EventType.CLICK, this.onClaim, this);
+        this.btnClaimSmall.on(Button.EventType.CLICK, this.onClaim, this);
+        this.btnClaim.on(Button.EventType.CLICK, this.onClaim, this);
         this.btnReceive.on(Button.EventType.CLICK, this.onBtnReceive, this);
 
         // this.rewardNum = MoneyManger.instance.getReward();
@@ -86,10 +86,12 @@ export class RewardDialog extends DialogComponent {
 
     }
     onClaim() {
+        if(this.isAni)return;
         this.closeAni();
         this.addReward(this.rewardNum);
     }
     onBtnReceive() {
+        if(this.isAni)return;
         adHelper.showRewardVideo("领取钱奖励", () => {
             this.closeAni();
             this.addReward(this.reciveNum);

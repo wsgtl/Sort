@@ -50,8 +50,8 @@ export class SettingDialog extends DialogComponent {
         this.showMute(this.btnSound, AudioManager.getIsPlay());
     }
     onBtnVibration() {
-        AudioManager.setIsPlay(!AudioManager.getIsPlay());
-        this.showMute(this.btnVibration, AudioManager.getIsPlay());
+        AudioManager.setIsShock(!AudioManager.getIsShock());
+        this.showMute(this.btnVibration, AudioManager.getIsShock());
     }
     onBtnLang() {
         this.node.active = false;

@@ -28,7 +28,7 @@ export class StatusShow extends Component {
         this.node.y = y - h * 0.3;
 
         const n = GameManger.instance.getCollectNum();
-        this.tips.string = `Matching <color=#ee521f>${n.all}</color> items this level`;
+        this.tips.string = `Matching <color=#ffe345>${n.all}</color> items this level`;
         this.jdNum.string = n.clear + "/" + n.all;
         this.jd.fillRange = n.clear / n.all;
     }

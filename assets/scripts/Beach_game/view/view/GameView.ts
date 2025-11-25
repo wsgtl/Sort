@@ -161,7 +161,7 @@ export class GameView extends ViewComponent {
     }
     /**恢复盘面 */
     private recoverBoard(board: CabinetAllData[][], cells: CellData[], cleanCells: CellData[]) {
-        let si=0;
+        let si = 0;
         board.forEach((b, i) => {
             this.board[i] = [];
             b.forEach((v, j) => {
@@ -324,11 +324,8 @@ export class GameView extends ViewComponent {
     async checkWin(type: ColletType) {
         if (type == ColletType.money) {
             this.rewardTimes++;
-            const isAd = this.rewardTimes >= ConfigConst.Other.RewardDoubleShowNum;
+            const isAd = this.rewardTimes % ConfigConst.Other.RewardDoubleShowNum == 0;
             // const isAd = true;
-
-            if (isAd)
-                this.rewardTimes = 0;
             ViewManager.showReward(MoneyManger.instance.getReward(), isAd, () => {
                 this.rewardCb?.();
             });
@@ -409,7 +406,7 @@ export class GameView extends ViewComponent {
             ViewManager.showTips(i18n.string("str_tacurrently"));
             return false;
         }
-        AudioManager.vibrate(50,100);
+        AudioManager.vibrate(50, 100);
         const ca = this.getCabinet(co.data.cabinet);
         ca.backCollet(co);
         co.moveBack(ca);
@@ -505,7 +502,7 @@ export class GameView extends ViewComponent {
         this.showPropBtnStatus(this.btnShuffle, tyep);
     }
     private async shuffleCollets() {
-        AudioManager.vibrate(300,50);
+        AudioManager.vibrate(300, 50);
         AudioManager.playEffect("wind1");
         GameManger.instance.isAni = true;
         const collets: Colletion[] = [];

@@ -51,6 +51,12 @@ export class GameManger {
                 const b = this.getRandomCell(v);
                 this.borad.push(b);
             })
+            for (let i = cas.length; i < GameUtil.AllRow; i++) {//后面额外增加普通行
+                const rc = this.getRandomCabinets();
+                if (!rc) break;
+                const b = this.getRandomCell(rc);
+                this.borad.push(b);
+            }
         } else {
             for (let i = 0; i < GameUtil.AllRow; i++) {
                 const rc = this.getRandomCabinets();

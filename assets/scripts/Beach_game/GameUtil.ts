@@ -93,7 +93,7 @@ export namespace GameUtil {
    /**收集品随机出现钱的概率 */
    export const ProMoney: number = 0.14;
 
-   export function getMoneyNodeNums(num:number){
+   export function getMoneyNodeNums(num: number) {
       return Math.ceil(num * GameUtil.ProMoney)
    }
    /**当前游戏时长 分钟 */
@@ -105,6 +105,7 @@ export namespace GameUtil {
    export const Cabinets: number[][] = [
       [2, 0, 2, 0, 2, 0],
       [0, 2, 0, 2, 0, 0],
+      // [2, 0, 0, 2, 0, 0],
       // [2, 0, 0, 3, 0, 0],
       [2, 0, 3, 0, 0, 0],
       [0, 2, 0, 3, 0, 0],
@@ -157,11 +158,13 @@ export namespace GameUtil {
    }
    /**第一关收集品 */
    export function getLevel1Collect() {
-      const num = 10;
+      const all = 60;
+      const moneyNum = 8;
+      const nm = all - moneyNum;
       let a: ColletType[] = [];
 
-      for (let i = 2; i <= num; i++) {
-         let type = i;
+      for (let i = 0; i < nm; i++) {
+         let type = MathUtil.random(2, 14);
          a.push(type);
          a.push(type);
          a.push(type);
@@ -171,8 +174,30 @@ export namespace GameUtil {
       a.splice(6, 0, 1);
       a.splice(8, 0, 1);
       a.splice(11, 0, 1);
-      return { num, arr: a };
+      const mm = (moneyNum - 1) * 3;
+      for (let i = 0; i < mm; i++) {
+         a.splice(MathUtil.random(25, a.length - 1), 0, 1);//后面的钱随机添加
+      }
+
+      return { num: all, arr: a };
    }
+   // export function getLevel1Collect() {
+   //    const num = 10;
+   //    let a: ColletType[] = [];
+
+   //    for (let i = 2; i <= num; i++) {
+   //       let type = i;
+   //       a.push(type);
+   //       a.push(type);
+   //       a.push(type);
+   //    }
+   //    a.shuffle();
+   //    //添加钱
+   //    a.splice(6, 0, 1);
+   //    a.splice(8, 0, 1);
+   //    a.splice(11, 0, 1);
+   //    return { num, arr: a };
+   // }
    /**第一关柜子排布 */
    export function getLevel1Cabinet() {
       return [
@@ -181,15 +206,15 @@ export namespace GameUtil {
          [2, 0, 4, 0, 0, 0],
          [0, 3, 0, 0, 2, 0],
          [0, 2, 0, 2, 0, 0],
-         [0, 0, 3, 0, 0, 0],
-         [0, 3, 0, 0, 0, 0],
+         [3, 0, 0, 3, 0, 0],
+         // [0, 3, 0, 0, 0, 0],
       ]
    }
    /**获取随机ID */
    export function gerRandomId() {
       return MathUtil.random(100000, 999999);
    }
-   
+
 }
 
 

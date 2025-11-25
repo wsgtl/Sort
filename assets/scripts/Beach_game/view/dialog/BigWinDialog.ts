@@ -47,8 +47,10 @@ export class BigWinDialog extends DialogComponent {
     protected update(dt: number): void {
         if (this.isStop) return;
         this.jt.angle += dt * this.speed * this.fx;//旋转
-        if (Math.abs(this.jt.angle) > 80) {//换方向
-            this.fx = -this.fx;
+        if (this.jt.angle > 80) {//换方向
+            this.fx = -1;
+        }else if(this.jt.angle < -80){
+            this.fx = 1;
         }
         const bl = this.blNums[Math.floor(-(this.jt.angle - 90) / 30)] ?? 2;
         if (bl != this.bl) {

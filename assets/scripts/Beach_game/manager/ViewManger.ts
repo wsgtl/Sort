@@ -225,15 +225,6 @@ export namespace ViewManager {
             }
         })
     }
-    /** 金币奖励界面 */
-    export function showRewardCoin(num: number, cb: Function) {
-        prefabs.instantiate("prefabs/dialog/rewardCoin").then((dialog) => {
-            if (isVaild(dialog)) {
-                const script = dialog.getComponent(ViewComponent);
-                script.show(upperNode, { num, cb });
-            }
-        })
-    }
     /** 道具购买界面 */
     export function showProp(type: PropType, cb: Function) {
         prefabs.instantiate("prefabs/dialog/prop").then((dialog) => {
