@@ -538,6 +538,8 @@ export class GameView extends ViewComponent {
         ActionEffect.fadeOut(this.shuffleIcon, 0.5);
         const len = collets.length;
         await this.delay(0.1);
+        const ts = this.cellContent.getAllCollectType();//获取底部的类型
+        let _type: ColletType = ts[0] ?? MathUtil.random(1, 12);//底部没有就随机
         //随机打乱类型
         for (let i = 0; i < len; i++) {
             const c1 = collets[i];
@@ -548,6 +550,19 @@ export class GameView extends ViewComponent {
             c2.setType(t1);
 
             c1.shuffleMoveEnd();//返回
+        }
+        let tn = 0;
+        for (let i = 0; i < len; i++) {
+            const c1 = collets[i];
+            const t1 = c1.data.type;
+            if (t1 == _type) {//将某个类型的收集物都放到最下方去,降低难度
+                const c2 = collets[tn];
+                const t2 = c2.data.type;
+                c1.setType(t2);
+                c2.setType(t1);
+                tn++;
+                if (tn >= 6) break;//超过个就不再下放了
+            }
         }
         await this.delay(0.4);
         GameManger.instance.isAni = false;

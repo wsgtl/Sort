@@ -1,0 +1,34 @@
+
+xiaogoyaotou.png
+size: 1092,391
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shetou
+  rotate: false
+  xy: 885, 74
+  size: 75, 74
+  orig: 75, 74
+  offset: 0, 0
+  index: -1
+st
+  rotate: false
+  xy: 468, 15
+  size: 415, 374
+  orig: 416, 374
+  offset: 0, 0
+  index: -1
+tou
+  rotate: true
+  xy: 2, 2
+  size: 387, 464
+  orig: 387, 464
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: true
+  xy: 885, 150
+  size: 239, 205
+  orig: 239, 205
+  offset: 0, 0
+  index: -1

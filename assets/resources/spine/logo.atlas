@@ -1,0 +1,97 @@
+
+logo.png
+size: 727,1087
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+a
+  rotate: false
+  xy: 202, 392
+  size: 170, 211
+  orig: 170, 211
+  offset: 0, 0
+  index: -1
+b
+  rotate: false
+  xy: 2, 154
+  size: 165, 224
+  orig: 165, 224
+  offset: 0, 0
+  index: -1
+c
+  rotate: true
+  xy: 2, 8
+  size: 144, 208
+  orig: 144, 208
+  offset: 0, 0
+  index: -1
+dikuang
+  rotate: false
+  xy: 2, 605
+  size: 723, 480
+  orig: 723, 480
+  offset: 0, 0
+  index: -1
+e
+  rotate: false
+  xy: 374, 396
+  size: 132, 207
+  orig: 132, 207
+  offset: 0, 0
+  index: -1
+h
+  rotate: false
+  xy: 169, 154
+  size: 165, 224
+  orig: 165, 224
+  offset: 0, 0
+  index: -1
+hua
+  rotate: true
+  xy: 508, 464
+  size: 139, 131
+  orig: 139, 131
+  offset: 0, 0
+  index: -1
+o
+  rotate: false
+  xy: 336, 206
+  size: 165, 184
+  orig: 165, 184
+  offset: 0, 0
+  index: -1
+r
+  rotate: false
+  xy: 406, 10
+  size: 142, 194
+  orig: 142, 194
+  offset: 0, 0
+  index: -1
+s
+  rotate: true
+  xy: 212, 2
+  size: 150, 192
+  orig: 150, 192
+  offset: 0, 0
+  index: -1
+t
+  rotate: false
+  xy: 503, 210
+  size: 147, 184
+  orig: 147, 184
+  offset: 0, 0
+  index: -1
+youyezi
+  rotate: true
+  xy: 2, 380
+  size: 223, 198
+  orig: 257, 389
+  offset: 32, 191
+  index: -1
+zuoyezi
+  rotate: false
+  xy: 550, 31
+  size: 138, 177
+  orig: 144, 247
+  offset: 6, 68
+  index: -1

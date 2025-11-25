@@ -81,7 +81,7 @@ export class CellContent extends Component {
                     } else {
                         if (type != ColletType.money) {//非钱
                             delay(0.2, this.node).then(() => {
-                                 AudioManager.playEffect("getCoin");
+                                AudioManager.playEffect("getCoin");
                                 CoinManger.instance.addCoin(GameUtil.CollectionClearCoins, false, false);
                                 ViewManager.showRewardAni3(RewardType.coin, GameUtil.CollectionClearCoins, co.node, v2(0, 100), () => { });
                             })
@@ -142,7 +142,7 @@ export class CellContent extends Component {
     }
     /**清理三个物品到空区域 */
     public async cleanUp() {
-        AudioManager.vibrate(100,100);
+        AudioManager.vibrate(100, 100);
         GameManger.instance.isAni = true;
         let times = Math.min(3, this.collects.length);
         const cos: Colletion[] = [];
@@ -175,6 +175,18 @@ export class CellContent extends Component {
             this.collects[i] = colletion;
         })
         this.cleanArea.recoverCells(colletionPrefab, cleanCells);
+    }
+    /**获取收集物类型，由数量多到少排序 */
+    public getAllCollectType() {
+        const ts: ColletType[] = [];
+        this.collects.forEach(v => {
+            const i = ts.indexOf(v.data.type);
+            if (i > -1)
+                ts.unshift(...ts.splice(i, 1));
+            else
+                ts.push(v.data.type);
+        })
+        return ts;
     }
 }
 
