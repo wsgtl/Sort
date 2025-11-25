@@ -33,6 +33,7 @@ import { Widget } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { ReddotManager } from '../../manager/ReddotManager';
+import { EventTracking } from '../../../Beach_common/native/EventTracking';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -291,7 +292,7 @@ export class GameView extends ViewComponent {
     /**结束流程，先弹复活弹窗，没复活则弹失败 */
     public failProcess() {
         const rn = GameStorage.getPropCurLevel(PropType.resurrection);
-        if (rn.all >= GameUtil.PropLimit) {
+        if (rn.all >= ConfigConst.Other.PropLimit) {
             this.gameOver(false);
             return;
         }
@@ -326,7 +327,8 @@ export class GameView extends ViewComponent {
             this.rewardTimes++;
             const isAd = this.rewardTimes % ConfigConst.Other.RewardDoubleShowNum == 0;
             // const isAd = true;
-            ViewManager.showReward(MoneyManger.instance.getReward(), isAd, () => {
+            let bl = GameStorage.getMoney() < 10 ? 2 : 1;
+            ViewManager.showReward(MoneyManger.instance.getReward(bl), isAd, () => {
                 this.rewardCb?.();
             });
         }
@@ -338,7 +340,7 @@ export class GameView extends ViewComponent {
     continueGame() {
         GameStorage.replayPropCurLevel();
         GameManger.instance.replayBoard();
-        AudioManager.playEffect("win");
+        EventTracking.sendEventLevel(GameStorage.getCurLevel());
         GameStorage.nextLevel();
         ViewManager.showGameView(true);
     }
@@ -602,7 +604,7 @@ export class GameView extends ViewComponent {
         const numbg = b.getChildByName("numbg");
         const propNum = numbg.getChildByName("num");
         const all = GameStorage.getPropCurLevel(type).all;
-        if (all >= GameUtil.PropLimit && num <= 0) {
+        if (all >= ConfigConst.Other.PropLimit && num <= 0) {
             add.active = false;
             numbg.active = false;
             btn.getComponent(Button).interactable = false;
@@ -652,6 +654,7 @@ export class GameView extends ViewComponent {
     private guidStpe2() {
         this.gm.showTips(1);
         const co = this.findMoney();
+        EventTracking.sendOneEvent("click1");
         if (co) {
             this.gm.showCollect(co, () => {
                 this.guidStpe3();
@@ -661,6 +664,7 @@ export class GameView extends ViewComponent {
     private guidStpe3() {
         this.gm.showTips(1);
         const co = this.findMoney();
+        EventTracking.sendOneEvent("click2");
         if (co) {
             this.gm.showCollect(co, async () => {
                 this.rewardCb = () => {
@@ -674,6 +678,7 @@ export class GameView extends ViewComponent {
         }
     }
     private guidStpe4() {
+        EventTracking.sendOneEvent("click3");
         this.gm.ccBack();
         this.gm.hideAll();
 

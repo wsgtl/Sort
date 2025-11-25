@@ -104,7 +104,7 @@ export class Colletion extends Component {
         }
         ActionEffect.scale(this.collection, 0.2, this.sc);
         await this.dropTo(pos, time);
-        AudioManager.vibrate(50,100);
+        AudioManager.vibrate(10,100);
     }
     async moveBack(cabinet: Cabinet) {
         this.cabinet = cabinet;

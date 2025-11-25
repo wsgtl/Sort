@@ -8,6 +8,7 @@ import { PropType, GameUtil, RewardType } from "../../GameUtil";
 import { AudioManager } from "../../manager/AudioManager";
 import { CoinManger } from "../../manager/CoinManger";
 import { ViewManager } from "../../manager/ViewManger";
+import { ConfigConst } from "../../manager/ConfigConstManager";
 
 const { ccclass, property } = _decorator;
 
@@ -97,7 +98,7 @@ export class PropDialog extends DialogComponent {
         this.type = type;
         this.icons.forEach((v, i) => { v.active = i == type - 1 });
         this.strs.forEach((v, i) => { v.active = i == type - 1 });
-        const limit = GameUtil.PropLimit;
+        const limit = ConfigConst.Other.PropLimit;
         const cn = GameStorage.getPropCurLevel(type);
         this.btnClaim.active = type != PropType.resurrection && cn.ad == 0;
         this.btnResurrect.active = type == PropType.resurrection && cn.ad == 0;
@@ -124,7 +125,7 @@ export class PropDialog extends DialogComponent {
         AudioManager.playEffect("good");
     }
     setLimit() {
-        this.limit.string = `<outline color=#a7511f width=2><color=#fff>Limit:</color><color=#47f051>${this.curLimit}</color><color=#fff>/${GameUtil.PropLimit}</color>`
+        this.limit.string = `<outline color=#a7511f width=2><color=#fff>Limit:</color><color=#47f051>${this.curLimit}</color><color=#fff>/${ConfigConst.Other.PropLimit}</color>`
     }
 }
 

@@ -7,6 +7,8 @@ import { native } from 'cc';
 import { sys } from 'cc';
 import { NativeFun } from '../../../Beach_common/native/NativeFun';
 import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
+import { Label } from 'cc';
+import { ConfigConst } from '../../manager/ConfigConstManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('SettingDialog')
@@ -21,6 +23,8 @@ export class SettingDialog extends DialogComponent {
     btnVibration: Node = null;
     @property(Node)
     btnLang: Node = null;
+    @property(Label)
+    Id: Label = null;
     protected onLoad(): void {
         SettingManger.instance.setDialog(this.node);
         this.btnMusic.on(Button.EventType.CLICK, this.onBtnMusic, this);
@@ -31,6 +35,7 @@ export class SettingDialog extends DialogComponent {
         this.showMute(this.btnMusic, AudioManager.getIsPlayBGM());
         this.showMute(this.btnSound, AudioManager.getIsPlay());
         this.showMute(this.btnVibration, AudioManager.getIsShock());
+        this.Id.string = "ID:" + ConfigConst.getId();
     }
     onBtnHome() {
         ViewManager.showHome();

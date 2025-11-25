@@ -15,6 +15,8 @@ import { v2 } from 'cc';
 import { CoinManger } from '../../manager/CoinManger';
 import { Prefab } from 'cc';
 import { instantiate } from 'cc';
+import { EventTracking } from '../../../Beach_common/native/EventTracking';
+import { ConfigConst } from '../../manager/ConfigConstManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellContent')
@@ -82,8 +84,8 @@ export class CellContent extends Component {
                         if (type != ColletType.money) {//非钱
                             delay(0.2, this.node).then(() => {
                                 AudioManager.playEffect("getCoin");
-                                CoinManger.instance.addCoin(GameUtil.CollectionClearCoins, false, false);
-                                ViewManager.showRewardAni3(RewardType.coin, GameUtil.CollectionClearCoins, co.node, v2(0, 100), () => { });
+                                CoinManger.instance.addCoin(ConfigConst.Other.CollectionClearCoins, false, false);
+                                ViewManager.showRewardAni3(RewardType.coin, ConfigConst.Other.CollectionClearCoins, co.node, v2(0, 100), () => { });
                             })
                         }
                     }
@@ -96,6 +98,7 @@ export class CellContent extends Component {
             await delay(0.6, this.node);
             await this.moveAfterCollet(start);
             GameManger.instance.checkWin(type);
+            EventTracking.sendEventClear();
         } else {
             if (this.collects.length >= num) {
                 GameManger.instance.gameOver();//失败
@@ -142,7 +145,7 @@ export class CellContent extends Component {
     }
     /**清理三个物品到空区域 */
     public async cleanUp() {
-        AudioManager.vibrate(100, 100);
+        AudioManager.vibrate(50, 100);
         GameManger.instance.isAni = true;
         let times = Math.min(3, this.collects.length);
         const cos: Colletion[] = [];

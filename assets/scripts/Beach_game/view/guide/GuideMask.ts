@@ -12,6 +12,7 @@ import { Money } from '../component/Money';
 import { Button } from 'cc';
 import { GuideManger } from '../../manager/GuideManager';
 import { v3 } from 'cc';
+import { EventTracking } from '../../../Beach_common/native/EventTracking';
 const { ccclass, property } = _decorator;
 
 @ccclass('GuideMask')
@@ -91,6 +92,7 @@ export class GuideMask extends ViewComponent {
             this.mnBack();
             this.node.destroy();
             GuideManger.passGameStep();
+            EventTracking.sendOneEvent("toCashPage");
         })
 
         this.hand.active = true;

@@ -27,14 +27,14 @@ export class GuideHome extends ViewComponent {
 
     private isAni:boolean = false;
     protected start(): void {
-        // EventTracking.sendOneEvent("guideHome");
+        EventTracking.sendOneEvent("guideHome");
         const y = view.getVisibleSize().y;
         this.bg.scale=v3(1,y/UIUtils.getHeight(this.bg));
         this.tips.init();
         this.tips.startAni(3);
         this.btnStart.on(Button.EventType.CLICK,()=>{
             if(this.isAni)return;
-            // EventTracking.sendOneEvent("guideHomeClick");
+            EventTracking.sendOneEvent("guideHomeClick");
             this.isAni = true;
             ViewManager.showGameView();
             // GuideManger.passCashStep();

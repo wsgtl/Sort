@@ -7,6 +7,7 @@ import { GameStorage } from "../GameStorage";
 import { GameView } from "../view/view/GameView";
 import { Colletion } from "../view/component/Colletion";
 import { BaseStorageNS, ITEM_STORAGE } from "../../Beach_common/localStorage/BaseStorage";
+import { ConfigConst } from "./ConfigConstManager";
 
 const debug = Debugger("GameManger");
 export class GameManger {
@@ -121,13 +122,15 @@ export class GameManger {
             return;
         }
         const carr = [];
-        const num = GameUtil.LevelCollectionNum[this.curLevel - 1];
+        // const num = GameUtil.LevelCollectionNum[this.curLevel - 1];
+        const num = ConfigConst.Other.LevelCollectionNum[this.curLevel - 2];
+        const typeNumum = ConfigConst.Other.LevelCollectionTypeNum[this.curLevel - 2];
         // const num = 16;
         this.groupNum = num;
 
 
         if (this.curLevel < 5) {
-            this.normalLevel(num);
+            this.normalLevel(num, typeNumum);
             // carr.push(...Array(moneyNums).fill(ColletType.money));
             // const n = num - carr.length;
             // // const kd = this.curLevel == 4 && this.lastLevel == 3;//在第四关卡下点
@@ -143,7 +146,7 @@ export class GameManger {
         } else {
             const after = 100;//后100个难
             const pre = num - after;//前面的简单
-            this.normalLevel(pre);
+            this.normalLevel(pre, 14);
             //后面100个控制难度
             const _ca: ColletType[] = [];
             carr.push(...Array(GameUtil.getMoneyNodeNums(after)).fill(ColletType.money));
@@ -182,14 +185,14 @@ export class GameManger {
         }
     }
     /**普通关生成 */
-    public normalLevel(num: number) {
+    public normalLevel(num: number, typeNum: number) {
         const carr = [];
         const moneyNums = GameUtil.getMoneyNodeNums(num);
         carr.push(...Array(moneyNums).fill(ColletType.money));
         const n = num - carr.length;
         // const kd = this.curLevel == 4 && this.lastLevel == 3;//在第四关卡下点
         for (let i = 0; i < n; i++) {
-            carr.push(this.getRandomNormalCollection(14));
+            carr.push(this.getRandomNormalCollection(typeNum));
         }
         carr.forEach(v => {
             this.colletionArr.push(v);
@@ -271,9 +274,9 @@ export class GameManger {
         const dd = this.gv.getBoardData();
         const _data = {
             curLevel: this.curLevel,
+            groupNum: this.groupNum,
             colletionArr: this.colletionArr,
             clearColletionArr: this.clearColletionArr,
-            groupNum: this.groupNum,
             step: this.step,
             board: dd.board,
             cells: dd.cells,

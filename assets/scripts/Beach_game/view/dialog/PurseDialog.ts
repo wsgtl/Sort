@@ -13,6 +13,7 @@ import { GameUtil } from '../../GameUtil';
 import { i18n } from '../../../Beach_common/i18n/I18nManager';
 import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
 import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
+import { EventTracking } from '../../../Beach_common/native/EventTracking';
 const { ccclass, property } = _decorator;
 
 @ccclass('PurseDialog')
@@ -62,6 +63,7 @@ export class PurseDialog extends DialogComponent {
     }
 
     protected onDestroy(): void {
+        EventTracking.sendOneEvent("backHome");
         MoneyManger.instance.setDialog(null);//注销记录的弹窗
     }
 }

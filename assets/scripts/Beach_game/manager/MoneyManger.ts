@@ -8,6 +8,7 @@ import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
 import { LangStorage } from "../../Beach_common/localStorage/LangStorage";
 import { MathUtil } from "../../Beach_common/utils/MathUtil";
 import { FormatUtil } from "../../Beach_common/utils/FormatUtil";
+import { ConfigConst } from "./ConfigConstManager";
 
 export class MoneyManger {
     public static _instance: MoneyManger = null;
@@ -51,6 +52,7 @@ export class MoneyManger {
             }
 
         }
+        EventTracking.sendEventMoney(curMoney);
     }
     public showNum(num: number) {
         if (isVaild(this._curMoney)) {
@@ -70,7 +72,11 @@ export class MoneyManger {
 
     /**获取奖励钱 */
     public getReward(bl: number = 1) {
-        return bl * MathUtil.random(400, 1200) / 100;
+        const other = ConfigConst.Other;
+        const lbl = Math.pow(other.LevelMoneyAttenuation, GameStorage.getCurLevel() - 1);
+        const left = (other.LevelOneMoney[0] ?? 12) * 100;
+        const right = (other.LevelOneMoney[1] ?? 18) * 100;
+        return LangStorage.getData().rate * lbl * bl * MathUtil.random(left, right) / 100;
     }
     public rate(money: number) {
         return LangStorage.getData().rate * money;

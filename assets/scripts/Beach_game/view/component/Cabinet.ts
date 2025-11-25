@@ -85,7 +85,7 @@ export class Cabinet extends Component {
         }
     }
     private async clearAni() {
-        AudioManager.vibrate(100,200);
+        AudioManager.vibrate(50,200);
         this.isClear = true;
         await ActionEffect.fadeOut(this.node, 0.2);
         this.node.destroy();

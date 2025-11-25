@@ -13,6 +13,7 @@ import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
 import { i18n } from '../../../Beach_common/i18n/I18nManager';
 import { delay } from '../../../Beach_common/utils/TimeUtil';
 import { isVaild } from '../../../Beach_common/utils/ViewUtil';
+import { ConfigConst } from '../../manager/ConfigConstManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('TaskItem')
@@ -40,7 +41,7 @@ export class TaskItem extends Component {
         this.levelNum = level;
         const time = GameUtil.TaskMinutes[level];
         this.taskminutes.string = i18n.string("str_task_minutes", time.toString());
-        this.addMoney = GameUtil.TaskMoney * LangStorage.getData().rate;
+        this.addMoney = ConfigConst.Other.TaskMoney * LangStorage.getData().rate;
         const cur = Math.min(curTime,time);
         this.jd.string = cur + "/" + time;
         this.progress.progress = cur / time;

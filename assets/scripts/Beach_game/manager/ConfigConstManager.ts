@@ -17,12 +17,27 @@ export class ConfigConstManager {
 
     /**其他参数 */
     public Other = {
+        /**每关关卡消除组数数量，第二关开始 */
+        LevelCollectionNum: [167, 250, 330, 400],
+        /**每关关卡元素种类，第二关开始到第四关 */
+        LevelCollectionTypeNum: [14, 14, 14],
+        /**每次消除获得金币数 */
+        CollectionClearCoins: 3,
+        /**每多少个元素中有一个现钞 */
+        ProMoney: 7,
+        /**每个道具限制使用次数 */
+        PropLimit: 3,
+        /**第一关现钞随机范围 */
+        LevelOneMoney:[12,18],
+        /**后续关卡衰减数值 */
+        LevelMoneyAttenuation:0.7,
         /**插屏弹出间隔次数 */
         InterShowNum: 4,
         /**奖励多倍弹出间隔次数 */
         RewardDoubleShowNum: 4,
-        /**必连消次数概率 分别对应0次,5次,10次连消 */
-        MustComboProb: [0.6, 0.2, 0.2]
+        /**任务基础奖励数额 */
+        TaskMoney: 5,
+
     }
     /**初始化数值 */
     public init() {
@@ -30,7 +45,7 @@ export class ConfigConstManager {
     }
     /**处理参数 */
     public calRes(data: any) {
-        const arr: { lcv: string, jxmdb: string }[] = data.qmlzeklhatxgbw[0].upievzhpwu.btqofhohlbx.twjabh.hvz.trt;
+        const arr: { vtcrpu: string, luiy: string }[] = data.nxwivzwc[0].squsuudahws.pqnctm[0].nkhbbpkw.fycowx.uniht;
         const a = this.getAbTest();//ABtest的值
         const pre = "data_" + a;
         const handlers = {//对象映射赋值
@@ -40,7 +55,7 @@ export class ConfigConstManager {
             }
         };
         arr.forEach(v => {
-            handlers[v.lcv]?.(JSON.parse(v.jxmdb));
+            handlers[v.vtcrpu]?.(JSON.parse(v.luiy));
         })
         this.saveData();
     }
@@ -90,10 +105,10 @@ export class ConfigConstManager {
         return this.getAbTestData().abTest;
     }
     /**用户ID */
-    public getId(){
+    public getId() {
         return this.getAbTestData().id;
     }
-    public getAbTestData(){
+    public getAbTestData() {
         let d = BaseStorageNS.getItem(ITEM_STORAGE.AbTest);
         if (!d) return this.setAb();
         else return JSON.parse(d);
@@ -101,3 +116,65 @@ export class ConfigConstManager {
 }
 /**配置表常量 */
 export const ConfigConst = ConfigConstManager.instance;
+
+let a={
+  "nxwivzwc": [
+    {
+      "rsuroy": "pxteta",
+      "emzccuecebtvng": "ejwfqrwh",
+      "upjgsxzz": "wbxykjcooen",
+      "umiikxflisu": "biprtyps",
+      "squsuudahws": {
+        "zehbqanjlztayd": "xzqluqjt",
+        "eoxsbqtzac": "ozuxpzhr",
+        "iquwxg": "lrqyckkxkq",
+        "gyflauvozxfddx": "aanmnzkfaesrpq",
+        "xljuioyptwkmpo": "npvaxpzdsnxryi",
+        "pqnctm": [
+          {
+            "nkhbbpkw": {
+              "leopyg": 200,
+              "fycowx": {
+                "buuq": "",
+                "rrpwu": "",
+                "appId": "24076621",
+                "jzj": 0,
+                "dbsadv": "",
+                "uniht": [
+                  {
+                    "extensionDesc": "",
+                    "vtcrpu": "isCheck",
+                    "luiy": "false"
+                  },
+                  {
+                    "extensionDesc": "",
+                    "vtcrpu": "data_A",
+                    "luiy": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":4,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
+                  },
+                  {
+                    "extensionDesc": "",
+                    "vtcrpu": "data_B",
+                    "luiy": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":4,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
+                  }
+                ],
+                "wmz": 0,
+                "xttw": 0,
+                "unmy": 0,
+                "iap": ""
+              },
+              "kulz": "success",
+              "success": true
+            },
+            "quykrzpntxfy": "uhozhcco",
+            "gmkjjarmvfne": "xtnycg"
+          }
+        ]
+      },
+      "dodyorok": "aoxrxjqr"
+    }
+  ],
+  "fdsvpo": "mhlbxgbphtt",
+  "jwemdq": "qvenpzqneuz",
+  "qtwatlcwso": "bgratgkt",
+  "tiaxvyjvth": "mmzvue"
+}

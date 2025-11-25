@@ -178,7 +178,6 @@ export class RewardAni extends ViewComponent {
                 const cp = v3(ic.x + MathUtil.randomOne() * 300, pos.y / 2);
                 await ActionEffect.bezierTo(ic, pos, cp, 0.4);
                 this.sound();
-                // AudioManager.playEffect("ceil", 0.5);
                 const sn = Math.floor(startNum + (i + 1) * item);
                 ins.showNum(sn);
                 ic.destroy();
@@ -199,14 +198,18 @@ export class RewardAni extends ViewComponent {
     private async sound() {
         if (this.isSound) return;
         this.isSound = true;
-        // const name = this.type==RewardType.money?"toMoney":"toCoin";
-        const name = "toCoin";
-        let i = 5;
-        while (i > 0) {
-            i--;
-            AudioManager.playEffect(name);
-            await delay(0.15, this.node);
-        }
+        const name = this.type == RewardType.money ? "paper" : "toCoin";
+        AudioManager.playEffect(name);
+        const t = this.type == RewardType.money ? 0.08:0.1;
+        await delay(t);
+        this.isSound = false;
+        // const name = "toCoin";
+        // let i = 5;
+        // while (i > 0) {
+        //     i--;
+        //     AudioManager.playEffect(name);
+        //     await delay(0.15, this.node);
+        // }
 
     }
 

@@ -25,7 +25,7 @@ export class GoldDialog extends DialogComponent {
         CoinManger.instance.setDialog(null);
     }
     onReceive() {
-        EventTracking.sendEventCoin(GameStorage.getCoin());
+        // EventTracking.sendEventCoin(GameStorage.getCoin());
         adHelper.showRewardVideo("增加金币",()=>{
             this.closeAni();
             CoinManger.instance.addCoin(GameUtil.ReceiveCoins);

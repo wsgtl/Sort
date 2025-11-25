@@ -3,7 +3,6 @@ import { sys } from "cc";
 export enum ITEM_STORAGE {
     LANGUAGE = "Beach_Lang",
     AUDIO = "Beach_audio",
-    EventTracking = "Beach_event",
     EventTrackings = "Beach_events",
     Game = "Beach_game",
     GameData = "Beach_gamedata",

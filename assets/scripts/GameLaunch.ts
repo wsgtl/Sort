@@ -7,6 +7,8 @@ import { AudioManager } from './Beach_game/manager/AudioManager';
 import { i18n } from './Beach_common/i18n/I18nManager';
 import { AudioStorage } from './Beach_common/localStorage/AudioStorage';
 import { LangStorage } from './Beach_common/localStorage/LangStorage';
+import { WebManger } from './Beach_game/manager/WebManager';
+import { EventTracking } from './Beach_common/native/EventTracking';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameLaunch')
@@ -35,10 +37,13 @@ export class GameLaunch extends Component {
             return;
         }
 
+        AudioManager.setBgmNode(this.bgmNode);
+        //初始化本地存储
         GameStorage.init();
         LangStorage.init();
-        AudioManager.setBgmNode(this.bgmNode);
         AudioStorage.init();
+        WebManger.init();
+        EventTracking.init();
         i18n.loadLang();//加载多语言
 
 

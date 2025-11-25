@@ -9,6 +9,7 @@ import { v2 } from "cc";
 import { Vec2 } from "cc";
 import { GameStorage } from "./GameStorage";
 import { MathUtil } from "../Beach_common/utils/MathUtil";
+import { ConfigConst } from "./manager/ConfigConstManager";
 
 
 /**格子数据 */
@@ -81,20 +82,20 @@ export namespace GameUtil {
    /**每一级收集物组数 */
    export const LevelCollectionNum: number[] = [10, 150, 250, 330, 400];
    /**道具金币价格 */
-   export const PropCoins: number[] = [100, 300, 500];
+   export const PropCoins: number[] = [100, 300, 500, 500, 500, 500, 500, 500];
    /**看广告获得的金币 */
    export const ReceiveCoins: number = 30;
    /**签到金币数 */
-   export const SigninCoins: number[] = [100, 200, 300, 400, 500, 600, 1000];
+   // export const SigninCoins: number[] = [100, 200, 300, 400, 500, 600, 1000];
    /**任务分钟 */
    export const TaskMinutes: number[] = [10, 30, 60, 90, 120];
    /**任务加的钱 美元 */
-   export const TaskMoney: number = 5;
+   // export const TaskMoney: number = 5;
    /**收集品随机出现钱的概率 */
-   export const ProMoney: number = 0.14;
+   // export const ProMoney: number = 0.14;
 
    export function getMoneyNodeNums(num: number) {
-      return Math.ceil(num * GameUtil.ProMoney)
+      return Math.ceil(num / ConfigConst.Other.ProMoney);
    }
    /**当前游戏时长 分钟 */
    export function getCurMinutes() {
@@ -164,7 +165,7 @@ export namespace GameUtil {
       let a: ColletType[] = [];
 
       for (let i = 0; i < nm; i++) {
-         let type = MathUtil.random(2, 14);
+         let type = MathUtil.random(2, 10);
          a.push(type);
          a.push(type);
          a.push(type);
