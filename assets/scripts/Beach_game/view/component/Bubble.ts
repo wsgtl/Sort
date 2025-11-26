@@ -17,11 +17,15 @@ export class Bubble extends Component {
     content: Node = null;
     private readonly duration = 30;
     onLoad() {
+        if(ConfigConst.isShowA){
+            this.node.destroy();
+            return;
+        }
         this.init(false);
         this.content.on(Node.EventType.TOUCH_START, this.onClick, this);
     }
 
-    private time = 0;
+    private time = 5;
     private canMove: boolean = true;
     update(deltaTime: number) {
         if (!this.canMove) return;

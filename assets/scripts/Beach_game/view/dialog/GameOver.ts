@@ -9,6 +9,9 @@ import { MoneyManger } from '../../manager/MoneyManger';
 import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 import { ViewManager } from '../../manager/ViewManger';
 import { RewardType } from '../../GameUtil';
+import { ConfigConst } from '../../manager/ConfigConstManager';
+import { CoinManger } from '../../manager/CoinManger';
+import { GameStorage } from '../../GameStorage';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameOver')
@@ -23,26 +26,32 @@ export class GameOver extends DialogComponent {
     failContent: Node = null;
     @property(Node)
     statusShow: Node = null;
+    @property(Node)
+    tips: Node = null;
     @property(Label)
     moneyLabel: Label = null;
 
 
+    private type: RewardType;
     private isWin: boolean = false;
-    private claimMoneyNum: number = 0;
+    private claimNum: number = 0;
     async showStart(args?: any) {
+        this.type = ConfigConst.isShowA ? RewardType.coin : RewardType.money;
+        adHelper.showInterstitial("结算界面");
         this.isWin = args.isWin;
         this.btnClaim.on(Button.EventType.CLICK, () => {
             this.setCanClick(false);
             this.closeAni();
-            MoneyManger.instance.addMoney(this.claimMoneyNum, false);
-            ViewManager.showRewardAni1(RewardType.money, this.claimMoneyNum, () => {
-                args.continueCb();
-            })
+            this.addReward(args.continueCb());
+            // MoneyManger.instance.addMoney(this.claimMoneyNum, false);
+            // ViewManager.showRewardAni1(RewardType.money, this.claimMoneyNum, () => {
+            //     args.continueCb();
+            // })
 
         })
 
         this.btnRestart.on(Button.EventType.CLICK, () => {
-            args.restartCb();
+            args.restartCb()
             this.setCanClick(false);
             this.closeAni();
         })
@@ -50,20 +59,27 @@ export class GameOver extends DialogComponent {
         adHelper.showInterstitial("结算页");
         this.init();
 
+        const pa = this.moneyLabel.node.parent;
+        pa.getChildByName("coin").active = this.type == RewardType.coin;
+        pa.getChildByName("money").active = this.type != RewardType.coin;
+        this.tips.active = !ConfigConst.isShowA;
     }
     private init() {
         this.winContent.active = this.isWin;
         this.failContent.active = !this.isWin;
+        const content = this.isWin?this.winContent:this.failContent;
+        const isCoin = this.type == RewardType.coin;
         if (this.isWin) {
             AudioManager.playEffect("win");
-            this.claimMoneyNum = MoneyManger.instance.getReward();
-            this.moneyLabel.string = FormatUtil.toMoney(this.claimMoneyNum);
+            this.claimNum = isCoin ? CoinManger.instance.getReward(): MoneyManger.instance.getReward();
+            this.moneyLabel.string = isCoin ? FormatUtil.toCoin(this.claimNum) : FormatUtil.toMoney(this.claimNum);
         }
         else {
             AudioManager.playEffect("failed");
-            this.moneyLabel.string = MoneyManger.instance.getMoneyString();
+            this.moneyLabel.string = isCoin ? FormatUtil.toCoin(GameStorage.getCoin()) : MoneyManger.instance.getMoneyString();
         }
-
+        content.getChildByName("icon_coin").active = isCoin;
+        content.getChildByName("icon_money").active = !isCoin;
     }
 
 
@@ -71,7 +87,12 @@ export class GameOver extends DialogComponent {
         this.btnClaim.getComponent(Button).interactable = v;
         this.btnRestart.getComponent(Button).interactable = v;
     }
-
+    private addReward(cb: Function) {
+        this.type == RewardType.coin ? CoinManger.instance.addCoin(this.claimNum, false) : MoneyManger.instance.addMoney(this.claimNum, false);
+        ViewManager.showRewardAni1(this.type, this.claimNum, () => {
+            cb?.();
+        })
+    }
 
 }
 

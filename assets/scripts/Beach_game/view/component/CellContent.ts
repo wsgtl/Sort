@@ -81,7 +81,7 @@ export class CellContent extends Component {
                         const pos = this.getPos(start + 1);
                         co.moveTo(pos)
                     } else {
-                        if (type != ColletType.money) {//非钱
+                        if (type != ColletType.money || ConfigConst.isShowA) {//非钱
                             delay(0.2, this.node).then(() => {
                                 AudioManager.playEffect("getCoin");
                                 CoinManger.instance.addCoin(ConfigConst.Other.CollectionClearCoins, false, false);
@@ -95,7 +95,7 @@ export class CellContent extends Component {
             }
             GameManger.instance.showProgress();
             this.collects.splice(start, (index - start + 1));
-            await delay(0.6, this.node);
+            await delay(0.3, this.node);
             await this.moveAfterCollet(start);
             GameManger.instance.checkWin(type);
             EventTracking.sendEventClear();

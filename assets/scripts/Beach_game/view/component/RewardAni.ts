@@ -16,6 +16,7 @@ import { GameStorage } from '../../GameStorage';
 import { tween } from 'cc';
 import { AudioManager } from '../../manager/AudioManager';
 import { Vec2 } from 'cc';
+import { Button } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('RewardAni')
@@ -163,6 +164,8 @@ export class RewardAni extends ViewComponent {
         if (!toNode) { this.node.destroy(); return; }
         const pos = UIUtils.transformOtherNodePos2localNode(toNode, this.node);
         AudioManager.playEffect("jump");
+        this.node.getComponent(Button)?.destroy();
+        const fx = MathUtil.randomOne();
         for (let i = 0; i < all; i++) {
             const ic = instantiate(this.icon);
             this.node.addChild(ic);
@@ -171,11 +174,12 @@ export class RewardAni extends ViewComponent {
                 ic.x += py.x;
                 ic.y += py.y;
             }
-            delay(0.02 * i).then(async () => {
+            delay(0.1 * i).then(async () => {
                 ic.active = true;
                 // AudioManager.playEffect("jump");
                 await ActionEffect.scale(ic, 0.1, 1, 0, "backOut");
-                const cp = v3(ic.x + MathUtil.randomOne() * 300, pos.y / 2);
+                // const cp = v3(ic.x + MathUtil.randomOne() * 300, pos.y / 2);
+                const cp = v3(ic.x + fx * 300, pos.y / 2);
                 await ActionEffect.bezierTo(ic, pos, cp, 0.4);
                 this.sound();
                 const sn = Math.floor(startNum + (i + 1) * item);

@@ -88,8 +88,7 @@ export class ConfigConstManager {
 
     /**是否显示A面 */
     public get isShowA() {
-        return false;
-        // return this.isCheck;
+        return this.isCheck;
         return (Jsb.ios() || Jsb.browser()) && this.isCheck;
     }
     /**设置随机AB值 */
@@ -117,64 +116,3 @@ export class ConfigConstManager {
 /**配置表常量 */
 export const ConfigConst = ConfigConstManager.instance;
 
-let a={
-  "nxwivzwc": [
-    {
-      "rsuroy": "pxteta",
-      "emzccuecebtvng": "ejwfqrwh",
-      "upjgsxzz": "wbxykjcooen",
-      "umiikxflisu": "biprtyps",
-      "squsuudahws": {
-        "zehbqanjlztayd": "xzqluqjt",
-        "eoxsbqtzac": "ozuxpzhr",
-        "iquwxg": "lrqyckkxkq",
-        "gyflauvozxfddx": "aanmnzkfaesrpq",
-        "xljuioyptwkmpo": "npvaxpzdsnxryi",
-        "pqnctm": [
-          {
-            "nkhbbpkw": {
-              "leopyg": 200,
-              "fycowx": {
-                "buuq": "",
-                "rrpwu": "",
-                "appId": "24076621",
-                "jzj": 0,
-                "dbsadv": "",
-                "uniht": [
-                  {
-                    "extensionDesc": "",
-                    "vtcrpu": "isCheck",
-                    "luiy": "false"
-                  },
-                  {
-                    "extensionDesc": "",
-                    "vtcrpu": "data_A",
-                    "luiy": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":4,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
-                  },
-                  {
-                    "extensionDesc": "",
-                    "vtcrpu": "data_B",
-                    "luiy": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":4,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
-                  }
-                ],
-                "wmz": 0,
-                "xttw": 0,
-                "unmy": 0,
-                "iap": ""
-              },
-              "kulz": "success",
-              "success": true
-            },
-            "quykrzpntxfy": "uhozhcco",
-            "gmkjjarmvfne": "xtnycg"
-          }
-        ]
-      },
-      "dodyorok": "aoxrxjqr"
-    }
-  ],
-  "fdsvpo": "mhlbxgbphtt",
-  "jwemdq": "qvenpzqneuz",
-  "qtwatlcwso": "bgratgkt",
-  "tiaxvyjvth": "mmzvue"
-}

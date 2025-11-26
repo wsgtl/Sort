@@ -19,19 +19,19 @@ export class GoldDialog extends DialogComponent {
     protected onLoad(): void {
         CoinManger.instance.setDialog(this.node);
         this.btnClaim.on(Button.EventType.CLICK, this.onReceive, this);
-        this.btnNt.on(Button.EventType.CLICK, ()=>{this.closeAni();});
+        this.btnNt.on(Button.EventType.CLICK, () => { this.closeAni(); adHelper.timesToShowInterstitial(); });
     }
     protected onDestroy(): void {
         CoinManger.instance.setDialog(null);
     }
     onReceive() {
         // EventTracking.sendEventCoin(GameStorage.getCoin());
-        adHelper.showRewardVideo("增加金币",()=>{
+        adHelper.showRewardVideo("增加金币", () => {
             this.closeAni();
             CoinManger.instance.addCoin(GameUtil.ReceiveCoins);
-            ViewManager.showRewardAni1(RewardType.coin,GameUtil.ReceiveCoins,()=>{});
-        },ViewManager.adNotReady)
-      
+            ViewManager.showRewardAni1(RewardType.coin, GameUtil.ReceiveCoins, () => { });
+        }, ViewManager.adNotReady)
+
     }
 }
 

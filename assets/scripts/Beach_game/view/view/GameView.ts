@@ -105,24 +105,29 @@ export class GameView extends ViewComponent {
         const cha = h - 1920;
         const cellH = GameUtil.CellH + 100;
 
+        let sc = 0.95;//缩放比例
         if (cha > 150) {
             this.topContent.getComponent(Widget).top = -30;
-            this.bottomContent.y = -860 - cha * .45;
-            this.content.y = -490 - cha * 0.4;
+            this.bottomContent.y = -860 - cha * .47;
+            this.content.y = -510 - cha * 0.43;
             this.progress.node.scale = v3(1, 1, 1);
         } else {
-            this.topContent.getComponent(Widget).top = -80;
+            sc = 0.9;
+            this.topContent.getComponent(Widget).top = -100;
             this.bottomContent.y = -860 - cha * .2;
-            this.content.y = -490 - cha * 0.2;
+            this.content.y = -510 - cha * 0.2;
             this.progress.node.scale = v3(1, 0.9, 1);
-
         }
+
+        this.cabinetContent.scale = v3(sc, sc, 1);
+        this.colletContent.scale = v3(sc, sc, 1);
         console.log("h", h);
 
         nextFrame().then(() => {
             const p = UIUtils.transformOtherNodePos2localNode(this.node, this.dialogNode);
             this.dialogNode.position = p;
         })
+        this.btnTask.active = !ConfigConst.isShowA;
     }
 
     show(parent: Node, args?: any) {
@@ -140,13 +145,14 @@ export class GameView extends ViewComponent {
 
         this.showProgress(1);
         this.startGame();
-        if (!GuideManger.isGuide()) {
-            ViewManager.showLevelDialog(false, GameStorage.getCurLevel(), () => { })
-            await this.delay(1.5);
-        }
+        // if (!GuideManger.isGuide()) {
+        //     ViewManager.showLevelDialog(false, GameStorage.getCurLevel(), () => { })
+        //     await this.delay(1.5);
+        // }
 
     }
-    private startGame() {
+    private async startGame() {
+        GameManger.instance.isAni = true;
 
         if (!GuideManger.isGuide()) {
             const data = GameManger.instance.recoverGameData();//恢复数据
@@ -157,8 +163,13 @@ export class GameView extends ViewComponent {
             }
         } else {
             this.initBoard();
-            this.initGuide();
         }
+        this.cabinetsDropAni();
+        ViewManager.showLevelDialog(false, GameStorage.getCurLevel(), () => { })
+        await this.delay(1.5);
+        this.initGuide();
+        GameManger.instance.isAni = false;
+
     }
     /**恢复盘面 */
     private recoverBoard(board: CabinetAllData[][], cells: CellData[], cleanCells: CellData[]) {
@@ -222,6 +233,18 @@ export class GameView extends ViewComponent {
                 cabinet.createCollection(cds[i]);
         }
         return cabinet;
+    }
+    /**初始化柜子下落动画 */
+    private async cabinetsDropAni() {
+        const pros: Promise<void>[] = [];
+        this.board.forEach((v, y) => {
+            v.forEach(ca => {
+                if (ca) {
+                    pros.push(ca.dropInit());
+                }
+            })
+        })
+        await Promise.all(pros);
     }
 
     /**清理空柜子 */
@@ -307,6 +330,7 @@ export class GameView extends ViewComponent {
         Tween.stopAllByTarget(this.node);
         // Tween.stopAllByTarget(this.jd.getComponent(UITransform));
         AudioManager.stopBgm();
+        GameManger.instance.replayBoard();
         await nextFrame();
         await delay(0.4);
         ViewManager.showGameOver(this.node, isWin, () => {
@@ -323,7 +347,7 @@ export class GameView extends ViewComponent {
     }
     private rewardTimes: number = 0;
     async checkWin(type: ColletType) {
-        if (type == ColletType.money) {
+        if (type == ColletType.money && !ConfigConst.isShowA) {//A面没有钱
             this.rewardTimes++;
             const isAd = this.rewardTimes % ConfigConst.Other.RewardDoubleShowNum == 0;
             // const isAd = true;
@@ -334,14 +358,14 @@ export class GameView extends ViewComponent {
         }
         if (GameManger.instance.getProgress() == 0) {
             GameManger.instance.isGameOver = true;
+            GameStorage.nextLevel();
             this.gameOver(true);
         }
     }
     continueGame() {
         GameStorage.replayPropCurLevel();
-        GameManger.instance.replayBoard();
         EventTracking.sendEventLevel(GameStorage.getCurLevel());
-        GameStorage.nextLevel();
+        // GameStorage.nextLevel();
         ViewManager.showGameView(true);
     }
 
@@ -638,6 +662,7 @@ export class GameView extends ViewComponent {
     private gm: GuideMask;
     /**新手引导 */
     private initGuide() {
+        if (!GuideManger.isGuide()) return;
         ViewManager.showGuideMask((n: Node) => {
             this.gm = n.getComponent(GuideMask);
             this.gm.showMask();
@@ -667,13 +692,18 @@ export class GameView extends ViewComponent {
         EventTracking.sendOneEvent("click2");
         if (co) {
             this.gm.showCollect(co, async () => {
-                this.rewardCb = () => {
-                    this.guidStpe5();
-                    this.rewardCb = null;
+                if (ConfigConst.isShowA) {
+                    GuideManger.passGameStep();
+                } else {
+                    this.rewardCb = () => {
+                        this.guidStpe5();
+                        this.rewardCb = null;
+                    }
                 }
                 this.gm.hideHand();
                 await this.delay(1);
                 this.guidStpe4();
+
             });
         }
     }

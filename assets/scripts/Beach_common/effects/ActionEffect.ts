@@ -476,7 +476,7 @@ export namespace ActionEffect {
         an.active = true;
         an.y = 0;
         ActionEffect.fadeIn(an);
-        await tweenPromise(an, t => t.to(0.1, { y: 50 }).delay(.5));
+        await tweenPromise(an, t => t.to(0.1, { y: 50 }).delay(.8));
         an.active = false;
     }
 }

@@ -85,7 +85,7 @@ export class Cabinet extends Component {
         }
     }
     private async clearAni() {
-        AudioManager.vibrate(50,200);
+        AudioManager.vibrate(50, 200);
         this.isClear = true;
         await ActionEffect.fadeOut(this.node, 0.2);
         this.node.destroy();
@@ -100,6 +100,18 @@ export class Cabinet extends Component {
         const pos = GameUtil.getCabinetPos(this.data.x, y);
         await tweenPromise(this.node, t => t
             .to(0.2, { position: pos }, { easing: "bounceOut" })
+        )
+    }
+    /**初始化时坠落 */
+    public async dropInit() {
+        const _y = this.data.y + GameUtil.AllRow;
+        const fp = GameUtil.getCabinetPos(this.data.x, _y);
+        this.node.position = fp;
+        const pos = GameUtil.getCabinetPos(this.data.x, this.data.y);
+        const time = Math.min(this.data.y,9)*0.01;
+        await tweenPromise(this.node, t => t
+            .delay(time)
+            .to(1, { position: pos }, { easing: "sineIn" })
         )
     }
     public backCollet(colletion: Colletion) {

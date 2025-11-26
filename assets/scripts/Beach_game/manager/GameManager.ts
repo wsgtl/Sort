@@ -111,7 +111,7 @@ export class GameManger {
             const x = Math.max(3, num - 4);
             return GameUtil.getRandomCabinets(x);
         }
-        return GameUtil.getRandomCabinets();
+        return GameUtil.getRandomCabinets(MathUtil.probability(0.4) ? 6 : 0);//增大满格概率
     }
     /**初始化收集物数组 */
     private initColletionArr() {

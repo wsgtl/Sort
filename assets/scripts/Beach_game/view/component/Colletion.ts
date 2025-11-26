@@ -11,6 +11,7 @@ import { GameManger } from '../../manager/GameManager';
 import { AudioManager } from '../../manager/AudioManager';
 import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { v3 } from 'cc';
+import { ConfigConst } from '../../manager/ConfigConstManager';
 const { ccclass, property } = _decorator;
 /**收集品 */
 @ccclass('Colletion')
@@ -23,6 +24,8 @@ export class Colletion extends Component {
     effect: Sprite = null;
     @property([SpriteFrame])
     sf: SpriteFrame[] = [];
+    @property(SpriteFrame)
+    csf: SpriteFrame = null;
 
     data: CellData;
     cabinet: Cabinet;
@@ -32,7 +35,7 @@ export class Colletion extends Component {
     step: number = 0;
     cabinetData: CabinetData;
     /**到底部缩放比例 */
-    sc: number = 0.8;
+    sc: number = 0.75;
     init(data: CellData, isBottom: boolean = false) {
         this.data = data;
         this.setType(data.type);
@@ -40,7 +43,8 @@ export class Colletion extends Component {
     }
     setType(type: ColletType) {
         this.data.type = type;
-        this.collection.getComponent(Sprite).spriteFrame = this.sf[type - 1];
+        const sf = type==ColletType.money&&ConfigConst.isShowA?this.csf:this.sf[type - 1];//A面钱的元素替换成别的
+        this.collection.getComponent(Sprite).spriteFrame = sf;
         let h = UIUtils.getHeight(this.collection);
         this.collection.y = h / 2;
     }

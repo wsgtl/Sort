@@ -68,7 +68,7 @@ export class CoinManger {
     }
     /**获取奖励金币 */
     public getReward(bl: number = 1) {
-        return Math.floor(MathUtil.random(10, 40) * 1000 * bl);
+        return Math.floor(MathUtil.random(20, 50) * bl);
     }
     /**奖励关每个元素的金币 */
     public getPassReward() {

@@ -603,6 +603,10 @@
         "__expectedType__": "cc.SpriteFrame"
       }
     ],
+    "csf": {
+      "__uuid__": "66316708-a1f9-449e-a026-0a338a8b4eb3@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_id": ""
   },
   {

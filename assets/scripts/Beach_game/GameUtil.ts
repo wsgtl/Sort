@@ -80,7 +80,7 @@ export namespace GameUtil {
    export const PropLimit: number = 3;//道具每回合限制数量
    export const CollectionClearCoins: number = 3;//物品每次消除增加金币数
    /**每一级收集物组数 */
-   export const LevelCollectionNum: number[] = [10, 150, 250, 330, 400];
+   // export const LevelCollectionNum: number[] = [10, 150, 250, 330, 400];
    /**道具金币价格 */
    export const PropCoins: number[] = [100, 300, 500, 500, 500, 500, 500, 500];
    /**看广告获得的金币 */
@@ -131,7 +131,7 @@ export namespace GameUtil {
       } else if (n == 5) {
          arr = [[5, 0, 0, 0, 0, 0], [0, 5, 0, 0, 0, 0]];
       } else if (n == 6) {
-         arr = [[3, 0, 0, 3, 0, 0], [2, 0, 4, 0, 0, 0], [4, 0, 0, 0, 2, 0]];
+         arr = [[3, 0, 0, 3, 0, 0], [2, 0, 4, 0, 0, 0], [4, 0, 0, 0, 2, 0],[6, 0, 0, 0, 0, 0],[2, 0, 2, 0, 2, 0]];
       }
       return arr.getRandomItem();
 

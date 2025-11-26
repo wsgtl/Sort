@@ -10,7 +10,17 @@ export namespace MathUtil {
         let value = max - min + 1;
         return Math.floor(Math.random() * value) + min;
     }
-
+    /**获取随机浮点数 */
+    export function randomFloat(m: number, n: number) {
+        if (typeof m != "number" || typeof n != "number") return;
+        let max = n;
+        let min = m;
+        if (m > n) {
+            max = m; min = n;
+        }
+        let value = max - min;
+        return Math.random() * value + min;
+    }
     /**获取随机布尔值 */
     export function randomBool() {
         return Math.random() < 0.5;
@@ -21,12 +31,16 @@ export namespace MathUtil {
     }
 
     /**限制最大最小值 */
-    export function mm(num:number,min:number,max:number){
-        return Math.max(min,Math.min(max,num));
+    export function mm(num: number, min: number, max: number) {
+        return Math.max(min, Math.min(max, num));
     }
     /**去掉小数 2.1->2  -2.1->-2*/
-    export function cut(num:number){
+    export function cut(num: number) {
         return ~~num;
+    }
+    /**概率 0~1*/
+    export function probability(n: number = 0.5) {
+        return Math.random() <= n;
     }
 
     /**拷贝，默认深拷贝 */

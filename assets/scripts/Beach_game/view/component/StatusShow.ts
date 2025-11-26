@@ -7,6 +7,7 @@ import { GameStorage } from '../../GameStorage';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { view } from 'cc';
 import { GameManger } from '../../manager/GameManager';
+import { ConfigConst } from '../../manager/ConfigConstManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('StatusShow')
@@ -21,6 +22,7 @@ export class StatusShow extends Component {
     tips: RichText = null;
 
     protected onLoad(): void {
+        this.node.active = !ConfigConst.isShowA;
         this.moneyNum.string = MoneyManger.instance.getMoneyString();
 
         const y = this.node.y;

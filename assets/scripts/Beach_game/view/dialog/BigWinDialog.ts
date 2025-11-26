@@ -39,7 +39,7 @@ export class BigWinDialog extends DialogComponent {
     }
     protected onLoad(): void {
         this.btnClaim.on(Button.EventType.CLICK, this.onReceive, this);
-        this.btnNt.on(Button.EventType.CLICK, () => {if(this.isStop)return; this.closeAni(); });
+        this.btnNt.on(Button.EventType.CLICK, () => { if (this.isStop) return; this.closeAni(); adHelper.timesToShowInterstitial(); });
     }
     private isStop: boolean = false;
     private speed: number = 180;
@@ -49,7 +49,7 @@ export class BigWinDialog extends DialogComponent {
         this.jt.angle += dt * this.speed * this.fx;//旋转
         if (this.jt.angle > 80) {//换方向
             this.fx = -1;
-        }else if(this.jt.angle < -80){
+        } else if (this.jt.angle < -80) {
             this.fx = 1;
         }
         const bl = this.blNums[Math.floor(-(this.jt.angle - 90) / 30)] ?? 2;
@@ -66,8 +66,11 @@ export class BigWinDialog extends DialogComponent {
             adHelper.showRewardVideo("气泡转轮", () => {
                 this.claimMoney();
             }, () => { ViewManager.adNotReady(); this.isStop = false; })
-        else
+        else {
             this.claimMoney();
+            adHelper.timesToShowInterstitial();
+        }
+
     }
     async claimMoney() {
         await delay(1);
@@ -79,13 +82,13 @@ export class BigWinDialog extends DialogComponent {
     private getMoney() {
         return this.rewardNum * this.bl;
     }
-    private gn:number=0;
-    private async showLight(){
-        this.gs.forEach((v,i)=>{
-            v.active = this.gn==i;
+    private gn: number = 0;
+    private async showLight() {
+        this.gs.forEach((v, i) => {
+            v.active = this.gn == i;
         })
-        await delay(0.3,this.node);
-        this.gn=1-this.gn;
+        await delay(0.3, this.node);
+        this.gn = 1 - this.gn;
         this.showLight();
     }
 }
