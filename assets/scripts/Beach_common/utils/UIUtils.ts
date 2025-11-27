@@ -471,11 +471,11 @@ export namespace UIUtils {
     /**所有子节点置灰 */
     export function setAllGray(node: Node, gray: boolean, setCanClick: boolean = false) {
         setGray(node, gray);
-        if (setCanClick) {
-            const btn = node.getComponent(Button);
-            if (btn)
-                btn.interactable = !gray;//设置按钮可否点击
-        }
+        // if (setCanClick) {
+        //     const btn = node.getComponent(Button);
+        //     if (btn)
+        //         btn.interactable = !gray;//设置按钮可否点击
+        // }
         node.children.forEach(v => {
             setGray(v, gray);
         })

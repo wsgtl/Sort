@@ -14,6 +14,7 @@ import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { tween } from 'cc';
 import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { AudioManager } from '../../manager/AudioManager';
+import { sp } from 'cc';
 const { ccclass, property } = _decorator;
 
 /**柜子 */
@@ -25,6 +26,8 @@ export class Cabinet extends Component {
     content: Node = null;
     @property(Prefab)
     colletionPrefab: Prefab = null;
+    @property(sp.Skeleton)
+    sk: sp.Skeleton = null;
 
     data: CabinetData;
     /**宽度 */
@@ -33,12 +36,14 @@ export class Cabinet extends Component {
     public collects: Colletion[] = [];
     init(len: number, x: number, y: number, index: number) {
         this.data = { x, y, len: len, index };
-        UIUtils.setWidth(this.cabinet, GameUtil.CellW * len);
+        const w = GameUtil.CellW * len;
+        UIUtils.setWidth(this.cabinet, w);
         this.content.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
         const cx = [50, 30, 40, 50, 50, 50][len - 1];
         this.content.x = cx;
-        this.contentW = GameUtil.CellW * len - cx * 2;
+        this.contentW = w - cx * 2;
         UIUtils.setWidth(this.content, this.contentW);
+        this.sk.node.x = w / 2;
     }
 
     public createCollection(cd: CellData) {
@@ -85,10 +90,24 @@ export class Cabinet extends Component {
         }
     }
     private async clearAni() {
-        AudioManager.vibrate(50, 200);
+        AudioManager.vibrate(30, 255);
+
         this.isClear = true;
+
+        //播放破碎动画
+        AudioManager.playEffect("musui");
+        const pa = this.node.parent
+        const p = UIUtils.transformOtherNodePos2localNode(this.sk.node, pa);
+        this.sk.node.position = p;
+        pa.addChild(this.sk.node);
+        ActionEffect.skAniOnce(this.sk, "animation").then(() => {
+            this.sk.node.destroy();
+            this.node.destroy();
+        })
+
         await ActionEffect.fadeOut(this.node, 0.2);
-        this.node.destroy();
+
+
         GameManger.instance.clearCabinet();
     }
     public setY(y: number) {
@@ -108,7 +127,7 @@ export class Cabinet extends Component {
         const fp = GameUtil.getCabinetPos(this.data.x, _y);
         this.node.position = fp;
         const pos = GameUtil.getCabinetPos(this.data.x, this.data.y);
-        const time = Math.min(this.data.y,9)*0.01;
+        const time = Math.min(this.data.y, 9) * 0.01;
         await tweenPromise(this.node, t => t
             .delay(time)
             .to(1, { position: pos }, { easing: "sineIn" })

@@ -1,0 +1,104 @@
+
+guangxiao.png
+size: 2018,1034
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 1403, 699
+  size: 329, 333
+  orig: 353, 351
+  offset: 11, 14
+  index: -1
+2
+  rotate: true
+  xy: 1348, 27
+  size: 294, 378
+  orig: 296, 382
+  offset: 1, 1
+  index: -1
+3
+  rotate: false
+  xy: 1059, 671
+  size: 342, 361
+  orig: 356, 375
+  offset: 13, 7
+  index: -1
+4
+  rotate: false
+  xy: 1348, 323
+  size: 354, 346
+  orig: 367, 365
+  offset: 8, 11
+  index: -1
+5
+  rotate: false
+  xy: 1348, 323
+  size: 354, 346
+  orig: 367, 365
+  offset: 8, 11
+  index: -1
+baozha/baozha_00
+  rotate: true
+  xy: 1059, 513
+  size: 156, 151
+  orig: 640, 640
+  offset: 244, 242
+  index: -1
+baozha/baozha_01
+  rotate: true
+  xy: 1734, 746
+  size: 286, 282
+  orig: 640, 640
+  offset: 182, 173
+  index: -1
+baozha/baozha_02
+  rotate: true
+  xy: 847, 2
+  size: 500, 499
+  orig: 640, 640
+  offset: 72, 70
+  index: -1
+baozha/baozha_03
+  rotate: false
+  xy: 531, 504
+  size: 526, 528
+  orig: 640, 640
+  offset: 57, 52
+  index: -1
+baozha/baozha_04
+  rotate: true
+  xy: 2, 498
+  size: 534, 527
+  orig: 640, 640
+  offset: 55, 54
+  index: -1
+baozha/baozha_05
+  rotate: false
+  xy: 2, 20
+  size: 460, 476
+  orig: 640, 640
+  offset: 118, 69
+  index: -1
+baozha/baozha_06
+  rotate: true
+  xy: 464, 95
+  size: 401, 381
+  orig: 640, 640
+  offset: 120, 141
+  index: -1
+baozha/baozha_07
+  rotate: true
+  xy: 1704, 332
+  size: 365, 288
+  orig: 640, 640
+  offset: 148, 161
+  index: -1
+baozha/baozha_08
+  rotate: false
+  xy: 464, 36
+  size: 357, 57
+  orig: 640, 640
+  offset: 154, 382
+  index: -1

@@ -80,23 +80,25 @@ export class CellContent extends Component {
                     if (i != start + 1) {
                         const pos = this.getPos(start + 1);
                         co.moveTo(pos)
+                        co.clearAni(false);
                     } else {
                         if (type != ColletType.money || ConfigConst.isShowA) {//非钱
-                            delay(0.2, this.node).then(() => {
+                            delay(0., this.node).then(() => {
                                 AudioManager.playEffect("getCoin");
                                 CoinManger.instance.addCoin(ConfigConst.Other.CollectionClearCoins, false, false);
                                 ViewManager.showRewardAni3(RewardType.coin, ConfigConst.Other.CollectionClearCoins, co.node, v2(0, 100), () => { });
                             })
                         }
+                        co.clearAni(true);
                     }
-                    co.clearAni();
+
 
                 }
             }
             GameManger.instance.showProgress();
             this.collects.splice(start, (index - start + 1));
             await delay(0.3, this.node);
-            await this.moveAfterCollet(start);
+            this.moveAfterCollet(start);
             GameManger.instance.checkWin(type);
             EventTracking.sendEventClear();
         } else {

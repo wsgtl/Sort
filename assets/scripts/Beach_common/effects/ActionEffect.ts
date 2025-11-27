@@ -441,8 +441,10 @@ export namespace ActionEffect {
     }
 
     /**spine动画播放一次后关闭 */
-    export function skAniOnce(sk: sp.Skeleton, name: string, isShow: boolean = false) {
+    export function skAniOnce(sk: sp.Skeleton, name: string, isShow: boolean = false, timeScale: number = 0) {
         return new Promise<void>(res => {
+            if (timeScale)
+                sk.timeScale = timeScale;
             sk.node.active = true;
             sk.setCompleteListener(null);
             sk.setAnimation(1, name, false);

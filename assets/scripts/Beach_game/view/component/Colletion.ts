@@ -12,6 +12,7 @@ import { AudioManager } from '../../manager/AudioManager';
 import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { v3 } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
+import { sp } from 'cc';
 const { ccclass, property } = _decorator;
 /**收集品 */
 @ccclass('Colletion')
@@ -20,8 +21,8 @@ export class Colletion extends Component {
     collection: Node = null;
     @property(Node)
     streak: Node = null;
-    @property(Sprite)
-    effect: Sprite = null;
+    @property(sp.Skeleton)
+    sk: sp.Skeleton = null;
     @property([SpriteFrame])
     sf: SpriteFrame[] = [];
     @property(SpriteFrame)
@@ -43,7 +44,7 @@ export class Colletion extends Component {
     }
     setType(type: ColletType) {
         this.data.type = type;
-        const sf = type==ColletType.money&&ConfigConst.isShowA?this.csf:this.sf[type - 1];//A面钱的元素替换成别的
+        const sf = type == ColletType.money && ConfigConst.isShowA ? this.csf : this.sf[type - 1];//A面钱的元素替换成别的
         this.collection.getComponent(Sprite).spriteFrame = sf;
         let h = UIUtils.getHeight(this.collection);
         this.collection.y = h / 2;
@@ -101,14 +102,14 @@ export class Colletion extends Component {
         AudioManager.playEffect("drop");
         let time = 0.1;
         if (this.inCabinet) {
-        // this.cabinetData = this.cabinet.data;
+            // this.cabinetData = this.cabinet.data;
             this.inCabinet = false;
             this.cabinet?.checkClear();
             time = 0.2;
         }
         ActionEffect.scale(this.collection, 0.2, this.sc);
         await this.dropTo(pos, time);
-        AudioManager.vibrate(10,100);
+        AudioManager.vibrate(10, 100);
     }
     async moveBack(cabinet: Cabinet) {
         this.cabinet = cabinet;
@@ -121,10 +122,13 @@ export class Colletion extends Component {
         this.node.position = p;
         this.inCabinet = true;
     }
-    async clearAni() {
-        this.effect.node.active = true;
-        ActionEffect.fadeOut(this.collection, 0.5);
-        await ActionEffect.playAni(this.effect, 6, 0.1);
+    async clearAni(isShowAni: boolean) {
+        if (isShowAni)
+            ActionEffect.skAniOnce(this.sk, "animation",false,0.6);
+        // this.effect.node.active = true;
+        await ActionEffect.fadeOut(this.collection, 0.3);
+        // await ActionEffect.playAni(this.effect, 6, 0.1);
+
         this.node.destroy();
     }
 }

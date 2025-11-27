@@ -34,6 +34,7 @@ import { ConfigConst } from '../../manager/ConfigConstManager';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { ReddotManager } from '../../manager/ReddotManager';
 import { EventTracking } from '../../../Beach_common/native/EventTracking';
+import { PropAni } from '../component/PropAni';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -75,6 +76,8 @@ export class GameView extends ViewComponent {
     cabinetPrefab: Prefab = null;
     @property(Prefab)
     colletionPrefab: Prefab = null;
+    @property(PropAni)
+    propAni: PropAni = null;
 
 
     /**显示的行数，短屏为6，长屏为7 */
@@ -415,7 +418,7 @@ export class GameView extends ViewComponent {
         const type = PropType.back;
         const num = GameStorage.getPropNum(type);
         if (num <= 0) {
-            ViewManager.showProp(type, () => { this.updateAllBtnStatus(); });
+            ViewManager.showProp(type, () => { this.showPropAni(PropType.back); });
             return;
         }
         if (this.backSkill()) {
@@ -520,7 +523,7 @@ export class GameView extends ViewComponent {
         const tyep = PropType.shuffle;
         const num = GameStorage.getPropNum(tyep);
         if (num <= 0) {
-            ViewManager.showProp(tyep, () => { this.updateAllBtnStatus(); });
+            ViewManager.showProp(tyep, () => { this.showPropAni(PropType.shuffle); });
             return;
         }
         this.shuffleCollets();
@@ -599,7 +602,7 @@ export class GameView extends ViewComponent {
         const type = PropType.besom;
         const num = GameStorage.getPropNum(type);
         if (num <= 0) {
-            ViewManager.showProp(type, () => { this.updateAllBtnStatus(); });
+            ViewManager.showProp(type, () => { this.showPropAni(PropType.besom); });
             return;
         }
         if (this.cleanUp()) {
@@ -611,6 +614,7 @@ export class GameView extends ViewComponent {
     /**扫把道具，清理3个到空白区域 */
     private cleanUp() {
         if (!this.cellContent.canCleanUp()) { ViewManager.showTips(i18n.string("str_prop_unusable")); return false; }//没有物品时无法使用该道具
+        AudioManager.playEffect("darts");
         this.cellContent.cleanUp();
         return true;
     }
@@ -632,11 +636,11 @@ export class GameView extends ViewComponent {
             add.active = false;
             numbg.active = false;
             btn.getComponent(Button).interactable = false;
-            UIUtils.setAllGray(btn, true, true);
+            UIUtils.setAllGray(b, true, true);
             return;
         }
         btn.getComponent(Button).interactable = true;
-        UIUtils.setAllGray(btn, false, true);
+        UIUtils.setAllGray(b, false, true);
         if (num <= 0) {
             add.active = true;
             numbg.active = false;
@@ -645,6 +649,11 @@ export class GameView extends ViewComponent {
             numbg.active = true;
             propNum.getComponent(Label).string = num.toString();
         }
+    }
+    /**道具领取动画 */
+    private async showPropAni(type:PropType){
+        await this.propAni.showAni(type);
+        this.updateAllBtnStatus();
     }
 
     onTask() {

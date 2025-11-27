@@ -1,0 +1,69 @@
+
+xingguangdoxiao.png
+size: 204,280
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+xx1
+  rotate: false
+  xy: 98, 24
+  size: 41, 52
+  orig: 43, 54
+  offset: 1, 1
+  index: -1
+xx5
+  rotate: false
+  xy: 98, 24
+  size: 41, 52
+  orig: 43, 54
+  offset: 1, 1
+  index: -1
+xx6
+  rotate: false
+  xy: 98, 24
+  size: 41, 52
+  orig: 43, 54
+  offset: 1, 1
+  index: -1
+xx2
+  rotate: false
+  xy: 141, 6
+  size: 26, 33
+  orig: 28, 35
+  offset: 1, 1
+  index: -1
+xx3
+  rotate: false
+  xy: 141, 6
+  size: 26, 33
+  orig: 28, 35
+  offset: 1, 1
+  index: -1
+xx4
+  rotate: true
+  xy: 141, 41
+  size: 35, 44
+  orig: 37, 46
+  offset: 1, 1
+  index: -1
+xx7
+  rotate: false
+  xy: 50, 13
+  size: 46, 63
+  orig: 48, 65
+  offset: 1, 1
+  index: -1
+xx8
+  rotate: false
+  xy: 2, 2
+  size: 46, 74
+  orig: 48, 76
+  offset: 1, 1
+  index: -1
+yuang
+  rotate: false
+  xy: 2, 78
+  size: 200, 200
+  orig: 202, 202
+  offset: 1, 1
+  index: -1
