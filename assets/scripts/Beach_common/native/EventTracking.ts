@@ -25,6 +25,15 @@ export namespace EventTracking {
             native.jsbBridgeWrapper.dispatchEventToNative("sendEvent", str);
         }
     }
+     /**上报通过第几关 */
+    export function sendEventLevelAdjust(level: number) {
+
+        console.log("adjustEvent 上报关卡" + level);
+        if (sys.platform === sys.Platform.ANDROID) {
+            native.jsbBridgeWrapper.dispatchEventToNative("trackLevelEvent", level.toString());//adjust上报
+        }
+
+    }
 
 
     /**游戏信息 */
@@ -119,6 +128,7 @@ export namespace EventTracking {
             _eventData.one.level = level;
             saveLocal();
             sendEvent(data);
+            this.sendEventLevelAdjust(level);
         }
     }
 }

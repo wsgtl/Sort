@@ -37,34 +37,36 @@ export class PurseDialog extends DialogComponent {
             this.numbg.scale = v3(sc, sc);
         }
         this.tips.forEach((v, i) => {
-            // v.string = GameUtil.PurseTips[i];
             v.string = i18n.string("purse_tip_" + (i + 1));
         })
-        // MoneyManger.instance.getMoneyNode().showTips();
     }
-    // private topAni() {
-    //     ActionEffect.scale(this.top, 0.3, 1, 0, "backOut");
-    //     delay(4, this.node).then(() => {
-    //         ActionEffect.fadeOut(this.top);
-    //     })
-    // }
+
     fit() {
         const h = view.getVisibleSize().y;
         const sh = 410 + (h - 1920) / 2;
         UIUtils.setHeight(this.scorll, sh);
         UIUtils.setHeight(this.scorll.children[0], sh);
 
-        const mn = MoneyManger.instance.getMoneyNode();
-        // if (mn) {
-        //     const p = UIUtils.transformOtherNodePos2localNode(mn.node, this.top);
-        //     this.top.y = p.y - 50;
-        // }
-
     }
 
     protected onDestroy(): void {
         EventTracking.sendOneEvent("backHome");
         MoneyManger.instance.setDialog(null);//注销记录的弹窗
+    }
+
+    /**关闭动画 */
+    async closeAni() {
+        if (this.isAni) return;
+        const time = 0.3;
+        // AudioManager.vibrate(1,155);
+        this.isAni = true;
+        ActionEffect.fadeOut(this.bg, time);
+        ActionEffect.fadeOut(this.scorll, time);
+        ActionEffect.scale(this.content, time, 0, 1, "backIn");
+
+        await delay(time, this.node);
+        this.node.destroy();
+        this.closeCb?.();
     }
 }
 

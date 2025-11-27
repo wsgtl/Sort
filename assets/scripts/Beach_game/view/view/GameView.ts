@@ -361,13 +361,14 @@ export class GameView extends ViewComponent {
         }
         if (GameManger.instance.getProgress() == 0) {
             GameManger.instance.isGameOver = true;
+            EventTracking.sendEventLevel(GameStorage.getCurLevel());
             GameStorage.nextLevel();
             this.gameOver(true);
         }
     }
     continueGame() {
         GameStorage.replayPropCurLevel();
-        EventTracking.sendEventLevel(GameStorage.getCurLevel());
+        // EventTracking.sendEventLevel(GameStorage.getCurLevel());
         // GameStorage.nextLevel();
         ViewManager.showGameView(true);
     }

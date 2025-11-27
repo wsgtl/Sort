@@ -2,6 +2,7 @@ package com.cocos.game;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -27,21 +28,21 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class AdMax {
-    private String sdkKey = "cDH3qp_qqeDkvuZITbPw6orrhh3nuTg8aTqoDbCCdgU5b6IJKm93yFGo8ka5sPOCereeKQfl552bBAlCqe8yZB";
+    private String sdkKey = "T_VP8ldbHQV8shXIAFpflUxGS3fazHJZUrxvNIg9DozO5Ti3LXJXed2kpCOWnQs7rKao5c3pn5XlPRZE39k8rd\t\t\t\t";
     /**激励视频广告id*/
-    private String videoId = "87d2c8137a78228d";
+    private String videoId = "6c1f1439e6715554";
     /**插屏广告id*/
-    private String interstitialId = "3f34061d94fbce2f";
+    private String interstitialId = "766d2027e099eef3";
     private Context _context;
     private Activity _activity;
     private String Tag = "广告";
     public void init(Context context, Activity activity){
         Log.e(Tag,"初始化");
-//        AppLovinSdk.getInstance( context ).showMediationDebugger();
+        //        AppLovinSdk.getInstance( context ).showMediationDebugger();
         this._context = context;
         this._activity = activity;
         AdMax adMax=this;
-// Create the initialization configuration
+        // Create the initialization configuration
         AppLovinSdkInitializationConfiguration initConfig = AppLovinSdkInitializationConfiguration.builder( this.sdkKey, context )
                 .setMediationProvider( AppLovinMediationProvider.MAX )
                 .setSegmentCollection( MaxSegmentCollection.builder()
@@ -84,57 +85,82 @@ public class AdMax {
         Log.e(Tag,"创建插屏广告");
         interstitialAd = new MaxInterstitialAd( this.interstitialId, this._context );
 
-
+        Context context = this._context;
         interstitialAd.setListener(new MaxAdListener() {
-               @Override
-               public void onAdLoaded(@NonNull MaxAd maxAd) {
-                    Log.e(Tag,"开始加载插屏广告");
-                   retryAttemptInter=0;
-               }
-
-               @Override
-               public void onAdDisplayed(@NonNull MaxAd maxAd) {
-                   Log.e(Tag,"开始播放插屏广告");
-                   gamePause();
-                   AppsFlyer.getInstance().sendEventAd(maxAd.getNetworkName(),maxAd.getFormat().getLabel(),maxAd.getRevenue());
-               }
-
-               @Override
-               public void onAdHidden(@NonNull MaxAd maxAd) {
-                   Log.e(Tag,"关闭插屏广告");
-                   gameResume();
-               }
-
-               @Override
-               public void onAdClicked(@NonNull MaxAd maxAd) {
-
-               }
-
-               @Override
-               public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
-                   Log.e(Tag,"错误加载插屏广告");
-                   gameResume();
-
-                   retryAttemptInter++;
-                   long delayMillis = TimeUnit.SECONDS.toMillis( (long) Math.pow( 2, Math.min( 6, retryAttemptInter ) ) );
-
-                   new Handler().postDelayed( new Runnable()
-                   {
-                       @Override
-                       public void run()
-                       {
-                           interstitialAd.loadAd();
-                       }
-                   }, delayMillis );
-               }
-
-               @Override
-               public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError maxError) {
-                   Log.e(Tag,"显示失败插屏广告");
-                   gameResume();
-                   interstitialAd.loadAd();
-               }
+           @Override
+           public void onAdLoaded(@NonNull MaxAd maxAd) {
+               Log.e(Tag,"开始加载插屏广告");
+               retryAttemptInter=0;
            }
+
+           @Override
+           public void onAdDisplayed(@NonNull MaxAd maxAd) {
+               Log.e(Tag,"开始播放插屏广告");
+               gamePause();
+
+               Double ecpm = maxAd.getRevenue();
+               String adPlatform = maxAd.getPlacement();
+               AdjustSDK.getInstance().sendEventAd(maxAd.getNetworkName(),maxAd.getFormat().getLabel(),ecpm);
+               AppsFlyer.getInstance().sendEventAd(maxAd.getNetworkName(),maxAd.getFormat().getLabel(),ecpm);
+
+               String placement =  AppsFlyer.getInstance().getCurrentAdPlacement();
+               String adType =  AppsFlyer.getInstance().getCurrentAdType();
+
+               // 上报广告展示事件
+               AppsFlyer.getInstance().sendAdShownEvent(placement, adType);
+               AdjustSDK.getInstance().sendAdShownEvent(placement, adType);
+
+               // 高价值用户数据上传
+               // 声明 final 变量，供匿名内部类使用
+               final double finalEcpm = ecpm;
+               String model = Build.MODEL;
+
+
+               GAIDHelper.fetchGAID(context, new GAIDHelper.GAIDCallback() {
+                   @Override
+                   public void onGAIDAvailable(String gaid) {
+                       AppsFlyer.getInstance().uploadAdInfoToServer(context,gaid, finalEcpm, model, adPlatform);
+                   }
+               });
+
+           }
+
+           @Override
+           public void onAdHidden(@NonNull MaxAd maxAd) {
+               Log.e(Tag,"关闭插屏广告");
+               gameResume();
+           }
+
+           @Override
+           public void onAdClicked(@NonNull MaxAd maxAd) {
+
+           }
+
+           @Override
+           public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
+               Log.e(Tag,"错误加载插屏广告");
+               gameResume();
+
+               retryAttemptInter++;
+               long delayMillis = TimeUnit.SECONDS.toMillis( (long) Math.pow( 2, Math.min( 6, retryAttemptInter ) ) );
+
+               new Handler().postDelayed( new Runnable()
+               {
+                   @Override
+                   public void run()
+                   {
+                       interstitialAd.loadAd();
+                   }
+               }, delayMillis );
+           }
+
+           @Override
+           public void onAdDisplayFailed(@NonNull MaxAd maxAd, @NonNull MaxError maxError) {
+               Log.e(Tag,"显示失败插屏广告");
+               gameResume();
+               interstitialAd.loadAd();
+           }
+       }
 
         );
         // Load the first ad
@@ -142,6 +168,10 @@ public class AdMax {
     }
     /**显示插屏广告*/
     void showInterstitialAd(String str){
+        AppsFlyer.setCurrentAdInfo(str,"AdInterstitial");
+        AppsFlyer.getInstance().sendAdClickedEvent(AppsFlyer.getCurrentAdPlacement(),AppsFlyer.getCurrentAdType());
+        AdjustSDK.setCurrentAdInfo(str,"AdInterstitial");
+        AdjustSDK.getInstance().sendAdClickedEvent(AdjustSDK.getCurrentAdPlacement(),AdjustSDK.getCurrentAdType());
         if ( interstitialAd.isReady() ) {
             // `this` is the activity that will be used to show the ad
             interstitialAd.showAd( this._activity);
@@ -157,6 +187,7 @@ public class AdMax {
     /**创建加载激励广告*/
     void createRewardedAd(String str) {
         Log.e(Tag,"创建激励广告");
+        Context context = this._context;
         JsbBridgeWrapper jbw = JsbBridgeWrapper.getInstance();
         rewardedAd = MaxRewardedAd.getInstance( this.videoId, this._context );
         rewardedAd.setListener(new MaxRewardedAdListener() {
@@ -165,6 +196,7 @@ public class AdMax {
                 // Rewarded ad was displayed and user should receive the reward
                 //建议在此回调中下发奖励
                 gameResume();
+                AdjustSDK.getInstance().handleAdImpression();
                 Log.e(Tag,"广告已经获得奖励了");
                 jbw.dispatchEventToScript("getRewardVideo");
             }
@@ -178,7 +210,31 @@ public class AdMax {
             public void onAdDisplayed(@NonNull MaxAd maxAd) {
                 Log.e(Tag,"开始播放视频广告");
                 gamePause();
-                AppsFlyer.getInstance().sendEventAd(maxAd.getNetworkName(),maxAd.getFormat().getLabel(),maxAd.getRevenue() );
+
+                Double ecpm = maxAd.getRevenue();
+                String adPlatform = maxAd.getPlacement();
+                AdjustSDK.getInstance().sendEventAd(maxAd.getNetworkName(),maxAd.getFormat().getLabel(),ecpm );
+                AppsFlyer.getInstance().sendEventAd(maxAd.getNetworkName(),maxAd.getFormat().getLabel(),ecpm );
+
+                String placement =  AppsFlyer.getInstance().getCurrentAdPlacement();
+                String adType =  AppsFlyer.getInstance().getCurrentAdType();
+
+                // 上报广告展示事件
+                AppsFlyer.getInstance().sendAdShownEvent(placement, adType);
+                AdjustSDK.getInstance().sendAdShownEvent(placement, adType);
+                // 高价值用户数据上传
+                // 声明 final 变量，供匿名内部类使用
+                final double finalEcpm = ecpm;
+                String model = Build.MODEL;
+
+
+                GAIDHelper.fetchGAID(context, new GAIDHelper.GAIDCallback() {
+                    @Override
+                    public void onGAIDAvailable(String gaid) {
+                        AppsFlyer.getInstance().uploadAdInfoToServer(context,gaid, finalEcpm, model, adPlatform);
+                    }
+                });
+
             }
 
             @Override
@@ -197,6 +253,7 @@ public class AdMax {
             @Override
             public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
                 Log.e(Tag,"加载失败视频广告");
+                Log.e(Tag,"加载失败视频广告"+s);
                 jbw.dispatchEventToScript("getRewardVideoFail","0");
                 // Rewarded ad failed to load
                 // AppLovin recommends that you retry with exponentially higher delays up to a maximum delay (in this case 64 seconds)
@@ -229,6 +286,10 @@ public class AdMax {
     }
     /**显示激励广告*/
     void showRewardAd(String str){
+        AppsFlyer.setCurrentAdInfo(str,"AdRewardVideo");
+        AppsFlyer.getInstance().sendAdClickedEvent(AppsFlyer.getCurrentAdPlacement(),AppsFlyer.getCurrentAdType());
+        AdjustSDK.setCurrentAdInfo(str,"AdRewardVideo");
+        AdjustSDK.getInstance().sendAdClickedEvent(AdjustSDK.getCurrentAdPlacement(),AdjustSDK.getCurrentAdType());
         JsbBridgeWrapper jbw = JsbBridgeWrapper.getInstance();
         if ( rewardedAd.isReady() ) {
             // `this` is the activity that will be used to show the ad

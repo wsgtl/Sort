@@ -108,6 +108,10 @@ android {
      maven { url "https://cboost.jfrog.io/artifactory/chartboost-ads/" }
      maven { url "https://android-sdk.is.com" }
      maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
+
+     maven { url "https://artifactory.bidmachine.io/bidmachine" }
+     maven { url "https://cboost.jfrog.io/artifactory/chartboost-ads/" }
+     maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
      maven { url "https://artifact.bytedance.com/repository/pangle" }
 
 }
@@ -124,16 +128,15 @@ dependencies {
         implementation 'com.google.android.libraries.play.games:inputmapping:1.1.0-beta'
         implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
     }
-    //接入h5游戏入口aar
-//    implementation(name:'layer-release', ext:'aar')
-    implementation files('libs/layer-release.aar')
 
     //max广告
     implementation 'com.applovin:applovin-sdk:+'
+    implementation 'com.applovin.mediation:bidmachine-adapter:+'
     implementation 'com.applovin.mediation:bigoads-adapter:+'
     implementation 'com.applovin.mediation:chartboost-adapter:+'
     implementation 'com.google.android.gms:play-services-base:16.1.0'
     implementation 'com.applovin.mediation:fyber-adapter:+'
+    implementation 'com.applovin.mediation:google-ad-manager-adapter:+'
     implementation 'com.applovin.mediation:google-adapter:+'
     implementation 'com.applovin.mediation:inmobi-adapter:+'
     implementation 'com.squareup.picasso:picasso:2.8'
@@ -144,6 +147,7 @@ dependencies {
     implementation 'com.applovin.mediation:mintegral-adapter:+'
     implementation 'com.applovin.mediation:bytedance-adapter:+'
     implementation 'com.applovin.mediation:unityads-adapter:+'
+    implementation 'com.applovin.mediation:mytarget-adapter:+'
 
 
     //af
@@ -152,5 +156,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.activity:activity:1.9.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    //adjust
+    implementation 'com.adjust.sdk:adjust-android:4.33.3'
+    implementation 'com.android.installreferrer:installreferrer:2.2'  // 安装归因依赖
 }
 
