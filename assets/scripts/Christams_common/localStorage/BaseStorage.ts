@@ -1,14 +1,14 @@
 import { sys } from "cc";
 
 export enum ITEM_STORAGE {
-    LANGUAGE = "Beach_Lang",
-    AUDIO = "Beach_audio",
-    EventTrackings = "Beach_events",
-    Game = "Beach_game",
-    GameData = "Beach_gamedata",
-    AbTest = "Beach_ab_test",
-    WebConfig = "Beach_web_config",
-    GameTime = "Beach_gametime",
+    LANGUAGE = "Christams_Lang",
+    AUDIO = "Christams_audio",
+    EventTrackings = "Christams_events",
+    Game = "Christams_game",
+    GameData = "Christams_gamedata",
+    AbTest = "Christams_ab_test",
+    WebConfig = "Christams_web_config",
+    GameTime = "Christams_gametime",
 }
 
 /**
