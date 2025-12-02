@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class AdMax {
-    private String sdkKey = "T_VP8ldbHQV8shXIAFpflUxGS3fazHJZUrxvNIg9DozO5Ti3LXJXed2kpCOWnQs7rKao5c3pn5XlPRZE39k8rd\t\t\t\t";
+    private String sdkKey = "T_VP8ldbHQV8shXIAFpflUxGS3fazHJZUrxvNIg9DozO5Ti3LXJXed2kpCOWnQs7rKao5c3pn5XlPRZE39k8rd";
     /**激励视频广告id*/
     private String videoId = "6c1f1439e6715554";
     /**插屏广告id*/
@@ -252,8 +252,7 @@ public class AdMax {
 
             @Override
             public void onAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
-                Log.e(Tag,"加载失败视频广告");
-                Log.e(Tag,"加载失败视频广告"+s);
+                Log.e(Tag,"加载失败视频广告"+s+"   "+maxError);
                 jbw.dispatchEventToScript("getRewardVideoFail","0");
                 // Rewarded ad failed to load
                 // AppLovin recommends that you retry with exponentially higher delays up to a maximum delay (in this case 64 seconds)

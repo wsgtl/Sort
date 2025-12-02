@@ -161,6 +161,9 @@ export class GameView extends ViewComponent {
             const data = GameManger.instance.recoverGameData();//恢复数据
             if (data) {
                 this.recoverBoard(data.board, data.cells, data.cleanCells);
+                if(GameManger.instance.isGameOver){
+                    this.failProcess();
+                }
             } else {
                 this.initBoard();
             }
@@ -318,7 +321,7 @@ export class GameView extends ViewComponent {
     /**结束流程，先弹复活弹窗，没复活则弹失败 */
     public failProcess() {
         const rn = GameStorage.getPropCurLevel(PropType.resurrection);
-        if (rn.all >= ConfigConst.Other.PropLimit) {
+        if (rn.all >= ConfigConst.Other.PropLimit) {   
             this.gameOver(false);
             return;
         }
@@ -333,6 +336,7 @@ export class GameView extends ViewComponent {
         Tween.stopAllByTarget(this.node);
         // Tween.stopAllByTarget(this.jd.getComponent(UITransform));
         AudioManager.stopBgm();
+        GameStorage.replayPropCurLevel();
         GameManger.instance.replayBoard();
         await nextFrame();
         await delay(0.4);
@@ -344,8 +348,8 @@ export class GameView extends ViewComponent {
     }
 
     replay() {
-        GameStorage.replayPropCurLevel();
-        GameManger.instance.replayBoard();
+        // GameStorage.replayPropCurLevel();
+        // GameManger.instance.replayBoard();
         ViewManager.showGameView();
     }
     private rewardTimes: number = 0;
@@ -367,7 +371,7 @@ export class GameView extends ViewComponent {
         }
     }
     continueGame() {
-        GameStorage.replayPropCurLevel();
+        // GameStorage.replayPropCurLevel();
         // EventTracking.sendEventLevel(GameStorage.getCurLevel());
         // GameStorage.nextLevel();
         ViewManager.showGameView(true);
@@ -652,8 +656,12 @@ export class GameView extends ViewComponent {
         }
     }
     /**道具领取动画 */
-    private async showPropAni(type:PropType){
-        await this.propAni.showAni(type);
+    private async showPropAni(type: PropType) {
+        const p = instantiate(this.propAni.node);
+        this.node.addChild(p);
+        await p.getComponent(PropAni).showAni(type);
+        p.destroy();
+        // await this.propAni.showAni(type);
         this.updateAllBtnStatus();
     }
 

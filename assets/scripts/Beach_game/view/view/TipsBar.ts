@@ -15,22 +15,22 @@ export class TipsBar extends ViewComponent {
     tips: Label = null;
 
 
-    
 
-    show(parent:Node,args?:any){
+
+    show(parent: Node, args?: any) {
         parent.addChild(this.node);
         this.tips.string = args.tips;
         this.tips.updateRenderData();
-        UIUtils.setHeight(this.bg,UIUtils.getHeight(this.tips.node)+30);
-        
+        UIUtils.setHeight(this.bg, UIUtils.getHeight(this.tips.node) + 50);
+
         const op = this.node.getComponent(UIOpacity);
         Tween.stopAllByTarget(op);
         op.opacity = 255;
-        
+
         tween(op)
-        .to(args.duration,{opacity:0},{easing:"cubicIn"})
-        .call(()=>{this.node.removeFromParent()})
-        .start();
+            .to(args.duration, { opacity: 0 }, { easing: "cubicIn" })
+            .call(() => { this.node.removeFromParent() })
+            .start();
     }
 
 }

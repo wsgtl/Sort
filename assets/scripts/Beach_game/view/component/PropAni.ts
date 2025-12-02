@@ -27,7 +27,7 @@ export class PropAni extends Component {
     type: PropType;
     private curBtn: Node;
     protected onLoad(): void {
-        this.node.active = false;
+        // this.node.active = false;
     }
     /**道具领取动画 */
     async showAni(type: PropType) {
@@ -56,7 +56,6 @@ export class PropAni extends Component {
         this.click.active = false;
     }
 }
-
 
 
 

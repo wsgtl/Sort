@@ -261,6 +261,7 @@ export class GameManger {
             this.clearColletionArr = data.clearColletionArr;
             this.groupNum = data.groupNum;
             this.step = data.step;
+            this.isGameOver = data.isGameOver;
             return {
                 board: data.board,
                 cells: data.cells,
@@ -280,7 +281,8 @@ export class GameManger {
             step: this.step,
             board: dd.board,
             cells: dd.cells,
-            cleanCells: dd.cleanCells
+            cleanCells: dd.cleanCells,
+            isGameOver:this.isGameOver
         }
         BaseStorageNS.setItem(ITEM_STORAGE.GameData, JSON.stringify(_data));
     }

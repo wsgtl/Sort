@@ -369,8 +369,8 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "x": 0.7,
+      "y": 0.7,
       "z": 1
     },
     "_mobility": 0,
@@ -437,8 +437,8 @@
       "__uuid__": "d1179e0a-7ded-4dd6-bf39-5c2327d62b3b",
       "__expectedType__": "sp.SkeletonData"
     },
-    "defaultSkin": "default",
-    "defaultAnimation": "animation",
+    "defaultSkin": "",
+    "defaultAnimation": "",
     "_premultipliedAlpha": true,
     "_timeScale": 0.3,
     "_preCacheMode": 0,

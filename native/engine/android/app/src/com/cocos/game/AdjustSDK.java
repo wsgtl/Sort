@@ -38,7 +38,7 @@ public class AdjustSDK {
         mApplication = application;
         String appToken = AdjustAppToken;
         String environment = AdjustConfig.ENVIRONMENT_PRODUCTION;
-        environment = AdjustConfig.ENVIRONMENT_SANDBOX;// 或者沙盒模式 AdjustConfig.ENVIRONMENT_SANDBOX
+//        environment = AdjustConfig.ENVIRONMENT_SANDBOX;// 或者沙盒模式 AdjustConfig.ENVIRONMENT_SANDBOX
         AdjustConfig config = new AdjustConfig(application, appToken, environment);
         config.setLogLevel(LogLevel.VERBOSE);
         // Attribution 回调
