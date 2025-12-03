@@ -1,8 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
-import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
-import { LangTag } from '../../../Beach_common/native/LocalRate';
-import { i18n } from '../../../Beach_common/i18n/I18nManager';
+import { i18n } from '../../../Christams_common/i18n/I18nManager';
+import { LangTag } from '../../../Christams_common/native/LocalRate';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
 const { ccclass, property } = _decorator;
 
 @ccclass('LangSettingsDialog')

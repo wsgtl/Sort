@@ -8,8 +8,8 @@ import { v3 } from "cc";
 import { v2 } from "cc";
 import { Vec2 } from "cc";
 import { GameStorage } from "./GameStorage";
-import { MathUtil } from "../Beach_common/utils/MathUtil";
 import { ConfigConst } from "./manager/ConfigConstManager";
+import { MathUtil } from "../Christams_common/utils/MathUtil";
 
 
 /**格子数据 */
@@ -73,9 +73,9 @@ export enum PropType {
 
 export namespace GameUtil {
    export const IsTest: boolean = false;
-   export const CellW: number = 167;//格子宽
-   export const CellH: number = 225;//格子高
-   export const DownW: number = 132;//下方每个格子宽
+   export const CellW: number = 145;//格子宽
+   export const CellH: number = 210;//格子高
+   export const DownW: number = 134;//下方每个格子宽
    export const AllRow: number = 16;//生成的行数
    export const PropLimit: number = 3;//道具每回合限制数量
    export const CollectionClearCoins: number = 3;//物品每次消除增加金币数

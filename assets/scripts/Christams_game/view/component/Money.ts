@@ -1,17 +1,12 @@
 import { _decorator, Component, Node } from 'cc';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
 import { GameStorage } from '../../GameStorage';
 import { Button } from 'cc';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
-import { ButtonLock } from '../../../Beach_common/Decorator';
 import { MoneyManger } from '../../manager/MoneyManger';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { delay, tweenPromise } from '../../../Beach_common/utils/TimeUtil';
-import { Tween } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
 import { v3 } from 'cc';
 import { Label } from 'cc';
+import { ButtonLock } from '../../../Christams_common/Decorator';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { FormatUtil } from '../../../Christams_common/utils/FormatUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Money')

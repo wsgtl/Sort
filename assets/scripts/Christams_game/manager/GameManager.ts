@@ -1,13 +1,12 @@
-import { Vec2 } from "cc";
-import Debugger from "../../Beach_common/Debugger";
-import { MathUtil } from "../../Beach_common/utils/MathUtil";
-import { v2 } from "cc";
+
 import { CabinetAllData, CellData, ColletType, GameUtil } from "../GameUtil";
 import { GameStorage } from "../GameStorage";
 import { GameView } from "../view/view/GameView";
 import { Colletion } from "../view/component/Colletion";
-import { BaseStorageNS, ITEM_STORAGE } from "../../Beach_common/localStorage/BaseStorage";
 import { ConfigConst } from "./ConfigConstManager";
+import Debugger from "../../Christams_common/Debugger";
+import { BaseStorageNS, ITEM_STORAGE } from "../../Christams_common/localStorage/BaseStorage";
+import { MathUtil } from "../../Christams_common/utils/MathUtil";
 
 const debug = Debugger("GameManger");
 export class GameManger {
@@ -282,13 +281,19 @@ export class GameManger {
             board: dd.board,
             cells: dd.cells,
             cleanCells: dd.cleanCells,
-            isGameOver:this.isGameOver
+            isGameOver: this.isGameOver
         }
         BaseStorageNS.setItem(ITEM_STORAGE.GameData, JSON.stringify(_data));
     }
     /**重玩初始化盘面 */
     public replayBoard() {
         BaseStorageNS.setItem(ITEM_STORAGE.GameData, "");
+    }
+    /**重玩 */
+    public replay() {
+        GameStorage.replayPropCurLevel();
+        GameManger.instance.replayBoard();
+        this.gv.replay();
     }
 
 }

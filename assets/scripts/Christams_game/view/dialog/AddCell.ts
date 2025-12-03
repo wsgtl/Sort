@@ -1,9 +1,9 @@
 import { _decorator, Component, Node } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
 import { Button } from 'cc';
-import { adHelper } from '../../../Beach_common/native/AdHelper';
 import { ViewManager } from '../../manager/ViewManger';
 import { GameStorage } from '../../GameStorage';
+import { adHelper } from '../../../Christams_common/native/AdHelper';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
 const { ccclass, property } = _decorator;
 
 @ccclass('AddCell')

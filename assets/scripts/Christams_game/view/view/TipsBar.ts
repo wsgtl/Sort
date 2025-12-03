@@ -1,10 +1,10 @@
 import { Label } from 'cc';
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { tween } from 'cc';
 import { UIOpacity } from 'cc';
 import { Tween } from 'cc';
+import ViewComponent from '../../../Christams_common/ui/ViewComponent';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('TipsBar')

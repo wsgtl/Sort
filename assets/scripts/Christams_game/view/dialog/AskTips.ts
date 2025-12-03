@@ -1,7 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
 import { Button } from 'cc';
 import { AudioManager } from '../../manager/AudioManager';
+import ViewComponent from '../../../Christams_common/ui/ViewComponent';
 const { ccclass, property } = _decorator;
 
 @ccclass('AskTips')

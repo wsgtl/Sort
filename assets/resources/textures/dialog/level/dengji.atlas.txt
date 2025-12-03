@@ -1,0 +1,41 @@
+
+dengji.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ren1
+  rotate: true
+  xy: 660, 46
+  size: 147, 145
+  orig: 151, 149
+  offset: 2, 2
+  index: -1
+ren2
+  rotate: true
+  xy: 1362, 285
+  size: 218, 217
+  orig: 222, 221
+  offset: 2, 2
+  index: -1
+ren3
+  rotate: false
+  xy: 537, 195
+  size: 823, 308
+  orig: 827, 312
+  offset: 2, 2
+  index: -1
+ren4
+  rotate: true
+  xy: 2, 2
+  size: 501, 533
+  orig: 501, 533
+  offset: 0, 0
+  index: -1
+ren5
+  rotate: false
+  xy: 537, 12
+  size: 121, 181
+  orig: 121, 181
+  offset: 0, 0
+  index: -1

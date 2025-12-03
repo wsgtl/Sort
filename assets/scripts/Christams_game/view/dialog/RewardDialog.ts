@@ -1,28 +1,17 @@
 import { _decorator, Component, Node } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
-import { SpriteFrame } from 'cc';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
 import { Sprite } from 'cc';
 import { RewardType } from '../../GameUtil';
-import { MathUtil } from '../../../Beach_common/utils/MathUtil';
 import { Button } from 'cc';
-import { AdHelper, adHelper } from '../../../Beach_common/native/AdHelper';
-import { GameStorage } from '../../GameStorage';
-import { CoinManger } from '../../manager/CoinManger';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { ViewManager } from '../../manager/ViewManger';
 import { AudioManager } from '../../manager/AudioManager';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { isVaild } from '../../../Beach_common/utils/ViewUtil';
-import { Vec3 } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { GuideManger } from '../../manager/GuideManager';
-import { Money } from '../component/Money';
-import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
-import { Label } from 'cc';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 import { v3 } from 'cc';
+import { Label } from 'cc';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { adHelper } from '../../../Christams_common/native/AdHelper';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
+import { FormatUtil } from '../../../Christams_common/utils/FormatUtil';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('RewardDialog')

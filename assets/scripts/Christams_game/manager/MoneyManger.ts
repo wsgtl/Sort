@@ -1,14 +1,14 @@
 import { Node } from "cc";
 import { ViewManager } from "./ViewManger";
 import { GameStorage } from "../GameStorage";
-import { isVaild } from "../../Beach_common/utils/ViewUtil";
-import { Money } from "../view/component/Money";
-import { EventTracking } from "../../Beach_common/native/EventTracking";
-import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
-import { LangStorage } from "../../Beach_common/localStorage/LangStorage";
-import { MathUtil } from "../../Beach_common/utils/MathUtil";
-import { FormatUtil } from "../../Beach_common/utils/FormatUtil";
 import { ConfigConst } from "./ConfigConstManager";
+import { ActionEffect } from "../../Christams_common/effects/ActionEffect";
+import { LangStorage } from "../../Christams_common/localStorage/LangStorage";
+import { EventTracking } from "../../Christams_common/native/EventTracking";
+import { FormatUtil } from "../../Christams_common/utils/FormatUtil";
+import { MathUtil } from "../../Christams_common/utils/MathUtil";
+import { isVaild } from "../../Christams_common/utils/ViewUtil";
+import { Money } from "../view/component/Money";
 
 export class MoneyManger {
     public static _instance: MoneyManger = null;

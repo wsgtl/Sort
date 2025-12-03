@@ -3,7 +3,6 @@ import { Colletion } from './Colletion';
 import { Vec3 } from 'cc';
 import { v3 } from 'cc';
 import { GameManger } from '../../manager/GameManager';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
 import { Cabinet } from './Cabinet';
 import { CabinetData, CellData, ColletType, GameUtil, RewardType } from '../../GameUtil';
 import { AudioManager } from '../../manager/AudioManager';
@@ -15,8 +14,9 @@ import { v2 } from 'cc';
 import { CoinManger } from '../../manager/CoinManger';
 import { Prefab } from 'cc';
 import { instantiate } from 'cc';
-import { EventTracking } from '../../../Beach_common/native/EventTracking';
 import { ConfigConst } from '../../manager/ConfigConstManager';
+import { EventTracking } from '../../../Christams_common/native/EventTracking';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellContent')
@@ -122,7 +122,7 @@ export class CellContent extends Component {
     }
     public getPos(x: number): Vec3 {
         const w = GameUtil.DownW;
-        return v3((x - 3.5) * w, -40);
+        return v3((x - 3.5) * w, -25);
     }
     /**回退操作 */
     public getBackCollect() {

@@ -1,17 +1,17 @@
 import { _decorator, Component, Node } from 'cc';
 import { Button } from 'cc';
 import { AudioManager } from '../../manager/AudioManager';
-import { adHelper } from '../../../Beach_common/native/AdHelper';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
 import { Label } from 'cc';
 import { view } from 'cc';
 import { MoneyManger } from '../../manager/MoneyManger';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 import { ViewManager } from '../../manager/ViewManger';
 import { RewardType } from '../../GameUtil';
 import { ConfigConst } from '../../manager/ConfigConstManager';
 import { CoinManger } from '../../manager/CoinManger';
 import { GameStorage } from '../../GameStorage';
+import { adHelper } from '../../../Christams_common/native/AdHelper';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
+import { FormatUtil } from '../../../Christams_common/utils/FormatUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameOver')

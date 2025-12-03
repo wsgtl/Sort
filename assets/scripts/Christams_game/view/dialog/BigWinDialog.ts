@@ -1,14 +1,13 @@
 import { _decorator, Component, Node } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
 import { Button } from 'cc';
-import { adHelper } from '../../../Beach_common/native/AdHelper';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { ViewManager } from '../../manager/ViewManger';
 import { RewardType } from '../../GameUtil';
 import { Label } from 'cc';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
+import { adHelper } from '../../../Christams_common/native/AdHelper';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
+import { FormatUtil } from '../../../Christams_common/utils/FormatUtil';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('BigWinDialog')

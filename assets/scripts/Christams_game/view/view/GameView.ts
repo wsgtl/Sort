@@ -1,10 +1,5 @@
 import { _decorator, Node, SpriteFrame, Sprite } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
 import { Button } from 'cc';
-
-import { AdHelper, adHelper } from '../../../Beach_common/native/AdHelper';
-import Debugger from '../../../Beach_common/Debugger';
 import { GameStorage } from '../../GameStorage';
 import { Prefab } from 'cc';
 import { instantiate } from 'cc';
@@ -13,28 +8,30 @@ import { AudioManager } from '../../manager/AudioManager';
 import { tween } from 'cc';
 import { Tween } from 'cc';
 import { view } from 'cc';
-import { EventTouch } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { CabinetAllData, CabinetData, CellData, ColletType, GameUtil, PropType, RewardType } from '../../GameUtil';
-import { delay, nextFrame, tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { GameManger } from '../../manager/GameManager';
 import { Progress2 } from '../component/Progress2';
 import { Colletion } from '../component/Colletion';
 import { Cabinet } from '../component/Cabinet';
 import { CellContent } from '../component/CellContent';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { v3 } from 'cc';
-import { MathUtil } from '../../../Beach_common/utils/MathUtil';
 import { Label } from 'cc';
 import { GuideManger } from '../../manager/GuideManager';
 import { GuideMask } from '../guide/GuideMask';
-import { i18n } from '../../../Beach_common/i18n/I18nManager';
 import { Widget } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { ReddotManager } from '../../manager/ReddotManager';
-import { EventTracking } from '../../../Beach_common/native/EventTracking';
 import { PropAni } from '../component/PropAni';
+import { v3 } from 'cc';
+import Debugger from '../../../Christams_common/Debugger';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { i18n } from '../../../Christams_common/i18n/I18nManager';
+import { adHelper } from '../../../Christams_common/native/AdHelper';
+import { EventTracking } from '../../../Christams_common/native/EventTracking';
+import ViewComponent from '../../../Christams_common/ui/ViewComponent';
+import { MathUtil } from '../../../Christams_common/utils/MathUtil';
+import { nextFrame, delay, tweenPromise } from '../../../Christams_common/utils/TimeUtil';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -108,14 +105,14 @@ export class GameView extends ViewComponent {
         const cha = h - 1920;
         const cellH = GameUtil.CellH + 100;
 
-        let sc = 0.95;//缩放比例
+        let sc = 1;//缩放比例
         if (cha > 150) {
             this.topContent.getComponent(Widget).top = -30;
             this.bottomContent.y = -860 - cha * .47;
             this.content.y = -510 - cha * 0.43;
             this.progress.node.scale = v3(1, 1, 1);
         } else {
-            sc = 0.9;
+            sc = 0.95;
             this.topContent.getComponent(Widget).top = -100;
             this.bottomContent.y = -860 - cha * .2;
             this.content.y = -510 - cha * 0.2;

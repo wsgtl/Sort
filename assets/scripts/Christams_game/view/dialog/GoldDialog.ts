@@ -1,12 +1,10 @@
 import { _decorator, Component, Node } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
 import { CoinManger } from '../../manager/CoinManger';
 import { Button } from 'cc';
 import { GameUtil, RewardType } from '../../GameUtil';
-import { adHelper } from '../../../Beach_common/native/AdHelper';
 import { ViewManager } from '../../manager/ViewManger';
-import { GameStorage } from '../../GameStorage';
-import { EventTracking } from '../../../Beach_common/native/EventTracking';
+import { adHelper } from '../../../Christams_common/native/AdHelper';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
 const { ccclass, property } = _decorator;
 
 @ccclass('GoldDialog')

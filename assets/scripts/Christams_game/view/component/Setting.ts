@@ -1,7 +1,7 @@
 import { Button } from 'cc';
 import { _decorator, Component, Node } from 'cc';
-import { ButtonLock } from '../../../Beach_common/Decorator';
 import { SettingManger } from '../../manager/SettingManger';
+import { ButtonLock } from '../../../Christams_common/Decorator';
 const { ccclass, property } = _decorator;
 
 @ccclass('Setting')

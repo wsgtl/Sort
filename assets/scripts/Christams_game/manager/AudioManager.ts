@@ -1,13 +1,12 @@
 import { AudioClip, Node } from "cc";
 import { resources } from "cc";
 import { AudioSource } from "cc";
-import { delay } from "../../Beach_common/utils/TimeUtil";
-import { destroyNode, isVaild } from "../../Beach_common/utils/ViewUtil";
-import Debugger from "../../Beach_common/Debugger";
 import { sys } from "cc";
-import { MathUtil } from "../../Beach_common/utils/MathUtil";
-import { AudioStorage } from "../../Beach_common/localStorage/AudioStorage";
-import { NativeFun } from "../../Beach_common/native/NativeFun";
+import Debugger from "../../Christams_common/Debugger";
+import { AudioStorage } from "../../Christams_common/localStorage/AudioStorage";
+import { NativeFun } from "../../Christams_common/native/NativeFun";
+import { delay } from "../../Christams_common/utils/TimeUtil";
+import { destroyNode, isVaild } from "../../Christams_common/utils/ViewUtil";
 
 export namespace AudioManager {
     const debug = Debugger('AudioManager');

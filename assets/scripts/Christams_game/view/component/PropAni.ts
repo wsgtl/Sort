@@ -3,12 +3,11 @@ import { SpriteFrame } from 'cc';
 import { _decorator, Component, Node } from 'cc';
 import { PropType } from '../../GameUtil';
 import { Sprite } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { v3 } from 'cc';
-import { delay, tweenPromise } from '../../../Beach_common/utils/TimeUtil';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { AffineTransform } from 'cc';
 import { AudioManager } from '../../manager/AudioManager';
+import { v3 } from 'cc';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { delay, tweenPromise } from '../../../Christams_common/utils/TimeUtil';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('PropAni')

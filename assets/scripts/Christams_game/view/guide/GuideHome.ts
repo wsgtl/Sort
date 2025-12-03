@@ -1,19 +1,11 @@
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
 import { Button } from 'cc';
 import { ViewManager } from '../../manager/ViewManger';
-import { GuideManger } from '../../manager/GuideManager';
 import { TipsAni } from './TipsAni';
-import { delay, nextFrame } from '../../../Beach_common/utils/TimeUtil';
-import { Hand } from './Hand';
-import { Prefab } from 'cc';
-import { instantiate } from 'cc';
-import { Widget } from 'cc';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { DialogBox } from './DialogBox';
 import { view, v3 } from 'cc';
-import { EventTracking } from '../../../Beach_common/native/EventTracking';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
+import { EventTracking } from '../../../Christams_common/native/EventTracking';
+import ViewComponent from '../../../Christams_common/ui/ViewComponent';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('GuideHome')

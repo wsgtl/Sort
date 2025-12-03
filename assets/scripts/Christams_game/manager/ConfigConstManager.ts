@@ -1,5 +1,6 @@
-import { BaseStorageNS, ITEM_STORAGE } from "../../Beach_common/localStorage/BaseStorage";
-import { Jsb } from "../../Beach_common/platform/Jsb";
+
+import { ITEM_STORAGE, BaseStorageNS } from "../../Christams_common/localStorage/BaseStorage";
+import { Jsb } from "../../Christams_common/platform/Jsb";
 import { GameUtil } from "../GameUtil";
 
 

@@ -1,10 +1,9 @@
-import Debugger from "../../Beach_common/Debugger";
-import { isVaild } from "../../Beach_common/utils/ViewUtil";
+
+import Debugger from "../../Christams_common/Debugger";
+import { isVaild } from "../../Christams_common/utils/ViewUtil";
 import { GameStorage } from "../GameStorage";
 import { GameUtil } from "../GameUtil";
-import { Home } from "../view/view/Home";
 import { Node } from 'cc'
-import { ViewManager } from "./ViewManger";
 
 const debug = Debugger("GameManger");
 /**红点管理 */

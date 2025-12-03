@@ -1,22 +1,22 @@
 import { SpriteFrame } from 'cc';
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
 import { RewardType } from '../../GameUtil';
 import { Sprite } from 'cc';
 import { instantiate } from 'cc';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { CoinManger } from '../../manager/CoinManger';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { v3 } from 'cc';
-import { MathUtil } from '../../../Beach_common/utils/MathUtil';
-import { delay, tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { Vec3 } from 'cc';
 import { GameStorage } from '../../GameStorage';
 import { tween } from 'cc';
 import { AudioManager } from '../../manager/AudioManager';
 import { Vec2 } from 'cc';
 import { Button } from 'cc';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import ViewComponent from '../../../Christams_common/ui/ViewComponent';
+import { MathUtil } from '../../../Christams_common/utils/MathUtil';
+import { delay, tweenPromise } from '../../../Christams_common/utils/TimeUtil';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('RewardAni')

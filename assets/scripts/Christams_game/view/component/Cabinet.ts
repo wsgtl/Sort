@@ -1,20 +1,18 @@
-import { _decorator, Component, Node } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { CabinetAllData, CabinetData, CellData, ColletType, GameUtil } from '../../GameUtil';
-import { EventTouch } from 'cc';
+import { EventTouch,Node } from 'cc';
 import { Vec3 } from 'cc';
 import { v3 } from 'cc';
 import { instantiate } from 'cc';
 import { Prefab } from 'cc';
 import { Colletion } from './Colletion';
-import { CellContent } from './CellContent';
 import { GameManger } from '../../manager/GameManager';
-import { isVaild } from '../../../Beach_common/utils/ViewUtil';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { tween } from 'cc';
-import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { AudioManager } from '../../manager/AudioManager';
 import { sp } from 'cc';
+import { _decorator, Component } from 'cc';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { tweenPromise } from '../../../Christams_common/utils/TimeUtil';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
+import { isVaild } from '../../../Christams_common/utils/ViewUtil';
 const { ccclass, property } = _decorator;
 
 /**柜子 */

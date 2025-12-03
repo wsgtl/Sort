@@ -1,7 +1,6 @@
-import { Mask } from 'cc';
 import { _decorator, Component, Node } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { MathUtil } from '../../../Beach_common/utils/MathUtil';
+import { MathUtil } from '../../../Christams_common/utils/MathUtil';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('Progress')

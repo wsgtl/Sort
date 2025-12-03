@@ -1,8 +1,7 @@
-import { _decorator, Component, Node } from 'cc';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
 import { Sprite } from 'cc';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
+import { _decorator, Component, Node } from 'cc';
 import { Label } from 'cc';
+import { FormatUtil } from '../../../Christams_common/utils/FormatUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Progress2')

@@ -1,14 +1,14 @@
-import './Beach_common/Expand'
+import './Christams_common/Expand'
 import { _decorator, Component, Node } from 'cc';
-import { ViewManager } from './Beach_game/manager/ViewManger';
-import { GameStorage } from './Beach_game/GameStorage';
 import { AudioSource } from 'cc';
-import { AudioManager } from './Beach_game/manager/AudioManager';
-import { i18n } from './Beach_common/i18n/I18nManager';
-import { AudioStorage } from './Beach_common/localStorage/AudioStorage';
-import { LangStorage } from './Beach_common/localStorage/LangStorage';
-import { WebManger } from './Beach_game/manager/WebManager';
-import { EventTracking } from './Beach_common/native/EventTracking';
+import { i18n } from './Christams_common/i18n/I18nManager';
+import { AudioStorage } from './Christams_common/localStorage/AudioStorage';
+import { LangStorage } from './Christams_common/localStorage/LangStorage';
+import { EventTracking } from './Christams_common/native/EventTracking';
+import { GameStorage } from './Christams_game/GameStorage';
+import { AudioManager } from './Christams_game/manager/AudioManager';
+import { ViewManager } from './Christams_game/manager/ViewManger';
+import { WebManger } from './Christams_game/manager/WebManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameLaunch')

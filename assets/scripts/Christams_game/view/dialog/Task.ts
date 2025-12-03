@@ -1,13 +1,10 @@
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
-import { view } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { GameStorage } from '../../GameStorage';
 import { instantiate } from 'cc';
 import { TaskItem } from '../component/TaskItem';
 import { Prefab } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
 import { GameUtil } from '../../GameUtil';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
 const { ccclass, property } = _decorator;
 
 @ccclass('Task')

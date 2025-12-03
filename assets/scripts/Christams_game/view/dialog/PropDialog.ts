@@ -1,14 +1,16 @@
 import { _decorator, RichText, Button, Label, Node } from "cc";
-import { GlobalButtonLock } from "../../../Beach_common/Decorator";
-import { i18n } from "../../../Beach_common/i18n/I18nManager";
-import { adHelper } from "../../../Beach_common/native/AdHelper";
-import { DialogComponent } from "../../../Beach_common/ui/DialogComtnet";
 import { GameStorage } from "../../GameStorage";
 import { PropType, GameUtil, RewardType } from "../../GameUtil";
 import { AudioManager } from "../../manager/AudioManager";
 import { CoinManger } from "../../manager/CoinManger";
 import { ViewManager } from "../../manager/ViewManger";
 import { ConfigConst } from "../../manager/ConfigConstManager";
+import { GlobalButtonLock } from "../../../Christams_common/Decorator";
+import { adHelper } from "../../../Christams_common/native/AdHelper";
+import { DialogComponent } from "../../../Christams_common/ui/DialogComtnet";
+import { ActionEffect } from "../../../Christams_common/effects/ActionEffect";
+import { delay } from "../../../Christams_common/utils/TimeUtil";
+import { view } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -107,6 +109,9 @@ export class PropDialog extends DialogComponent {
         this.btnCoin.getChildByName("Layout").getChildByName("num").getComponent(Label).string = this.curCoin + "";
         this.setLimit();
         this.btnAddCoin.getChildByName("num").getComponent(Label).string = "+" + GameUtil.ReceiveCoins;
+
+        const h = view.getVisibleSize().y - 1920;
+        this.btnAddCoin.y -= h * 0.4;
     }
     addProp(isAd: boolean) {
 
@@ -125,7 +130,8 @@ export class PropDialog extends DialogComponent {
         AudioManager.playEffect("good");
     }
     setLimit() {
-        this.limit.string = `<outline color=#a7511f width=2><color=#fff>Limit:</color><color=#47f051>${this.curLimit}</color><color=#fff>/${ConfigConst.Other.PropLimit}</color>`
+        // this.limit.string = `<outline color=#a7511f width=2><color=#fff>Limit:</color><color=#47f051>${this.curLimit}</color><color=#fff>/${ConfigConst.Other.PropLimit}</color>`
+        this.limit.string = `<outline color=#d82a4b width=2><color=#fff>Limit:${this.curLimit}/${ConfigConst.Other.PropLimit}</color>`
     }
 }
 

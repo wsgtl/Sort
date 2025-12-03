@@ -1,14 +1,9 @@
 import { v3, tween, Tween } from 'cc';
 import { _decorator, Component, Node } from 'cc';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
-import { adHelper } from '../../../Beach_common/native/AdHelper';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
-import { RewardType } from '../../GameUtil';
 import { AudioManager } from '../../manager/AudioManager';
-import { MoneyManger } from '../../manager/MoneyManger';
 import { ViewManager } from '../../manager/ViewManger';
 import { ConfigConst } from '../../manager/ConfigConstManager';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
 const { ccclass, property } = _decorator;
 
 @ccclass('Bubble')

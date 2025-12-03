@@ -1,12 +1,13 @@
-import { prefabs } from "../../Beach_common/recycle/AssetUtils";
-import ViewComponent from "../../Beach_common/ui/ViewComponent";
-import { isVaild } from '../../Beach_common/utils/ViewUtil';
+
 import { Node } from 'cc';
 import { PropType, RewardType } from "../GameUtil";
-import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
-import { delay } from "../../Beach_common/utils/TimeUtil";
-import { i18n } from "../../Beach_common/i18n/I18nManager";
 import { Vec2 } from "cc";
+import { ActionEffect } from '../../Christams_common/effects/ActionEffect';
+import { i18n } from '../../Christams_common/i18n/I18nManager';
+import { prefabs } from '../../Christams_common/recycle/AssetUtils';
+import ViewComponent from '../../Christams_common/ui/ViewComponent';
+import { delay } from '../../Christams_common/utils/TimeUtil';
+import { isVaild } from '../../Christams_common/utils/ViewUtil';
 
 
 export enum ViewType {

@@ -1,8 +1,8 @@
 import { _decorator, Component, Node } from 'cc';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
 import { AudioManager } from '../../manager/AudioManager';
 import { ViewManager } from '../../manager/ViewManger';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Bottom')

@@ -1,6 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
 import { GameManger } from '../../manager/GameManager';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
 import { Vec3 } from 'cc';
 import { CellData, GameUtil } from '../../GameUtil';
 import { v3 } from 'cc';
@@ -8,6 +7,7 @@ import { EventTouch } from 'cc';
 import { Colletion } from './Colletion';
 import { Prefab } from 'cc';
 import { instantiate } from 'cc';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('CleanArea')

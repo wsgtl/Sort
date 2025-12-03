@@ -2,8 +2,6 @@ import { Sprite } from 'cc';
 import { RichText } from 'cc';
 import { Label } from 'cc';
 import { _decorator, Component, Node } from 'cc';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
-import { GameStorage } from '../../GameStorage';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { view } from 'cc';
 import { GameManger } from '../../manager/GameManager';

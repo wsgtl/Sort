@@ -6,7 +6,7 @@ import { __private } from 'cc';
 import { _decorator, Component, SpriteAtlas, Sprite, Node, Layout, SpriteFrame, Layers } from 'cc';
 import { UIUtils } from '../utils/UIUtils';
 import { Button } from 'cc';
-import { AudioManager } from '../../Beach_game/manager/AudioManager';
+import { AudioManager } from '../../Christams_game/manager/AudioManager';
 
 const { ccclass, property, menu } = _decorator;
 // type Aligning = "center"|"bottom"|"top"

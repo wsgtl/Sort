@@ -2,12 +2,9 @@ import { game } from "cc";
 import { native } from "cc";
 import { sys } from "cc";
 import Debugger from "../Debugger";
-import { dragonBones } from "cc";
-import { delay } from "../utils/TimeUtil";
-import { NativeFun } from "./NativeFun";
 import { Jsb } from "../platform/Jsb";
-import { ConfigConst } from "../../Beach_game/manager/ConfigConstManager";
-import { GameUtil } from "../../Beach_game/GameUtil";
+import { GameUtil } from "../../Christams_game/GameUtil";
+import { ConfigConst } from "../../Christams_game/manager/ConfigConstManager";
 const debug = Debugger("AdHelper")
 
 export class AdHelper {

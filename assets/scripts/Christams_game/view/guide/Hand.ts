@@ -1,10 +1,10 @@
 import { _decorator, Component, Node } from 'cc';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { Sprite } from 'cc';
 import { Animation } from 'cc';
-import { isVaild } from '../../../Beach_common/utils/ViewUtil';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
 import { Tween } from 'cc';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
+import { isVaild } from '../../../Christams_common/utils/ViewUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Hand')

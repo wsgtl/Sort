@@ -1,19 +1,18 @@
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
 import { ViewManager } from '../../manager/ViewManger';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
-import { Progress } from '../component/Progress';
-import { adHelper } from '../../../Beach_common/native/AdHelper';
-import { Label } from 'cc';
-import { delay, nextFrame } from '../../../Beach_common/utils/TimeUtil';
 import { GuideManger } from '../../manager/GuideManager';
 import { sys } from 'cc';
 import { game } from 'cc';
 import { Game } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
-import { Jsb } from '../../../Beach_common/platform/Jsb';
+import { Label } from 'cc';
+import { adHelper } from '../../../Christams_common/native/AdHelper';
+import { EventTracking } from '../../../Christams_common/native/EventTracking';
+import { Jsb } from '../../../Christams_common/platform/Jsb';
+import ViewComponent from '../../../Christams_common/ui/ViewComponent';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
 import { WebManger } from '../../manager/WebManager';
-import { EventTracking } from '../../../Beach_common/native/EventTracking';
+import { Progress } from '../component/Progress';
 const { ccclass, property } = _decorator;
 
 @ccclass('Loading')

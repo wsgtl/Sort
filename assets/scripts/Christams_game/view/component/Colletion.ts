@@ -4,15 +4,13 @@ import { CabinetData, CellData, ColletType, GameUtil } from '../../GameUtil';
 import { Sprite } from 'cc';
 import { Cabinet } from './Cabinet';
 import { Vec3 } from 'cc';
-import { tween } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { GameManger } from '../../manager/GameManager';
 import { AudioManager } from '../../manager/AudioManager';
-import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { v3 } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
 import { sp } from 'cc';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { tweenPromise } from '../../../Christams_common/utils/TimeUtil';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 /**收集品 */
 @ccclass('Colletion')
@@ -36,7 +34,7 @@ export class Colletion extends Component {
     step: number = 0;
     cabinetData: CabinetData;
     /**到底部缩放比例 */
-    sc: number = 0.75;
+    sc: number = 0.8;
     init(data: CellData, isBottom: boolean = false) {
         this.data = data;
         this.setType(data.type);

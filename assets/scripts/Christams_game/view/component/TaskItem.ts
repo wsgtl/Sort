@@ -1,19 +1,16 @@
 import { _decorator, Component, Node } from 'cc';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
 import { Progress2 } from './Progress2';
 import { GameUtil, RewardType } from '../../GameUtil';
 import { Button } from 'cc';
-import { CoinManger } from '../../manager/CoinManger';
 import { GameStorage } from '../../GameStorage';
 import { ViewManager } from '../../manager/ViewManger';
 import { ReddotManager } from '../../manager/ReddotManager';
 import { Label } from 'cc';
-import { MoneyManger } from '../../manager/MoneyManger';
-import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
-import { i18n } from '../../../Beach_common/i18n/I18nManager';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
-import { isVaild } from '../../../Beach_common/utils/ViewUtil';
 import { ConfigConst } from '../../manager/ConfigConstManager';
+import { i18n } from '../../../Christams_common/i18n/I18nManager';
+import { LangStorage } from '../../../Christams_common/localStorage/LangStorage';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
+import { isVaild } from '../../../Christams_common/utils/ViewUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('TaskItem')
@@ -30,10 +27,6 @@ export class TaskItem extends Component {
     btnClaim: Node = null;
     @property(Node)
     onmission: Node = null;
-    @property(Node)
-    dot: Node = null;
-    @property(Node)
-    item1: Node = null;
 
     private levelNum: number = 0;
     private addMoney: number = 0;
@@ -53,9 +46,6 @@ export class TaskItem extends Component {
         this.btnClaim.active = status == 1;
         this.btnReceive.active = status == 2;
         this.onmission.active = status == 3;
-
-        this.dot.active = status == 1;
-        this.item1.active = status == 1;
     }
     private onClaim() {
         this.btnShow(2);

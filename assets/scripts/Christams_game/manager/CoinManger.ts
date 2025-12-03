@@ -2,9 +2,9 @@ import { Node } from "cc";
 import { ViewManager } from "./ViewManger";
 import { GameStorage } from "../GameStorage";
 import { Coin } from "../view/component/Coin";
-import { isVaild } from "../../Beach_common/utils/ViewUtil";
-import { ActionEffect } from "../../Beach_common/effects/ActionEffect";
-import { MathUtil } from "../../Beach_common/utils/MathUtil";
+import { ActionEffect } from "../../Christams_common/effects/ActionEffect";
+import { MathUtil } from "../../Christams_common/utils/MathUtil";
+import { isVaild } from "../../Christams_common/utils/ViewUtil";
 
 export class CoinManger {
     public static _instance: CoinManger = null;

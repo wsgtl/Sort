@@ -7,6 +7,7 @@ export namespace LocalRate {
     /**获取国家码 */
     export function getCode() {
         return new Promise<CountryCode>(res => {
+            return res("US");
             if (sys.platform === sys.Platform.ANDROID) {
                 native.jsbBridgeWrapper.addNativeEventListener("getCode", (code: string) => {
                     res(code as CountryCode);

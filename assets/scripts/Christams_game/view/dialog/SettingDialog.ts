@@ -3,12 +3,11 @@ import { SettingManger } from '../../manager/SettingManger';
 import { ViewManager, ViewType } from '../../manager/ViewManger';
 import { Button } from 'cc';
 import { AudioManager } from '../../manager/AudioManager';
-import { native } from 'cc';
-import { sys } from 'cc';
-import { NativeFun } from '../../../Beach_common/native/NativeFun';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
 import { Label } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
+import { NativeFun } from '../../../Christams_common/native/NativeFun';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
+import { GameManger } from '../../manager/GameManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('SettingDialog')
@@ -23,6 +22,8 @@ export class SettingDialog extends DialogComponent {
     btnVibration: Node = null;
     @property(Node)
     btnLang: Node = null;
+    @property(Node)
+    btnRestart: Node = null;
     @property(Label)
     Id: Label = null;
     protected onLoad(): void {
@@ -31,6 +32,7 @@ export class SettingDialog extends DialogComponent {
         this.btnPrivacy.on(Button.EventType.CLICK, this.onBtnPrivacy, this);
         this.btnSound.on(Button.EventType.CLICK, this.onBtnSound, this);
         this.btnVibration.on(Button.EventType.CLICK, this.onBtnVibration, this);
+        this.btnRestart.on(Button.EventType.CLICK, this.onBtnRestart, this);
         // this.btnLang.on(Button.EventType.CLICK, this.onBtnLang, this);
         this.showMute(this.btnMusic, AudioManager.getIsPlayBGM());
         this.showMute(this.btnSound, AudioManager.getIsPlay());
@@ -57,6 +59,11 @@ export class SettingDialog extends DialogComponent {
     onBtnVibration() {
         AudioManager.setIsShock(!AudioManager.getIsShock());
         this.showMute(this.btnVibration, AudioManager.getIsShock());
+    }
+    onBtnRestart() {
+        if (this.isAni) return;
+        GameManger.instance.replay();
+        this.closeAni();
     }
     onBtnLang() {
         this.node.active = false;

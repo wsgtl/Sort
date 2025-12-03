@@ -1,14 +1,12 @@
 import { _decorator, Component, Node } from 'cc';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
 import { GameStorage } from '../../GameStorage';
-import { ButtonLock } from '../../../Beach_common/Decorator';
 import { CoinManger } from '../../manager/CoinManger';
 import { v3 } from 'cc';
 import { Label } from 'cc';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { Tween } from 'cc';
+import { ButtonLock } from '../../../Christams_common/Decorator';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { FormatUtil } from '../../../Christams_common/utils/FormatUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Coin')

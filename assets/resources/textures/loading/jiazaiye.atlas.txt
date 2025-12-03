@@ -1,0 +1,125 @@
+
+jiazaiye.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+che
+  rotate: false
+  xy: 2, 280
+  size: 662, 742
+  orig: 666, 746
+  offset: 2, 2
+  index: -1
+lu1
+  rotate: true
+  xy: 1475, 568
+  size: 454, 529
+  orig: 454, 553
+  offset: 0, 0
+  index: -1
+lu10
+  rotate: false
+  xy: 511, 90
+  size: 126, 188
+  orig: 126, 188
+  offset: 0, 0
+  index: -1
+lu2
+  rotate: true
+  xy: 666, 388
+  size: 114, 110
+  orig: 142, 110
+  offset: 28, 0
+  index: -1
+lu3
+  rotate: false
+  xy: 778, 198
+  size: 286, 304
+  orig: 286, 304
+  offset: 0, 0
+  index: -1
+lu4
+  rotate: false
+  xy: 639, 111
+  size: 126, 167
+  orig: 126, 167
+  offset: 0, 0
+  index: -1
+lu5
+  rotate: false
+  xy: 267, 35
+  size: 101, 62
+  orig: 101, 62
+  offset: 0, 0
+  index: -1
+lu6
+  rotate: true
+  xy: 666, 504
+  size: 518, 807
+  orig: 518, 807
+  offset: 0, 0
+  index: -1
+lu7
+  rotate: false
+  xy: 65, 13
+  size: 34, 41
+  orig: 34, 41
+  offset: 0, 0
+  index: -1
+lu8
+  rotate: false
+  xy: 2, 4
+  size: 61, 50
+  orig: 61, 50
+  offset: 0, 0
+  index: -1
+lu9
+  rotate: false
+  xy: 2, 56
+  size: 161, 222
+  orig: 161, 222
+  offset: 0, 0
+  index: -1
+ren1
+  rotate: false
+  xy: 165, 17
+  size: 100, 80
+  orig: 100, 80
+  offset: 0, 0
+  index: -1
+ren2
+  rotate: false
+  xy: 639, 2
+  size: 140, 107
+  orig: 140, 107
+  offset: 0, 0
+  index: -1
+ren3
+  rotate: true
+  xy: 344, 104
+  size: 174, 165
+  orig: 174, 165
+  offset: 0, 0
+  index: -1
+ren4
+  rotate: true
+  xy: 1066, 216
+  size: 286, 289
+  orig: 286, 289
+  offset: 0, 0
+  index: -1
+ren5
+  rotate: false
+  xy: 1475, 159
+  size: 288, 407
+  orig: 288, 407
+  offset: 0, 0
+  index: -1
+ren6
+  rotate: true
+  xy: 165, 99
+  size: 179, 177
+  orig: 179, 177
+  offset: 0, 0
+  index: -1

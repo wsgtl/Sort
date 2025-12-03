@@ -1,11 +1,9 @@
 import { _decorator, Component, Node } from 'cc';
 import { TipsAni } from './TipsAni';
-import { SpriteFrame } from 'cc';
-import { Sprite } from 'cc';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { Tween } from 'cc';
-import { i18n } from '../../../Beach_common/i18n/I18nManager';
-import { sprites } from '../../../Beach_common/recycle/AssetUtils';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { i18n } from '../../../Christams_common/i18n/I18nManager';
+import { sprites } from '../../../Christams_common/recycle/AssetUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('DialogBox')

@@ -3,7 +3,7 @@ import { sys } from "cc";
 import { BaseStorageNS, ITEM_STORAGE } from "../localStorage/BaseStorage";
 import { LocalRate } from "./LocalRate";
 import { LangStorage } from "../localStorage/LangStorage";
-import { ConfigConst } from "../../Beach_game/manager/ConfigConstManager";
+import { ConfigConst } from "../../Christams_game/manager/ConfigConstManager";
 
 export namespace EventTracking {
     /**上报事件 */

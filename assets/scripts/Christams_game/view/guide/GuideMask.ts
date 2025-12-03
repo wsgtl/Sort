@@ -1,18 +1,17 @@
 import { _decorator, Component, Node } from 'cc';
-import ViewComponent from '../../../Beach_common/ui/ViewComponent';
 import { DialogBox } from './DialogBox';
-import { Hand } from './Hand';
 import { Colletion } from '../component/Colletion';
 import { GameManger } from '../../manager/GameManager';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { isVaild } from '../../../Beach_common/utils/ViewUtil';
 import { Vec3 } from 'cc';
 import { Money } from '../component/Money';
 import { Button } from 'cc';
 import { GuideManger } from '../../manager/GuideManager';
 import { v3 } from 'cc';
-import { EventTracking } from '../../../Beach_common/native/EventTracking';
+import ViewComponent from '../../../Christams_common/ui/ViewComponent';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { EventTracking } from '../../../Christams_common/native/EventTracking';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
+import { isVaild } from '../../../Christams_common/utils/ViewUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('GuideMask')
@@ -49,7 +48,7 @@ export class GuideMask extends ViewComponent {
         const p = co.node.position.clone();
         this.hand.position = v3(p.x,p.y+70);
         // this.hand.play(true, false);
-        this.db.node.y = co.node.y + 350;
+        this.db.node.y = co.node.y + 550;
         co.node.once(Node.EventType.TOUCH_START, () => {
             GameManger.instance.moveToCell(co);
             // this.bw.node.active = false;

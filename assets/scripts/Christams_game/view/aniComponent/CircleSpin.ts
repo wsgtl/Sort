@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
 const { ccclass, property } = _decorator;
 
 @ccclass('CircleSpin')

@@ -1,19 +1,14 @@
 import { _decorator, Component, Node } from 'cc';
-import { DialogComponent } from '../../../Beach_common/ui/DialogComtnet';
 import { MoneyManger } from '../../manager/MoneyManger';
 import { view } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
-import { delay } from '../../../Beach_common/utils/TimeUtil';
-import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { v3 } from 'cc';
-import { NumFont } from '../../../Beach_common/ui/NumFont';
-import { GameStorage } from '../../GameStorage';
 import { Label } from 'cc';
-import { GameUtil } from '../../GameUtil';
-import { i18n } from '../../../Beach_common/i18n/I18nManager';
-import { LangStorage } from '../../../Beach_common/localStorage/LangStorage';
-import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
-import { EventTracking } from '../../../Beach_common/native/EventTracking';
+import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
+import { i18n } from '../../../Christams_common/i18n/I18nManager';
+import { EventTracking } from '../../../Christams_common/native/EventTracking';
+import { DialogComponent } from '../../../Christams_common/ui/DialogComtnet';
+import { delay } from '../../../Christams_common/utils/TimeUtil';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('PurseDialog')

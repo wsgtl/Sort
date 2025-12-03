@@ -1,5 +1,5 @@
 import { _decorator, Component, Node, view } from 'cc';
-import { UIUtils } from '../../../Beach_common/utils/UIUtils';
+import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 
 @ccclass('BgFit')

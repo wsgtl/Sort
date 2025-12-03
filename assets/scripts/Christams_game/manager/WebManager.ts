@@ -1,5 +1,6 @@
 
-import { httpClient } from "../../Beach_common/web/HttpClient";
+
+import { httpClient } from "../../Christams_common/web/HttpClient";
 import { GameUtil } from "../GameUtil";
 import { ConfigConst } from "./ConfigConstManager";
 import { ViewManager } from "./ViewManger";
