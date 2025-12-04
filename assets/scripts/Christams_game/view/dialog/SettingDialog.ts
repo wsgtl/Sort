@@ -43,7 +43,7 @@ export class SettingDialog extends DialogComponent {
         ViewManager.showHome();
     }
     onBtnPrivacy() {//跳转隐私协议
-        NativeFun.jumpWeb("https://sites.google.com/view/jjioui39881jxcfhjhdjfcxweueeee/home");
+        NativeFun.jumpWeb("https://sites.google.com/view/jijkd290dhjixxshdjhfe/home");
 
     }
     onBtnMusic() {

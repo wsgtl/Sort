@@ -6,7 +6,7 @@ echo APK/AAB文件重命名工具
 echo ====================
 echo 正在处理 release 目录下的文件...
 
-set "new_name=BeachSort-release"
+set "new_name=ChristamsGiftMatch-release"
 set "count=0"
 
 :: 检查release目录是否存在

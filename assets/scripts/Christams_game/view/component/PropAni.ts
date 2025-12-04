@@ -41,8 +41,11 @@ export class PropAni extends Component {
 
         const toP = UIUtils.transformOtherNodePos2localNode(this.curBtn, this.prop);
         this.prop.position = v3();
-        tweenPromise(this.prop, t => t.to(0.5, { position: toP }))
-        await delay(0.3);
+        tweenPromise(this.prop, t => t.to(0.5, { position: toP }).call(() => {
+            this.prop.active = false;
+            this.click.active = false;
+        }))
+        await delay(0.4);
 
         AudioManager.playEffect("clear");
         this.sk.node.position = v3(toP.x + 15, toP.y);
@@ -51,8 +54,7 @@ export class PropAni extends Component {
             this.node.active = false;
         })
         await delay(0.2);
-        this.prop.active = false;
-        this.click.active = false;
+
     }
 }
 

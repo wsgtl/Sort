@@ -165,8 +165,8 @@ dependencies {
 }
 
 //MAX_API_KEY 需手动填写，由运营提供，即ad review key
-apply plugin: 'applovin-quality-service'
-applovin {
-    apiKey "KrUAzvTW5eoTRVeQIPRcVpGqUA5Kaz5p7KmPmsGRPOAi0bTvnn8b9UAswSvsb88Ocx8aoVskZqoRiT5meeATU6"
-}
+//apply plugin: 'applovin-quality-service'
+//applovin {
+//    apiKey "KrUAzvTW5eoTRVeQIPRcVpGqUA5Kaz5p7KmPmsGRPOAi0bTvnn8b9UAswSvsb88Ocx8aoVskZqoRiT5meeATU6"
+//}
 

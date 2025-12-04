@@ -15,7 +15,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.beachdd.sortll.R;
+import com.christams.giftmatcheui.R;
+
 
 public class WebviewActivity extends AppCompatActivity {
 

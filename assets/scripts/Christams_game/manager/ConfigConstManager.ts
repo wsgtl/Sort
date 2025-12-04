@@ -46,7 +46,7 @@ export class ConfigConstManager {
     }
     /**处理参数 */
     public calRes(data: any) {
-        const arr: { vtcrpu: string, luiy: string }[] = data.nxwivzwc[0].squsuudahws.pqnctm[0].nkhbbpkw.fycowx.uniht;
+        const arr: { mzjzc: string, crwkj: string }[] = data.gzlrpxbkxz[0].wvdgfjkdga.fnerq.rbh;
         const a = this.getAbTest();//ABtest的值
         const pre = "data_" + a;
         const handlers = {//对象映射赋值
@@ -56,7 +56,7 @@ export class ConfigConstManager {
             }
         };
         arr.forEach(v => {
-            handlers[v.vtcrpu]?.(JSON.parse(v.luiy));
+            handlers[v.mzjzc]?.(JSON.parse(v.crwkj));
         })
         this.saveData();
     }
@@ -117,3 +117,49 @@ export class ConfigConstManager {
 /**配置表常量 */
 export const ConfigConst = ConfigConstManager.instance;
 
+let d=`{
+  "gzlrpxbkxz": [
+    {
+      "cjcewefhmqta": "fxsqcrlshujh",
+      "etlczg": "lempovmwblw",
+      "wwjntsfnist": "mpfymrgutlqnsq",
+      "wmitwqmweh": "kuhjuxstcebp",
+      "wvdgfjkdga": {
+        "mycif": 200,
+        "fnerq": {
+          "zkw": "",
+          "esg": "",
+          "appId": "65087367",
+          "xoq": 0,
+          "kyah": "",
+          "rbh": [
+            {
+              "extensionDesc": "",
+              "mzjzc": "isCheck",
+              "crwkj": "false"
+            },
+            {
+              "extensionDesc": "",
+              "mzjzc": "data_A",
+              "crwkj": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":3,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
+            },
+            {
+              "extensionDesc": "",
+              "mzjzc": "data_B",
+              "crwkj": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":2,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
+            }
+          ],
+          "yodazu": 0,
+          "bktm": 0,
+          "zyr": 0,
+          "chzj": ""
+        },
+        "znc": "success",
+        "success": true
+      }
+    }
+  ],
+  "mbcepvtfjhjqdy": "muldcydokhedxe",
+  "ubzypo": "vexodcuizphd",
+  "wlehiczj": "kuonmnkt"
+}`
