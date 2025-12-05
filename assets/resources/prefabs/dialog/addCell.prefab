@@ -457,7 +457,7 @@
     },
     "_type": 0,
     "_fillType": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -515,7 +515,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 8.963,
-      "y": 455.131,
+      "y": 517.327,
       "z": 0
     },
     "_lrot": {
@@ -567,8 +567,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 16.68,
-      "y": 29.213,
+      "x": 0,
+      "y": -24.098,
       "z": 0
     },
     "_lrot": {
@@ -608,8 +608,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 608,
-      "height": 112
+      "width": 647,
+      "height": 105
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -713,8 +713,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1077,
-      "height": 352
+      "width": 982,
+      "height": 384
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -811,8 +811,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 424.799,
-      "y": 432.958,
+      "x": 421.837,
+      "y": 429.996,
       "z": 0
     },
     "_lrot": {
@@ -1047,8 +1047,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 782,
-      "height": 288
+      "width": 817,
+      "height": 273
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1084,7 +1084,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "03fe161f-0092-4512-aa3c-c63a9924e075@f9941",
+      "__uuid__": "e492621f-0766-40e5-a554-bb92ea99a0bf@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -1243,8 +1243,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 714,
-      "height": 54
+      "width": 706,
+      "height": 52
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1623,8 +1623,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 563,
-      "height": 42
+      "width": 567,
+      "height": 46
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

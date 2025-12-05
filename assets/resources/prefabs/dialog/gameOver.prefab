@@ -414,7 +414,7 @@
       "__id__": 13
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 15
@@ -565,7 +565,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 45,
+      "y": -36.759,
       "z": 0
     },
     "_lrot": {
@@ -605,8 +605,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 838,
-      "height": 638
+      "width": 700,
+      "height": 442
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -705,7 +705,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 464.922,
+      "y": 309.579,
       "z": 0
     },
     "_lrot": {
@@ -1046,8 +1046,8 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 102,
-      "b": 49,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_string": "Withdrawing through level 5",
@@ -1305,7 +1305,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 663.597,
+      "y": 551.859,
       "z": 0
     },
     "_lrot": {
@@ -1340,7 +1340,7 @@
       "__id__": 50
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 52
@@ -1358,7 +1358,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -124.065,
+      "y": -61.869,
       "z": 0
     },
     "_lrot": {
@@ -1398,8 +1398,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 624,
-      "height": 76
+      "width": 556,
+      "height": 92
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1503,8 +1503,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 914,
-      "height": 291
+      "width": 894,
+      "height": 789
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1540,7 +1540,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "769d57b7-cbdc-4243-a54f-4545b2caf29c@f9941",
+      "__uuid__": "e667e587-4ffa-4d54-b54c-544d7a37be8f@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -2129,7 +2129,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -129.036,
+      "y": -93.075,
       "z": 0
     },
     "_lrot": {
@@ -2169,8 +2169,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 601,
-      "height": 107
+      "width": 572,
+      "height": 92
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2274,8 +2274,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 914,
-      "height": 574
+      "width": 924,
+      "height": 627
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2413,8 +2413,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 808,
-      "height": 791
+      "width": 933,
+      "height": 934
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

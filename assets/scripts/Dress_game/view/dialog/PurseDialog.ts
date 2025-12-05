@@ -38,7 +38,7 @@ export class PurseDialog extends DialogComponent {
 
     fit() {
         const h = view.getVisibleSize().y;
-        const sh = 410 + (h - 1920) / 2;
+        const sh = 460 + (h - 1920) / 2;
         UIUtils.setHeight(this.scorll, sh);
         UIUtils.setHeight(this.scorll.children[0], sh);
 

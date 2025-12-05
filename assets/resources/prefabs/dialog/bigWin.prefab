@@ -96,7 +96,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": 3.223,
       "z": 0
     },
     "_lrot": {
@@ -392,7 +392,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "title_congratulations",
+    "_name": "title",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -417,7 +417,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -132.535,
+      "y": -97.077,
       "z": 0
     },
     "_lrot": {
@@ -457,8 +457,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 601,
-      "height": 107
+      "width": 562,
+      "height": 93
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -494,7 +494,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "baa34e69-5dcd-42d8-b165-cb2c5238f768@f9941",
+      "__uuid__": "f0759afd-f03f-4f04-bc32-8e9db2dfff29@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -528,7 +528,7 @@
     "__prefab": {
       "__id__": 20
     },
-    "spriteFramePath": "title_congratulations",
+    "spriteFramePath": "title_lr",
     "_id": ""
   },
   {
@@ -562,8 +562,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 914,
-      "height": 574
+      "width": 924,
+      "height": 627
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -802,8 +802,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 6.132,
-      "y": -62.781,
+      "x": 0.578,
+      "y": -35.936,
       "z": 0
     },
     "_lrot": {
@@ -1250,9 +1250,9 @@
     "_enableOutline": true,
     "_outlineColor": {
       "__type__": "cc.Color",
-      "r": 131,
-      "g": 0,
-      "b": 0,
+      "r": 0,
+      "g": 109,
+      "b": 159,
       "a": 255
     },
     "_outlineWidth": 3,
@@ -1574,9 +1574,9 @@
     "_enableOutline": true,
     "_outlineColor": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 110,
-      "b": 173,
+      "r": 131,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_outlineWidth": 3,
@@ -3431,7 +3431,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -138.086,
+      "y": -116.137,
       "z": 0
     },
     "_lrot": {
@@ -3557,8 +3557,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 920,
-      "height": 803
+      "width": 804,
+      "height": 748
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

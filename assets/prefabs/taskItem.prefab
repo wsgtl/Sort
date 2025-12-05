@@ -95,7 +95,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -320.716,
+      "x": -340.435,
       "y": -65.873,
       "z": 0
     },
@@ -167,9 +167,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 214,
-      "g": 88,
-      "b": 116,
+      "r": 209,
+      "g": 76,
+      "b": 136,
       "a": 255
     },
     "_string": "Play 20 minutes",
@@ -267,7 +267,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -115.404,
+      "x": -139.373,
       "y": -146.229,
       "z": 0
     },
@@ -358,7 +358,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 422,
+      "width": 435,
       "height": 35
     },
     "_anchorPoint": {
@@ -553,9 +553,9 @@
     "_enableOutline": true,
     "_outlineColor": {
       "__type__": "cc.Color",
-      "r": 33,
-      "g": 99,
-      "b": 12,
+      "r": 208,
+      "g": 51,
+      "b": 122,
       "a": 255
     },
     "_outlineWidth": 2,
@@ -606,8 +606,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 426,
-      "height": 42
+      "width": 439,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -731,7 +731,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 236.867,
+      "x": 260.155,
       "y": -110,
       "z": 0
     },
@@ -1303,8 +1303,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 747,
-      "height": 218
+      "width": 797,
+      "height": 208
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
