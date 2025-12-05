@@ -1,14 +1,14 @@
-import './Christams_common/Expand'
+import './Dress_common/Expand'
 import { _decorator, Component, Node } from 'cc';
 import { AudioSource } from 'cc';
-import { i18n } from './Christams_common/i18n/I18nManager';
-import { AudioStorage } from './Christams_common/localStorage/AudioStorage';
-import { LangStorage } from './Christams_common/localStorage/LangStorage';
-import { EventTracking } from './Christams_common/native/EventTracking';
-import { GameStorage } from './Christams_game/GameStorage';
-import { AudioManager } from './Christams_game/manager/AudioManager';
-import { ViewManager } from './Christams_game/manager/ViewManger';
-import { WebManger } from './Christams_game/manager/WebManager';
+import { i18n } from './Dress_common/i18n/I18nManager';
+import { AudioStorage } from './Dress_common/localStorage/AudioStorage';
+import { LangStorage } from './Dress_common/localStorage/LangStorage';
+import { EventTracking } from './Dress_common/native/EventTracking';
+import { GameStorage } from './Dress_game/GameStorage';
+import { AudioManager } from './Dress_game/manager/AudioManager';
+import { ViewManager } from './Dress_game/manager/ViewManger';
+import { WebManger } from './Dress_game/manager/WebManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameLaunch')
