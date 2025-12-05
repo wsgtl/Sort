@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,13 +13,17 @@ import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.attribution.AppsFlyerRequestListener;
 import com.cocos.lib.JsbBridgeWrapper;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,7 +33,7 @@ public class AppsFlyer
     private String Tag = "afEvent";
     private Activity mApplication = null;
     /**af的key*/
-    private String AfDevKey = "bczkaJCR5tXG4VETeTA2Ea";
+    private String AfDevKey = "QGnEbf7ihrNdXHjdyiPHoU";
     /**af初始化*/
     public void init(Activity application){
         mApplication = application;
@@ -217,7 +222,46 @@ public class AppsFlyer
             this.baseSendEvent(milestoneEvent, data);
         }
     }
+    //facebook上传金额
+    public void reportAdRevenue(double ecpm,String currencyCodeStr) {
+        // 1. 把微单位金额转成标准金额
+//        BigDecimal purchaseAmount = new BigDecimal(_adValue.getValueMicros())
+//                .divide(BigDecimal.valueOf(1_000_000.0));
 
+//        String currencyCodeStr = _adValue.getCurrencyCode();
+        BigDecimal purchaseAmount = BigDecimal.valueOf(ecpm/1000000.0);
+        // 2. 调用上报方法
+        sendFbPriceMsg(currencyCodeStr, purchaseAmount);
+    }
+    /**
+     * 上报广告收入到 Facebook
+     * @param mCURRENCYStr 货币代码，例如 USD、CNY
+     * @param mREVENUE 收入金额
+     */
+    private void sendFbPriceMsg(String mCURRENCYStr, BigDecimal mREVENUE) {
+        try {
+            // 获取 Facebook 事件记录器
+            AppEventsLogger logger = AppEventsLogger.newLogger(mApplication);
+
+            // 上报广告展示事件
+            Bundle params = new Bundle();
+            params.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, mCURRENCYStr);
+            logger.logEvent(
+                    AppEventsConstants.EVENT_NAME_AD_IMPRESSION,
+                    mREVENUE.doubleValue(),
+                    params
+            );
+
+            // 上报购买事件
+            logger.logPurchase(mREVENUE, Currency.getInstance(mCURRENCYStr));
+            // 打印调试信息
+            Log.d("FBEvent", "logPurchase 上报完成: 金额 " + mREVENUE.toPlainString()
+                    + ", 货币: " + mCURRENCYStr);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     //    高价值用户数据上传

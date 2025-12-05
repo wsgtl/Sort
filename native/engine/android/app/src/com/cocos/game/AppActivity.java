@@ -59,8 +59,10 @@ public class AppActivity extends CocosActivity {
         super.onCreate(savedInstanceState);
         // DO OTHER INITIALIZATION BELOW
         SDKWrapper.shared().init(this);
-        AdMax ad = new AdMax();
-        ad.init(this,this);
+//        AdMax ad = new AdMax();
+//        ad.init(this,this);
+        AdTopon ad = new AdTopon();
+        ad.init(this);
 
         JsbBridgeWrapper jbw = JsbBridgeWrapper.getInstance();
         jbw.addScriptEventListener("jumpWeb",this::jumpWeb);

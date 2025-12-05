@@ -106,16 +106,16 @@ export namespace AudioManager {
         if (!isVaild(bgmNode)) return;
         const as = bgmNode;
         as.volume = v ? v : volume;
-        if (as.clip && as.clip.name === name) {// 播放同一个音频
-            if (!as.playing)
-                try {
-                    as.play();
-                    if (!AudioStorage.getIsPlayBGM()) { as.pause(); }
-                } catch (e) {
-                    debug.log(`播放背景音乐失败${name}`);
-                    debug.log(e);
-                }
-        } else {// 播放不同音频
+        // if (as.clip && as.clip.name === name) {// 播放同一个音频
+        //     if (!as.playing)
+        //         try {
+        //             as.play();
+        //             if (!AudioStorage.getIsPlayBGM()) { as.pause(); }
+        //         } catch (e) {
+        //             debug.log(`播放背景音乐失败${name}`);
+        //             debug.log(e);
+        //         }
+        // } else {// 播放不同音频
             resources.load(`sounds/bgm/${name}`, AudioClip, (err, ac) => {
                 if (ac) {
                     try {
@@ -133,7 +133,7 @@ export namespace AudioManager {
                 }
             });
 
-        }
+        // }
     }
 
     export function pauseBgm() {

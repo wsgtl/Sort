@@ -204,7 +204,7 @@ export class RewardAni extends ViewComponent {
         this.isSound = true;
         const name = this.type == RewardType.money ? "paper" : "toCoin";
         AudioManager.playEffect(name);
-        const t = this.type == RewardType.money ? 0.08:0.1;
+        const t = this.type == RewardType.money ? 0.1:0.1;
         await delay(t);
         this.isSound = false;
         // const name = "toCoin";

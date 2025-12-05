@@ -4240,7 +4240,9 @@
     "tips": {
       "__id__": 34
     },
-    "moneyLabel": null,
+    "moneyLabel": {
+      "__id__": 173
+    },
     "_id": ""
   },
   {
