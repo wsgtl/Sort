@@ -56,7 +56,7 @@ export namespace AudioManager {
                 const effectNode = new Node();
                 const as = effectNode.addComponent(AudioSource);
                 as.loop = false;
-                as.volume = Math.min(1,v);
+                as.volume = Math.min(1, v);
                 as.playOnAwake = false;
                 bgmNode.node.addChild(effectNode);
                 as.playOneShot(ac, v > 1 ? v : undefined);
@@ -107,34 +107,34 @@ export namespace AudioManager {
         if (!isVaild(bgmNode)) return;
         const as = bgmNode;
         as.volume = v ? v : volume;
-        if (as.clip && as.clip.name === name) {// 播放同一个音频
-            if (!as.playing)
+        // if (as.clip && as.clip.name === name) {// 播放同一个音频
+        //     if (!as.playing)
+        //         try {
+        //             as.play();
+        //             if (!AudioStorage.getIsPlayBGM()) { as.pause(); }
+        //         } catch (e) {
+        //             debug.log(`播放背景音乐失败${name}`);
+        //             debug.log(e);
+        //         }
+        // } else {// 播放不同音频
+        resources.load(`sounds/bgm/${name}`, AudioClip, (err, ac) => {
+            if (ac) {
                 try {
+                    if (as.playing)
+                        as.stop();
+                    ac.name = name;
+                    as.clip = ac;
+                    as.loop = true;
                     as.play();
                     if (!AudioStorage.getIsPlayBGM()) { as.pause(); }
                 } catch (e) {
-                    debug.log(`播放背景音乐失败${name}`);
+                    debug.log(`加载并播放背景音乐失败${name}`);
                     debug.log(e);
                 }
-        } else {// 播放不同音频
-            resources.load(`sounds/bgm/${name}`, AudioClip, (err, ac) => {
-                if (ac) {
-                    try {
-                        if (as.playing)
-                            as.stop();
-                        ac.name = name;
-                        as.clip = ac;
-                        as.loop = true;
-                        as.play();
-                        if (!AudioStorage.getIsPlayBGM()) { as.pause(); }
-                    } catch (e) {
-                        debug.log(`加载并播放背景音乐失败${name}`);
-                        debug.log(e);
-                    }
-                }
-            });
+            }
+        });
 
-        }
+        // }
     }
 
     export function pauseBgm() {
