@@ -1,8 +1,8 @@
 密钥库别名:  key0
-密码:   bbssrr
-别名密码:    bbssrr
-游戏名：Beach Sort
-包名：com.beachdd.sortll
+密码:   ffddpp
+别名密码:    ffddpp
+游戏名：Fancy Dress Party
+包名：com.fancycc.dresspartyqw
 max SDK key：
 激励广告位ID： 
 插屏广告位ID： 
@@ -11,7 +11,7 @@ admob ID:
 af key: 
 
 
-隐私政策网址：https://sites.google.com/view/jjioui39881jxcfhjhdjfcxweueeee/home
+隐私政策网址：https://sites.google.com/view/vofkjkjeuiewkxcjkzweu3289dsj/home
 
 //生成output.zip秘钥
 java -jar E:\szhy\keystore/pepk.jar --keystore=key.jks --alias=key0 --output=output.zip --include-cert --rsa-aes-encryption --encryption-key-path=encryption_public_key.pem
