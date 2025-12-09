@@ -151,3 +151,51 @@
 -keep class com.mbridge.msdk.foundation.tools.FastKV$Builder{*;}
 -keep class com.chartboost.** { *; }
 -keep class com.my.target.** {*;}
+
+
+
+
+#h5 sdk混淆
+-keep public class com.gift.match.MatchGiftSDK {
+    public static com.gift.match.MatchGiftSDK Build();
+    public void onPageStart(android.app.Activity);
+    public void onPageDestroy(android.app.Activity);
+    public void createSDK(android.content.Context);
+    public void isFrontDesk(boolean);
+    public void onDestroy();
+}
+
+-keep class com.gift.match.work.** {*;}
+-keep class com.gift.match.listener.** {*;}
+-keep class retrofit2.** {*;}
+-keep class com.google.gson.** {*;}
+-keep class com.google.gson.reflect.TypeToken{*;}
+-keep class * extends com.google.gson.reflect.TypeToken
+-keepattributes Signature
+-keepattributes Exceptions
+
+# 保护WebView相关类
+-keep class android.webkit.** { *; }
+-dontwarn android.webkit.**
+
+# 保护SSL相关类
+-keep class javax.net.ssl.** { *; }
+-keep class java.security.** { *; }
+
+# 保护异常信息但混淆类名
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,*Annotation*,EnclosingMethod
+
+# 保护反射调用的类和方法
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# 保护Serializable类
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}

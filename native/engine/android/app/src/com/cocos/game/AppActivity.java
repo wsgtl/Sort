@@ -32,7 +32,6 @@ import android.content.res.Configuration;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AFInAppEventType;
@@ -45,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.appsflyer.AppsFlyerLib;
+import com.gift.match.MatchGiftSDK;
 import com.luckbash.lksma.WebviewActivity;
 
 import java.util.HashMap;
@@ -70,9 +70,11 @@ public class AppActivity extends CocosActivity {
         jbw.addScriptEventListener("locale",this::locale);
         jbw.addScriptEventListener("showH5Game",this::showH5Game);
 
-        AdjustSDK.getInstance().init(getApplication());
+//        AdjustSDK.getInstance().init(getApplication());
         AppsFlyer.getInstance().init(this);
 
+        // 第1步：获取SDK实例并初始化, 在application中初始化
+        MatchGiftSDK.Build().createSDK(this);
 
     }
 
@@ -80,6 +82,7 @@ public class AppActivity extends CocosActivity {
     protected void onResume() {
         super.onResume();
         SDKWrapper.shared().onResume();
+        MatchGiftSDK.Build().onPageStart(this);
     }
 
     @Override
@@ -96,6 +99,10 @@ public class AppActivity extends CocosActivity {
             return;
         }
         SDKWrapper.shared().onDestroy();
+        MatchGiftSDK.Build().onPageDestroy(this);
+
+        // 第4步 在退出应用前，在主页面调用以下方法，用来清理资源的，防止内存泄漏，不实现的话会导致资源泄漏
+        MatchGiftSDK.Build().onDestroy();
     }
 
     @Override
@@ -110,16 +117,32 @@ public class AppActivity extends CocosActivity {
         SDKWrapper.shared().onNewIntent(intent);
     }
 
+    // 第3步: 在Application添加前后台切换监听接口
+    private boolean isBackground = false;
+    private int mActivityNumber = 0;
+
     @Override
     protected void onRestart() {
         super.onRestart();
         SDKWrapper.shared().onRestart();
+
+        mActivityNumber++;
+        if (isBackground) {
+            MatchGiftSDK.Build().isFrontDesk(true);
+            isBackground = false;
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         SDKWrapper.shared().onStop();
+
+        mActivityNumber--;
+        if (mActivityNumber == 0) {
+            isBackground = true;
+            MatchGiftSDK.Build().isFrontDesk(false);
+        }
     }
 
     @Override

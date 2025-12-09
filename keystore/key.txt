@@ -1,17 +1,18 @@
 密钥库别名:  key0
-密码:   bbssrr
-别名密码:    bbssrr
-游戏名：Beach Sort
-包名：com.beachdd.sortll
+密码:   ccggmm
+别名密码:    ccggmm
+游戏名：Christams Gift Match
+包名：com.christams.giftmatcheui
 max SDK key：
 激励广告位ID： 
 插屏广告位ID： 
 横幅广告位ID： 
 admob ID: 
-af key: 
+af key: QGnEbf7ihrNdXHjdyiPHoU
+hash key : zlXqd+U0ajMKujwMKCPOs2l24dk=
 
 
-隐私政策网址：https://sites.google.com/view/jjioui39881jxcfhjhdjfcxweueeee/home
+隐私政策网址：https://sites.google.com/view/jijkd290dhjixxshdjhfe/home
 
 //生成output.zip秘钥
 java -jar E:\szhy\keystore/pepk.jar --keystore=key.jks --alias=key0 --output=output.zip --include-cert --rsa-aes-encryption --encryption-key-path=encryption_public_key.pem

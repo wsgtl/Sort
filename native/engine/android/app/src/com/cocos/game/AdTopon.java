@@ -85,7 +85,6 @@ public class AdTopon {
        Log.d(Tag,"initInterstitial: " + interstitialId);
 
        mInterstitialAd = new TUInterstitial(mActivity, interstitialId);
-
     //设置广告监听
        mInterstitialAd.setAdListener(new TUInterstitialListener() {
            @Override
