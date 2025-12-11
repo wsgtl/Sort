@@ -52,7 +52,7 @@ export class RewardDialog extends DialogComponent {
         this.init();
     }
     init() {
-        AudioManager.playEffect("reward", 2);
+        AudioManager.playEffect("rewardDialog", 1);
 
         this.btnClaimSmall.on(Button.EventType.CLICK, () => { this.onClaim(true) }, this);
         this.btnClaim.on(Button.EventType.CLICK, () => { this.onClaim(false) }, this);
@@ -67,6 +67,43 @@ export class RewardDialog extends DialogComponent {
         if (this.isAd) {
             this.startDouble();
         }
+    }
+    private getNodes() {
+        const title = this.content.getChildByName("title");
+        const statusShow = this.content.getChildByName("statusShow");
+        const cur = this.isAd ? this.doubleContent : this.normalContent;
+        return [title, cur, statusShow];
+    }
+    /**开始动画 */
+    async startAni() {
+        this.isAni = true;
+        ActionEffect.fadeIn(this.bg, 0.3);
+        const nodes =this.getNodes();
+        nodes.forEach(async (v, i) => {
+            v.scale = v3();
+            await delay(i * 0.2);
+            AudioManager.vibrate(20,155);
+            ActionEffect.scale(v, 0.3, 1, 0, "backOut");
+        })
+        await delay(0.6,this.node);
+        this.isAni = false;
+    }
+    /**关闭动画 */
+    async closeAni() {
+        if (this.isAni) return;
+        const time = 0.3;
+        this.isAni = true;
+        ActionEffect.fadeOut(this.bg, time);
+        const nodes =this.getNodes();
+        nodes.forEach(async (v, i) => {
+            await delay(i * 0.2);
+            AudioManager.vibrate(20,155);
+            ActionEffect.scale(v, 0.3, 0, 1, "backIn");
+        })
+        await delay(0.7,this.node);
+        // this.isAni = false;
+        this.node.destroy();
+        this.closeCb?.();
     }
     async startDouble() {
         const small = this.doubleContent.getChildByName("money_small");

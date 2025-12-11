@@ -9,6 +9,7 @@ import { Label } from 'cc';
 import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { delay } from '../../../Beach_common/utils/TimeUtil';
+import { AudioManager } from '../../manager/AudioManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BigWinDialog')
@@ -36,6 +37,7 @@ export class BigWinDialog extends DialogComponent {
             this.btnClaim.getChildByName("Layout").getChildByName("sp").active = false;
         }
         this.showLight();
+        AudioManager.playEffect("bw");
     }
     protected onLoad(): void {
         this.btnClaim.on(Button.EventType.CLICK, this.onReceive, this);
@@ -54,6 +56,8 @@ export class BigWinDialog extends DialogComponent {
         }
         const bl = this.blNums[Math.floor(-(this.jt.angle - 90) / 30)] ?? 2;
         if (bl != this.bl) {
+            // AudioManager.playEffect("kk");
+            AudioManager.vibrate(10,50);
             this.bl = bl;
             this.moneyNode.string = FormatUtil.toMoney(this.getMoney());//显示钱
         }

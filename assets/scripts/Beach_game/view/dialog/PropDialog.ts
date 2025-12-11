@@ -51,6 +51,9 @@ export class PropDialog extends DialogComponent {
             this.closeAni();
             this.onlyCloseCb?.();
         });
+        if(this.isResurrect){
+            AudioManager.playEffect("lost");
+        }
     }
     @GlobalButtonLock(1)
     private onClaim() {

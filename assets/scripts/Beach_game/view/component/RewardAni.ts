@@ -170,6 +170,7 @@ export class RewardAni extends ViewComponent {
             const ic = instantiate(this.icon);
             this.node.addChild(ic);
             ic.position = fp;
+            ic.scale=v3();
             if (py) {
                 ic.x += py.x;
                 ic.y += py.y;
@@ -177,10 +178,11 @@ export class RewardAni extends ViewComponent {
             delay(0.1 * i).then(async () => {
                 ic.active = true;
                 // AudioManager.playEffect("jump");
-                await ActionEffect.scale(ic, 0.1, 1, 0, "backOut");
+                tweenPromise(ic,t=>t.by(0.1,{y:100}))
+                await ActionEffect.scale(ic, 0.1, 1, 0.5);
                 // const cp = v3(ic.x + MathUtil.randomOne() * 300, pos.y / 2);
                 const cp = v3(ic.x + fx * 300, pos.y / 2);
-                await ActionEffect.bezierTo(ic, pos, cp, 0.4);
+                await ActionEffect.bezierTo(ic, pos, cp, 0.5);
                 this.sound();
                 const sn = Math.floor(startNum + (i + 1) * item);
                 ins.showNum(sn);
@@ -204,7 +206,7 @@ export class RewardAni extends ViewComponent {
         this.isSound = true;
         const name = this.type == RewardType.money ? "paper" : "toCoin";
         AudioManager.playEffect(name);
-        const t = this.type == RewardType.money ? 0.08:0.1;
+        const t = this.type == RewardType.money ? 0.2:0.1;
         await delay(t);
         this.isSound = false;
         // const name = "toCoin";

@@ -9,6 +9,7 @@ import { FormatUtil } from '../../../Beach_common/utils/FormatUtil';
 import { ActionEffect } from '../../../Beach_common/effects/ActionEffect';
 import { tweenPromise } from '../../../Beach_common/utils/TimeUtil';
 import { Tween } from 'cc';
+import { AudioManager } from '../../manager/AudioManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Coin')
@@ -44,6 +45,7 @@ export class Coin extends Component {
     }
     @ButtonLock(1)
     touch() {
+        AudioManager.playEffect("btn");
         CoinManger.instance.showDialog();
     }
     protected onDestroy(): void {

@@ -2,8 +2,9 @@ import { _decorator, Component, Node } from 'cc';
 import ViewComponent from './ViewComponent';
 import { ActionEffect } from '../effects/ActionEffect';
 import { Button } from 'cc';
-import { delay } from '../utils/TimeUtil';
+import { delay, tweenPromise } from '../utils/TimeUtil';
 import { NativeFun } from '../native/NativeFun';
+import { v3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 export class DialogComponent extends ViewComponent {
@@ -25,7 +26,19 @@ export class DialogComponent extends ViewComponent {
     async startAni() {
         const time = 0.3;
         if (this.bg) ActionEffect.fadeIn(this.bg, 0.3);
-        if (this.content) ActionEffect.scale(this.content, 0.3, 1, 0, "backOut");
+        if (this.content){ 
+        //    ActionEffect.scale(this.content, 0.3, 1, 0, "backOut").then(()=>{
+
+        //    })
+           this.content.scale = v3();
+           tweenPromise(this.content,t=>t
+            .to(0.25,{scale:v3(1,1,1)})
+            .to(0.1,{scale:v3(1,1.05,1)})
+            .to(0.1,{scale:v3(1,0.97,1)})
+            .to(0.1,{scale:v3(1,1.02,1)})
+            .to(0.1,{scale:v3(1,1,1)})
+           )
+        }
         if (this.bg || this.content) {
             this.isAni = true;
             await delay(time);
