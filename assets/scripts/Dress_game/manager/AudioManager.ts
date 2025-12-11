@@ -124,8 +124,9 @@ export namespace AudioManager {
                         ac.name = name;
                         as.clip = ac;
                         as.loop = true;
-                        as.play();
+                        // as.play();
                         if (!AudioStorage.getIsPlayBGM()) { as.pause(); }
+                        else as.play();
                     } catch (e) {
                         debug.log(`加载并播放背景音乐失败${name}`);
                         debug.log(e);
