@@ -41,8 +41,12 @@ export class CleanArea extends Component {
         cos.forEach((v, i) => {
             const index = this.collects.length;
             this.collects.push(v);
-            v.changeParent(this.node);
-            v.dropTo(this.getPos(index));
+            const cp = this.getPos(index);
+            const p =UIUtils.transformOtherPos2localNode(cp,this.node,v.node);
+            v.dropTo(p, 0.2).then(()=>{
+                v.node.position = cp;
+                this.node.addChild(v.node);
+            })
         })
     }
     private async moveAfterCollet(index: number) {
@@ -69,7 +73,7 @@ export class CleanArea extends Component {
             this.node.addChild(c);
             c.position = pos;
             const colletion = c.getComponent(Colletion);
-            colletion.init(v,true);
+            colletion.init(v, true);
             // colletion.setParent(this.node);
             this.collects[i] = colletion;
         })

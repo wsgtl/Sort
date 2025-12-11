@@ -9,7 +9,7 @@ import { v3 } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
 import { sp } from 'cc';
 import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
-import { tweenPromise } from '../../../Christams_common/utils/TimeUtil';
+import { delay, tweenPromise } from '../../../Christams_common/utils/TimeUtil';
 import { UIUtils } from '../../../Christams_common/utils/UIUtils';
 const { ccclass, property } = _decorator;
 /**收集品 */
@@ -69,6 +69,7 @@ export class Colletion extends Component {
         await tweenPromise(this.node, t => t
             .to(duration, { position: pos })
         )
+        AudioManager.playEffect("ceil",0.5);
         this.streak.active = false;
         this.aniDuang(1.2, 0.9);
     }
@@ -80,10 +81,37 @@ export class Colletion extends Component {
         )
 
     }
+    /**移动后清除 */
+    async clearMoveTo(pos: Vec3, duration: number = 0.1): Promise<void> {
+        // await this.aniDuang(1.2,0.9);
+        await tweenPromise(this.node, t => t
+            .to(duration, { position: pos })
+        )
+        this.clearAni();
+    }
+    // /**爆炸清除 */
+    // async bombClear(){
+    //     this.bombAni();
+    //     await delay(0.2);
+    //     this.clearAni();
+    // }
+    
+    /**向上跳跃翻滚移动 */
+    async aniJump() {
+        await delay(0.1);
+        tweenPromise(this.collection, t => t
+            .delay(0.1)
+            .by(0.3, { angle: -180 })
+        )
+        await tweenPromise(this.collection, t => t
+            .by(0.35, { x: -30, y: 200 })
+        )
+    }
+
     /**duang一下 */
-    private aniDuang(x: number, y: number, time: number = 0.1) {
-        tweenPromise(this.node, t => t
-            .to(time, { scale: v3(x, y, 1) })
+    public async aniDuang(x: number, y: number, time: number = 0.1) {
+        await tweenPromise(this.node, t => t
+            .to(time, { scale: v3(1.2, 0.9, 1) })
             .to(time, { scale: v3(1, 1, 1) })
         )
     }
@@ -120,14 +148,14 @@ export class Colletion extends Component {
         this.node.position = p;
         this.inCabinet = true;
     }
-    async clearAni(isShowAni: boolean) {
-        if (isShowAni)
-            ActionEffect.skAniOnce(this.sk, "animation",false,0.6);
-        // this.effect.node.active = true;
-        await ActionEffect.fadeOut(this.collection, 0.3);
-        // await ActionEffect.playAni(this.effect, 6, 0.1);
-
+    async clearAni() {
+        await ActionEffect.fadeOut(this.collection, 0.1);
         this.node.destroy();
+    }
+    /**爆炸动画 */
+    bombAni(){
+        AudioManager.playEffect("clear");
+        ActionEffect.skAniOnce(this.sk, "animation", false, 0.6);
     }
 }
 

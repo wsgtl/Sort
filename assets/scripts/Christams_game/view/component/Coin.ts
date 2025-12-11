@@ -7,6 +7,7 @@ import { Tween } from 'cc';
 import { ButtonLock } from '../../../Christams_common/Decorator';
 import { ActionEffect } from '../../../Christams_common/effects/ActionEffect';
 import { FormatUtil } from '../../../Christams_common/utils/FormatUtil';
+import { AudioManager } from '../../manager/AudioManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Coin')
@@ -42,6 +43,7 @@ export class Coin extends Component {
     }
     @ButtonLock(1)
     touch() {
+        AudioManager.playEffect("btn");
         CoinManger.instance.showDialog();
     }
     protected onDestroy(): void {

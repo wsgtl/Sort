@@ -17,12 +17,15 @@ import { instantiate } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
 import { EventTracking } from '../../../Christams_common/native/EventTracking';
 import { delay } from '../../../Christams_common/utils/TimeUtil';
+import { AddCellTips } from './AddCellTips';
 const { ccclass, property } = _decorator;
 
 @ccclass('CellContent')
 export class CellContent extends Component {
     @property(Node)
     btnCell: Node = null;
+    @property(AddCellTips)
+    addcellTips: AddCellTips = null;
     @property(CleanArea)
     cleanArea: CleanArea = null;
     public collects: Colletion[] = [];
@@ -70,43 +73,52 @@ export class CellContent extends Component {
         //切换坐标
         collet.changeParent(this.node);
         await collet.moveToCells(this.getPos(index));
-        if (clear.length >= 2) {//消除三连收集品
-            AudioManager.playEffect("clear");
+        GameManger.instance.isAni = false;
+        if (clear.length >= 2) {//消除三连收集品    
             const start = clear[0];
+            const isMoney = type == ColletType.money && !ConfigConst.isShowA;
             for (let i = start; i <= index; i++) {//清除三个相连的收集品
                 const co = this.collects[i];
                 if (co) {
                     GameManger.instance.recordClearCollet(co.data.type);
-                    if (i != start + 1) {
-                        const pos = this.getPos(start + 1);
-                        co.moveTo(pos)
-                        co.clearAni(false);
-                    } else {
-                        if (type != ColletType.money || ConfigConst.isShowA) {//非钱
-                            delay(0., this.node).then(() => {
-                                AudioManager.playEffect("getCoin");
-                                CoinManger.instance.addCoin(ConfigConst.Other.CollectionClearCoins, false, false);
-                                ViewManager.showRewardAni3(RewardType.coin, ConfigConst.Other.CollectionClearCoins, co.node, v2(0, 100), () => { });
-                            })
+                    const centerIndex = i == start + 1;
+                    co.aniDuang(1.2, 0.9).then(async () => {
+                        if (!centerIndex) {
+                            const pos = this.getPos(start + 1);
+                            co.clearMoveTo(pos)
+                        } else {
+                            co.bombAni();
+                            if (!isMoney) {//非钱
+                                delay(0.2, this.node).then(() => {
+                                    AudioManager.playEffect("getCoin");
+                                    CoinManger.instance.addCoin(ConfigConst.Other.CollectionClearCoins, false, false);
+                                    ViewManager.showRewardAni3(RewardType.coin, ConfigConst.Other.CollectionClearCoins, co.node, v2(0, 100), () => { });
+                                })
+                                await delay(0.25)
+                                co.clearAni();
+                            } else {
+                                await co.aniJump();
+                                co.clearAni();
+                            }
                         }
-                        co.clearAni(true);
-                    }
-
+                    })
 
                 }
             }
             GameManger.instance.showProgress();
             this.collects.splice(start, (index - start + 1));
-            await delay(0.3, this.node);
+            await delay(0.5, this.node);
             this.moveAfterCollet(start);
             GameManger.instance.checkWin(type);
             EventTracking.sendEventClear();
         } else {
+            // collet.aniDuang(1.2, 0.9);
             if (this.collects.length >= num) {
                 GameManger.instance.gameOver();//失败
             }
         }
-        GameManger.instance.isAni = false;
+         this.showAddCellTips();
+        // GameManger.instance.isAni = false;
         GameManger.instance.saveBoard();
     }
     private async moveAfterCollet(index: number) {
@@ -193,6 +205,17 @@ export class CellContent extends Component {
         })
         return ts;
     }
+
+    /**显示增加位置提示 */
+    private showAddCellTips() {
+        if (this.collects.length >= 5 && this.btnCell.active) {
+            this.addcellTips.node.active = true;
+            this.addcellTips.showAni();
+        }else{
+            this.addcellTips.node.active = false;
+        }
+    }
+
 }
 
 
