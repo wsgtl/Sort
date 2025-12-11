@@ -161,7 +161,7 @@ export class GameView extends ViewComponent {
             const data = GameManger.instance.recoverGameData();//恢复数据
             if (data) {
                 this.recoverBoard(data.board, data.cells, data.cleanCells);
-                if(GameManger.instance.isGameOver){
+                if (GameManger.instance.isGameOver) {
                     this.failProcess();
                 }
             } else {
@@ -320,9 +320,12 @@ export class GameView extends ViewComponent {
 
     /**结束流程，先弹复活弹窗，没复活则弹失败 */
     public failProcess() {
+        GameManger.instance.isAni = true;
         const rn = GameStorage.getPropCurLevel(PropType.resurrection);
-        if (rn.all >= ConfigConst.Other.PropLimit) {   
-            this.gameOver(false);
+        if (rn.all >= ConfigConst.Other.PropLimit) {
+            delay(0.2).then(()=>{
+             this.gameOver(false);
+            })
             return;
         }
         ViewManager.showResurrect(() => {
@@ -340,6 +343,7 @@ export class GameView extends ViewComponent {
         GameManger.instance.replayBoard();
         await nextFrame();
         await delay(0.4);
+        GameManger.instance.isAni = false;
         ViewManager.showGameOver(this.node, isWin, () => {
             this.replay();
         }, () => {
