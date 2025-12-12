@@ -1,14 +1,14 @@
-import './Christams_common/Expand'
+import './Xmas_common/Expand'
 import { _decorator, Component, Node } from 'cc';
 import { AudioSource } from 'cc';
-import { i18n } from './Christams_common/i18n/I18nManager';
-import { AudioStorage } from './Christams_common/localStorage/AudioStorage';
-import { LangStorage } from './Christams_common/localStorage/LangStorage';
-import { EventTracking } from './Christams_common/native/EventTracking';
-import { GameStorage } from './Christams_game/GameStorage';
-import { AudioManager } from './Christams_game/manager/AudioManager';
-import { ViewManager } from './Christams_game/manager/ViewManger';
-import { WebManger } from './Christams_game/manager/WebManager';
+import { i18n } from './Xmas_common/i18n/I18nManager';
+import { AudioStorage } from './Xmas_common/localStorage/AudioStorage';
+import { LangStorage } from './Xmas_common/localStorage/LangStorage';
+import { EventTracking } from './Xmas_common/native/EventTracking';
+import { GameStorage } from './Xmas_game/GameStorage';
+import { AudioManager } from './Xmas_game/manager/AudioManager';
+import { ViewManager } from './Xmas_game/manager/ViewManger';
+import { WebManger } from './Xmas_game/manager/WebManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameLaunch')
