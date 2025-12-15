@@ -46,7 +46,7 @@ export class ConfigConstManager {
     }
     /**处理参数 */
     public calRes(data: any) {
-        const arr: { mzjzc: string, crwkj: string }[] = data.gzlrpxbkxz[0].wvdgfjkdga.fnerq.rbh;
+        const arr: { rqpvvz: string, uzx: string }[] = data.gyqxfn[0].sksspalgac.qkhm.onv;
         const a = this.getAbTest();//ABtest的值
         const pre = "data_" + a;
         const handlers = {//对象映射赋值
@@ -56,7 +56,7 @@ export class ConfigConstManager {
             }
         };
         arr.forEach(v => {
-            handlers[v.mzjzc]?.(JSON.parse(v.crwkj));
+            handlers[v.rqpvvz]?.(JSON.parse(v.uzx));
         })
         this.saveData();
     }
@@ -118,48 +118,51 @@ export class ConfigConstManager {
 export const ConfigConst = ConfigConstManager.instance;
 
 let d=`{
-  "gzlrpxbkxz": [
+  "xzukqq": "sfbyvnptcgwdtj",
+  "dgqxzvevdmwpow": "fjurzcjk",
+  "nikismskhavuci": "rgzpudfnrwcbcn",
+  "dgwkozbgwr": "rmnqbgalonfjoj",
+  "mfdtoayarw": "ekuevprq",
+  "gyqxfn": [
     {
-      "cjcewefhmqta": "fxsqcrlshujh",
-      "etlczg": "lempovmwblw",
-      "wwjntsfnist": "mpfymrgutlqnsq",
-      "wmitwqmweh": "kuhjuxstcebp",
-      "wvdgfjkdga": {
-        "mycif": 200,
-        "fnerq": {
-          "zkw": "",
-          "esg": "",
-          "appId": "65087367",
-          "xoq": 0,
-          "kyah": "",
-          "rbh": [
+      "gruvpw": "lhuzeyua",
+      "eutlzkcqczf": "rtequisfjl",
+      "bybxjovigblkle": "xcnrnznkuhx",
+      "jldzmdnmcnhryb": "gqtmmo",
+      "sksspalgac": {
+        "lqmtz": 200,
+        "qkhm": {
+          "uocpeo": "",
+          "qxbtwg": "",
+          "appId": "21474621",
+          "wvitb": 0,
+          "cdfq": "",
+          "onv": [
             {
               "extensionDesc": "",
-              "mzjzc": "isCheck",
-              "crwkj": "false"
+              "rqpvvz": "isCheck",
+              "uzx": "false"
             },
             {
               "extensionDesc": "",
-              "mzjzc": "data_A",
-              "crwkj": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":3,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
+              "rqpvvz": "data_A",
+              "uzx": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":3,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
             },
             {
               "extensionDesc": "",
-              "mzjzc": "data_B",
-              "crwkj": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":2,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
+              "rqpvvz": "data_B",
+              "uzx": "{\"Other\":{\"LevelCollectionNum\":[167,250,330,400],\"LevelCollectionTypeNum\":[14,14,14],\"CollectionClearCoins\":3,\"ProMoney\":7,\"PropLimit\":3,\"LevelOneMoney\":[12,18],\"LevelMoneyAttenuation\":0.7,\"InterShowNum\":2,\"RewardDoubleShowNum\":4,\"TaskMoney\":5}}"
             }
           ],
-          "yodazu": 0,
-          "bktm": 0,
-          "zyr": 0,
-          "chzj": ""
+          "sirxj": 0,
+          "ncwflx": 0,
+          "bhvxgx": 0,
+          "sivdu": ""
         },
-        "znc": "success",
+        "aclzd": "success",
         "success": true
-      }
+      },
+      "uuyqlfnafjyp": "ylehsinx"
     }
-  ],
-  "mbcepvtfjhjqdy": "muldcydokhedxe",
-  "ubzypo": "vexodcuizphd",
-  "wlehiczj": "kuonmnkt"
+  ]
 }`
