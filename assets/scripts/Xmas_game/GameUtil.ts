@@ -74,7 +74,7 @@ export enum PropType {
 export namespace GameUtil {
    export const IsTest: boolean = false;
    export const CellW: number = 145;//格子宽
-   export const CellH: number = 210;//格子高
+   export const CellH: number = 208;//格子高
    export const DownW: number = 134;//下方每个格子宽
    export const AllRow: number = 16;//生成的行数
    export const PropLimit: number = 3;//道具每回合限制数量
