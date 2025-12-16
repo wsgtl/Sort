@@ -15,7 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.christams.giftmatcheui.R;
+import com.xmaslucky.matchiec.R;
 
 
 public class WebviewActivity extends AppCompatActivity {

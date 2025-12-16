@@ -9,18 +9,18 @@ public class AdjustEventMapper {
 
     static {
         // 📊 广告曝光里程碑
-        EVENT_TOKEN_MAP.put("ad_impressions 5",  "twbrcp");
-        EVENT_TOKEN_MAP.put("ad_impressions 10", "nr26gk");
-        EVENT_TOKEN_MAP.put("ad_impressions 15", "pcw1z2");
-        EVENT_TOKEN_MAP.put("ad_impressions 20", "l36vhr");
-        EVENT_TOKEN_MAP.put("ad_impressions 25", "21egov");
-        EVENT_TOKEN_MAP.put("ad_impressions 30", "35603t");
+        EVENT_TOKEN_MAP.put("revvideo_5",  "44p1al");
+        EVENT_TOKEN_MAP.put("revvideo_8",  "fwzdae");
+        EVENT_TOKEN_MAP.put("revvideo_10", "2z02ko");
+        EVENT_TOKEN_MAP.put("revvideo_20", "x5avri");
+        EVENT_TOKEN_MAP.put("revvideo_30", "sjr6fg");
+        EVENT_TOKEN_MAP.put("revvideo_40", "4zzdbt");
 
         // 🎮 关卡事件
-        EVENT_TOKEN_MAP.put("Level_01", "6shax0");
-        EVENT_TOKEN_MAP.put("Level_02", "duhw9k");
-        EVENT_TOKEN_MAP.put("Level_03", "g0qlf5");
-        EVENT_TOKEN_MAP.put("Level_04", "4skjy3");
+//        EVENT_TOKEN_MAP.put("Level_01", "6shax0");
+//        EVENT_TOKEN_MAP.put("Level_02", "duhw9k");
+//        EVENT_TOKEN_MAP.put("Level_03", "g0qlf5");
+//        EVENT_TOKEN_MAP.put("Level_04", "4skjy3");
 //        EVENT_TOKEN_MAP.put("Level_05", "vzrjxq");
 //        EVENT_TOKEN_MAP.put("level 6", "pk6i3i");
 //        EVENT_TOKEN_MAP.put("level 7", "so5vk7");

@@ -1,18 +1,18 @@
 密钥库别名:  key0
-密码:   ccggmm
-别名密码:    ccggmm
-游戏名：Christams Gift Match
-包名：com.christams.giftmatcheui
+密码:   xxllmm
+别名密码:    xxllmm
+游戏名：Xmas Lucky Match
+包名：com.xmaslucky.matchiec
 max SDK key：
 激励广告位ID： 
 插屏广告位ID： 
 横幅广告位ID： 
 admob ID: 
-af key: QGnEbf7ihrNdXHjdyiPHoU
-hash key : zlXqd+U0ajMKujwMKCPOs2l24dk=
+af key: 
+hash key : 
 
 
-隐私政策网址：https://sites.google.com/view/jijkd290dhjixxshdjhfe/home
+隐私政策网址：https://sites.google.com/view/jeiioi1903847sdjfud8323/home
 
 //生成output.zip秘钥
 java -jar E:\szhy\keystore/pepk.jar --keystore=key.jks --alias=key0 --output=output.zip --include-cert --rsa-aes-encryption --encryption-key-path=encryption_public_key.pem

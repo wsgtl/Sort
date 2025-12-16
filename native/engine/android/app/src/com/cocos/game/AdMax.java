@@ -28,11 +28,11 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class AdMax {
-    private String sdkKey = "IcREaqRqTshBVh7v0JyL0BFlwr0tfziQvwNv7IX8iQPMPK0a3AbG3Tir61rHxksdM6e7kUcgzk4xxH08MwNehI";
+    private String sdkKey = "TfCmBUPTmnUBFyMqJ4X9cKLbNQG_QXu9dK6Kbc2GSCXdwU8mQVx1HAy2nn98REcv3K2GZFqzTsowbdv3xwyd7v";
     /**激励视频广告id*/
-    private String videoId = "70a8b6ad96bdc5a1";
+    private String videoId = "45e349b57a6268e9";
     /**插屏广告id*/
-    private String interstitialId = "6e8e87c3946cbe27";
+    private String interstitialId = "ceb997f4ca3ac813";
     private Context _context;
     private Activity _activity;
     private String Tag = "广告";

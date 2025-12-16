@@ -31,7 +31,7 @@ public class AdjustSDK {
 
     private static final String PREFS_NAME = "adjust_prefs";
     private static final String KEY_FIRST_LAUNCH = "first_launch";
-    public static String  AdjustAppToken="3xx8hvte7fnk";
+    public static String  AdjustAppToken="cqkstnjys16o";
 
     /** adjust初始化 */
     public void init(Application application) {
@@ -265,7 +265,7 @@ public class AdjustSDK {
 
         // 广告曝光里程碑事件
         if (isAdMilestone(currentCount)) {
-            String eventName = "ad_impressions " + currentCount;
+            String eventName = "revvideo_" + currentCount;
             trackEventFromCocos(eventName); // 上报 Adjust
             Log.d(Tag, "广告曝光里程碑上报 Adjust 事件: " + eventName);
         }

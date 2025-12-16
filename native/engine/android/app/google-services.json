@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1017706095292",
+    "project_id": "yumi-6b7e2",
+    "storage_bucket": "yumi-6b7e2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017706095292:android:bfe33ed6747de97ea326b9",
+        "android_client_info": {
+          "package_name": "com.xmaslucky.matchiec"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5iO3psTkDpeGl6ofkr3dOkckJSbYUwRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
