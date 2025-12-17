@@ -1,0 +1,74 @@
+import { _decorator, Component, Node } from 'cc';
+import { NumFont } from '../../../Duck_common/ui/NumFont';
+import { GameStorage } from '../../GameStorage';
+import { Button } from 'cc';
+import { FormatUtil } from '../../../Duck_common/utils/FormatUtil';
+import { ButtonLock } from '../../../Duck_common/Decorator';
+import { MoneyManger } from '../../manager/MoneyManger';
+import { ActionEffect } from '../../../Duck_common/effects/ActionEffect';
+import { delay, tweenPromise } from '../../../Duck_common/utils/TimeUtil';
+import { Tween } from 'cc';
+import { UIUtils } from '../../../Duck_common/utils/UIUtils';
+import { LangStorage } from '../../../Duck_common/localStorage/LangStorage';
+import { v3 } from 'cc';
+import { Label } from 'cc';
+const { ccclass, property } = _decorator;
+
+@ccclass('Money')
+export class Money extends Component {
+    @property(Label)
+    num: Label = null;
+    @property(Node)
+    btnGet: Node = null;
+    @property(Node)
+    tip: Node = null;
+    @property(Label)
+    addNum: Label = null;
+
+
+    protected onLoad(): void {
+        this.showCurMoney();
+        this.btnGet.on(Button.EventType.CLICK, this.onGet, this);
+        MoneyManger.instance.setMoneyNode(this);
+    }
+    showNum(num: number) {
+        const str = FormatUtil.toMoney(num);
+        this.num.string = str;
+        const sc = str.length > 7 ? (7 / str.length) : 1;
+        this.num.node.scale = v3(sc, sc);
+    }
+    async showAddNum(num: number) {
+        this.addNum.string = "+" + FormatUtil.toMoney(num);
+        const an = this.addNum.node;
+        ActionEffect.addRewardLabelAni(an);
+        // Tween.stopAllByTarget(an);
+        // an.active = true;
+        // an.y = 0;
+        // ActionEffect.fadeIn(an);
+        // await tweenPromise(an, t => t.to(0.1, { y: 50 }).delay(.5));
+        // an.active = false;
+    }
+    showCurMoney() {
+        this.showNum(GameStorage.getMoney());
+    }
+    @ButtonLock(1)
+    onGet() {
+        MoneyManger.instance.showDialog();
+    }
+
+    showTips() {
+        // Tween.stopAllByTarget(this.tip);
+        // UIUtils.setAlpha(this.tip, 1);
+        // this.tip.active = true;
+        // ActionEffect.scale(this.tip, 0.3, 1, 0, "backOut");
+        // delay(4, this.tip).then(() => {
+        //     ActionEffect.fadeOut(this.tip);
+        // })
+    }
+    /**设置按钮是否可点击 */
+    setBtnInter(v: boolean) {
+        this.btnGet.getComponent(Button).interactable = v;
+    }
+}
+
+

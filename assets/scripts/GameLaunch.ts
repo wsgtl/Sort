@@ -1,14 +1,14 @@
-import './Beach_common/Expand'
+import './Duck_common/Expand'
 import { _decorator, Component, Node } from 'cc';
-import { ViewManager } from './Beach_game/manager/ViewManger';
-import { GameStorage } from './Beach_game/GameStorage';
+import { ViewManager } from './Duck_game/manager/ViewManger';
+import { GameStorage } from './Duck_game/GameStorage';
 import { AudioSource } from 'cc';
-import { AudioManager } from './Beach_game/manager/AudioManager';
-import { i18n } from './Beach_common/i18n/I18nManager';
-import { AudioStorage } from './Beach_common/localStorage/AudioStorage';
-import { LangStorage } from './Beach_common/localStorage/LangStorage';
-import { WebManger } from './Beach_game/manager/WebManager';
-import { EventTracking } from './Beach_common/native/EventTracking';
+import { AudioManager } from './Duck_game/manager/AudioManager';
+import { i18n } from './Duck_common/i18n/I18nManager';
+import { AudioStorage } from './Duck_common/localStorage/AudioStorage';
+import { LangStorage } from './Duck_common/localStorage/LangStorage';
+import { WebManger } from './Duck_game/manager/WebManager';
+import { EventTracking } from './Duck_common/native/EventTracking';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameLaunch')
