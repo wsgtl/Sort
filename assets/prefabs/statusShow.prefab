@@ -150,7 +150,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -324.867,
+      "x": -327.867,
       "y": 0,
       "z": 0
     },
@@ -741,9 +741,9 @@
     "_enableOutline": true,
     "_outlineColor": {
       "__type__": "cc.Color",
-      "r": 29,
-      "g": 93,
-      "b": 116,
+      "r": 119,
+      "g": 14,
+      "b": 143,
       "a": 255
     },
     "_outlineWidth": 2,
@@ -1016,7 +1016,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 508.2519989013672,
+      "width": 520.2519989013672,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1043,7 +1043,7 @@
       "__id__": 42
     },
     "_lineHeight": 40,
-    "_string": "Matching <color=#ffe345>183</color> items this level",
+    "_string": "<outline color=#0369bf width=2>Matching <color=#ffe345>183</color> items this level</outine>",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
     "_fontSize": 34,

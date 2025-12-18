@@ -108,17 +108,17 @@ export class GameView extends ViewComponent {
         const cha = h - 1920;
         const cellH = GameUtil.CellH + 100;
 
-        let sc = 0.95;//缩放比例
+        let sc = 1;//缩放比例
         if (cha > 150) {
             this.topContent.getComponent(Widget).top = -30;
             this.bottomContent.y = -860 - cha * .47;
-            this.content.y = -510 - cha * 0.43;
+            this.content.y = -500 - cha * 0.43;
             this.progress.node.scale = v3(1, 1, 1);
         } else {
-            sc = 0.9;
+            sc = 0.95;
             this.topContent.getComponent(Widget).top = -100;
             this.bottomContent.y = -860 - cha * .2;
-            this.content.y = -510 - cha * 0.2;
+            this.content.y = -500 - cha * 0.2;
             this.progress.node.scale = v3(1, 0.9, 1);
         }
 

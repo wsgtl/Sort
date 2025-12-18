@@ -37,7 +37,10 @@ export class Colletion extends Component {
     cabinetData: CabinetData;
     /**到底部缩放比例 */
     sc: number = 0.75;
+    /**本来比例 */
+    asc: number = 0.95;
     init(data: CellData, isBottom: boolean = false) {
+        this.node.scale = v3(this.asc, this.asc);
         this.data = data;
         this.setType(data.type);
         if (isBottom) this.collection.scale = v3(this.sc, this.sc, 1);
@@ -71,7 +74,7 @@ export class Colletion extends Component {
         await tweenPromise(this.node, t => t
             .to(duration, { position: pos })
         )
-        AudioManager.playEffect("ceil",0.5);
+        AudioManager.playEffect("ceil", 0.5);
         this.streak.active = false;
         this.aniDuang(1.2, 0.9);
     }
@@ -79,7 +82,7 @@ export class Colletion extends Component {
     async cellMoveTo(pos: Vec3, duration: number = 0.2): Promise<void> {
         await tweenPromise(this.node, t => t
             .to(duration, { position: pos, scale: v3(0.85, 1.05, 1) }, { easing: "backOut" })
-            .to(0.1, { scale: v3(1, 1, 1) })
+            .to(0.1, { scale: v3(this.asc, this.asc, 1) })
         )
 
     }
@@ -97,7 +100,7 @@ export class Colletion extends Component {
     //     await delay(0.2);
     //     this.clearAni();
     // }
-    
+
     /**向上跳跃翻滚移动 */
     async aniJump() {
         await delay(0.1);
@@ -113,8 +116,8 @@ export class Colletion extends Component {
     /**duang一下 */
     public async aniDuang(x: number, y: number, time: number = 0.1) {
         await tweenPromise(this.node, t => t
-            .to(time, { scale: v3(1.2, 0.9, 1) })
-            .to(time, { scale: v3(1, 1, 1) })
+            .to(time, { scale: v3(1.2 * this.asc, 0.9 * this.asc, 1) })
+            .to(time, { scale: v3(1 * this.asc, 1 * this.asc, 1) })
         )
     }
     async shuffleMoveEnd() {
@@ -155,7 +158,7 @@ export class Colletion extends Component {
         this.node.destroy();
     }
     /**爆炸动画 */
-    bombAni(){
+    bombAni() {
         AudioManager.playEffect("clear");
         ActionEffect.skAniOnce(this.sk, "animation", false, 0.6);
     }
