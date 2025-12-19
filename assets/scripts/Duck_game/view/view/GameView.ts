@@ -172,7 +172,7 @@ export class GameView extends ViewComponent {
         }
         this.cabinetsDropAni();
         ViewManager.showLevelDialog(false, GameStorage.getCurLevel(), () => { })
-        await this.delay(1.5);
+        await this.delay(2);
         this.initGuide();
         GameManger.instance.isAni = false;
 

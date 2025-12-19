@@ -40,7 +40,7 @@ export class Colletion extends Component {
     /**本来比例 */
     asc: number = 0.95;
     init(data: CellData, isBottom: boolean = false) {
-        this.node.scale = v3(this.asc, this.asc);
+        this.node.scale = v3(this.asc, this.asc, 1);
         this.data = data;
         this.setType(data.type);
         if (isBottom) this.collection.scale = v3(this.sc, this.sc, 1);

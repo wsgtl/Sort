@@ -28,6 +28,7 @@ export class LevelDialog extends DialogComponent {
     /**开始动画 */
     async startAni() {
         AudioManager.playEffect("darts");
+        delay(0.5).then(()=>{AudioManager.playEffect("duck",0.5)});//鸭子叫
         ActionEffect.fadeIn(this.bg, 0.3);
         await ActionEffect.skAniOnce(this.sp,"idle",true);
     }
