@@ -11,6 +11,7 @@ import { DialogComponent } from "../../../Dress_common/ui/DialogComtnet";
 import { ActionEffect } from "../../../Dress_common/effects/ActionEffect";
 import { delay } from "../../../Dress_common/utils/TimeUtil";
 import { view } from "cc";
+import { i18n } from "../../../Dress_common/i18n/I18nManager";
 
 const { ccclass, property } = _decorator;
 
@@ -73,6 +74,10 @@ export class PropDialog extends DialogComponent {
     private onCoin() {
         const coin = GameStorage.getCoin();
         if (coin < this.curCoin) {
+            if(GameUtil.IsNoAd){//无广告去掉显示金币弹窗
+                ViewManager.showTips(i18n.string("str_nogold"));
+                return;
+            }
             // ViewManager.showTips(i18n.string("str_nogold"));
             ViewManager.showGold();
             return;
@@ -105,16 +110,17 @@ export class PropDialog extends DialogComponent {
         this.strs.forEach((v, i) => { v.active = i == type - 1 });
         const limit = ConfigConst.Other.PropLimit;
         const cn = GameStorage.getPropCurLevel(type);
-        this.btnClaim.active = type != PropType.resurrection && cn.ad == 0;
-        this.btnResurrect.active = type == PropType.resurrection && cn.ad == 0;
+        const isShowAdBtn = cn.ad == 0 && !GameUtil.IsNoAd;
+        this.btnClaim.active = type != PropType.resurrection && isShowAdBtn;
+        this.btnResurrect.active = type == PropType.resurrection && isShowAdBtn;
         this.curCoin = GameUtil.PropCoins[cn.coin];
         this.curLimit = limit - cn.all;
         this.btnCoin.getChildByName("Layout").getChildByName("num").getComponent(Label).string = this.curCoin + "";
         this.setLimit();
         this.btnAddCoin.getChildByName("num").getComponent(Label).string = "+" + GameUtil.ReceiveCoins;
-
         const h = view.getVisibleSize().y - 1920;
         this.btnAddCoin.y -= h * 0.4;
+        this.btnAddCoin.active = !GameUtil.IsNoAd;
     }
     addProp(isAd: boolean) {
 

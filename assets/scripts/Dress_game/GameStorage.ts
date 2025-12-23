@@ -185,7 +185,7 @@ export namespace GameStorage {
     }
     /**当前剩余位置是否解锁 */
     export function isCellLock(level: number) {
-        return _gameData.cellLock[level];
+        return _gameData.cellLock[level] || GameUtil.IsNoAd;
     }
     /**剩余位置解锁 */
     export function setCellUnlock(level: number) {

@@ -8,6 +8,7 @@ import { ButtonLock } from '../../../Dress_common/Decorator';
 import { ActionEffect } from '../../../Dress_common/effects/ActionEffect';
 import { FormatUtil } from '../../../Dress_common/utils/FormatUtil';
 import { AudioManager } from '../../manager/AudioManager';
+import { GameUtil } from '../../GameUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('Coin')
@@ -43,6 +44,7 @@ export class Coin extends Component {
     }
     @ButtonLock(1)
     touch() {
+        if(GameUtil.IsNoAd)return;
         AudioManager.playEffect("btn");
         CoinManger.instance.showDialog();
     }
