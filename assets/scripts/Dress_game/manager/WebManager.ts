@@ -7,9 +7,9 @@ import { ViewManager } from "./ViewManger";
 
 export namespace WebManger {
     /**正式域名 */
-    const BaseUrl = "https://wyga.sdhgjdkjcmxfdd.com";
+    const BaseUrl = "https://kfmi.hzpdhgjkiexx.com";
     /**接口url */
-    const Url = "/nszx/kuz/ndxs/tag1/pska/sgsvaz";
+    const Url = "/gbra/ajt/myok/revision1/pybdw/lgrt";
 
     export function init() {
         httpClient.setBaseURL(BaseUrl);

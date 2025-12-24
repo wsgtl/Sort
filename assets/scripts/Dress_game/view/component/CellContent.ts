@@ -134,7 +134,7 @@ export class CellContent extends Component {
     }
     public getPos(x: number): Vec3 {
         const w = GameUtil.DownW;
-        return v3((x - 3.5) * w, -25);
+        return v3((x - 3.5) * w, -15);
     }
     /**回退操作 */
     public getBackCollect() {
