@@ -29,6 +29,8 @@ export class GameOver extends DialogComponent {
     @property(Node)
     tips: Node = null;
     @property(Label)
+    level: Label = null;
+    @property(Label)
     moneyLabel: Label = null;
 
 
@@ -63,6 +65,7 @@ export class GameOver extends DialogComponent {
         pa.getChildByName("coin").active = this.type == RewardType.coin;
         pa.getChildByName("money").active = this.type != RewardType.coin;
         this.tips.active = !ConfigConst.isShowA;
+        this.level.string = "Level "+GameStorage.getCurLevel();
     }
     private init() {
         this.winContent.active = this.isWin;
