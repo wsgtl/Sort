@@ -1,4 +1,5 @@
 
+import { EventTracking } from "../../Beach_common/native/EventTracking";
 import { httpClient } from "../../Beach_common/web/HttpClient";
 import { GameUtil } from "../GameUtil";
 import { ConfigConst } from "./ConfigConstManager";
@@ -15,6 +16,7 @@ export namespace WebManger {
     }
     export async function getData() {
         ConfigConst.init();
+        EventTracking.setAb(ConfigConst.getAbTest());
         const res = await httpClient.get(Url);
         if (res.code == 200) {
             ConfigConst.calRes(res.data);

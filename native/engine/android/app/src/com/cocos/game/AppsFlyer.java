@@ -29,6 +29,7 @@ public class AppsFlyer
     private Activity mApplication = null;
     /**af的key*/
     private String AfDevKey = "sxVJt3RmoPmfXmJgTQbNc9";
+    private String AbTestStr = "A";
     /**af初始化*/
     public void init(Activity application){
         mApplication = application;
@@ -50,6 +51,11 @@ public class AppsFlyer
 
         JsbBridgeWrapper jbw = JsbBridgeWrapper.getInstance();
         jbw.addScriptEventListener("sendEvent",this::sendEvent);
+        jbw.addScriptEventListener("setAb",this::setAb);
+    }
+    /**设置AB*/
+    private void setAb(String s){
+        AbTestStr = s;
     }
     /**埋点上报*/
     public void sendEvent(String data) {
@@ -152,6 +158,7 @@ public class AppsFlyer
         data.put("placement", placement);
         data.put("ad_type", adType);
         this.baseSendEvent("ad_shown", data);
+        this.baseSendEvent(adType+"_show_"+this.AbTestStr,null);//广告设置abtest
     }
 
     /** 广告点击埋点 */
@@ -161,6 +168,7 @@ public class AppsFlyer
         data.put("placement", placement);
         data.put("ad_type", adType);
         this.baseSendEvent("ad_clicked", data);
+        this.baseSendEvent(adType+"_click_"+this.AbTestStr,null);//广告设置abtest
     }
 
     // 在AppsFlyer类里新增方法，保存当前placement，给上报用

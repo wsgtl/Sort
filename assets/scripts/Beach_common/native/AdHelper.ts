@@ -8,6 +8,7 @@ import { NativeFun } from "./NativeFun";
 import { Jsb } from "../platform/Jsb";
 import { ConfigConst } from "../../Beach_game/manager/ConfigConstManager";
 import { GameUtil } from "../../Beach_game/GameUtil";
+import { EventTracking } from "./EventTracking";
 const debug = Debugger("AdHelper")
 
 export class AdHelper {
@@ -33,6 +34,7 @@ export class AdHelper {
                 this._getRewardVideo?.(arg);//获得激励视频奖励
                 this._getRewardVideoFail = null;
                 this._getRewardVideo = null;
+                EventTracking.addReward();
             });
             native.jsbBridgeWrapper.addNativeEventListener("getRewardVideoFail", (arg: string) => {
                 debug.log("激励视频广告失败:" + arg);
@@ -95,6 +97,7 @@ export class AdHelper {
         if (Jsb.native()) {
             console.log("显示插屏广告2")
             native.jsbBridgeWrapper.dispatchEventToNative("showInterstitial", this.getPlacement("插屏广告:" + placement));
+            EventTracking.addInter();
         }
     }
     private interTime = 0;
