@@ -4,11 +4,12 @@ import { BaseStorageNS, ITEM_STORAGE } from "../localStorage/BaseStorage";
 import { LocalRate } from "./LocalRate";
 import { LangStorage } from "../localStorage/LangStorage";
 import { ConfigConst } from "../../Xmas_game/manager/ConfigConstManager";
+import { GameUtil } from "../../Xmas_game/GameUtil";
 
 export namespace EventTracking {
     /**上报事件 */
     export function sendEvent(data: Object) {
-        data["ab_test"] = ConfigConst.getAbTest();
+        // data["ab_test"] = ConfigConst.getAbTest();
         const str = JSON.stringify(data);
         // console.log("上报",str);
         if (sys.platform === sys.Platform.ANDROID) {
@@ -25,7 +26,7 @@ export namespace EventTracking {
             native.jsbBridgeWrapper.dispatchEventToNative("sendEvent", str);
         }
     }
-     /**上报通过第几关 */
+    /**上报通过第几关 */
     export function sendEventLevelAdjust(level: number) {
 
         console.log("adjustEvent 上报关卡" + level);
@@ -64,6 +65,18 @@ export namespace EventTracking {
             level: 0,
             /**达到多少元 */
             toMoney: [],
+        },
+        /**广告次数 */
+        ad: {
+            /**激励视频 */
+            reward: 0,
+            /**插屏广告 */
+            inter: 0,
+        },
+        /**记录留存 */
+        retention: {
+            first: 0,
+            days: []
         }
 
     }
@@ -90,7 +103,7 @@ export namespace EventTracking {
         if (_eventData.one[name] == 0) {
             _eventData.one[name] = 1;
             saveLocal();
-            sendEvent({ event_type: "newhand_" + name })
+            sendEvent({ event_type: getAbStr("newhand_" + name) })
         }
     }
     const moneys = [200, 300, 400, 450, 490];
@@ -104,7 +117,7 @@ export namespace EventTracking {
                     tm[i] = 1;
                     saveLocal();
                     console.log("到达美元:" + v);
-                    sendEvent({ event_type: "toMoney_" + v });
+                    sendEvent({ event_type: getAbStr("toMoney_" + v), ad_reward: _eventData.ad.reward, ad_inter: _eventData.ad.inter });
                 }
             }
         })
@@ -116,7 +129,7 @@ export namespace EventTracking {
         const clear = _eventData.one.clear;
         saveLocal();
         if (clears.indexOf(clear) > -1) {
-            sendEvent({ event_type: "clear_" + clear });
+            sendEvent({ event_type: getAbStr("clear_" + clear) });
         }
     }
 
@@ -124,11 +137,48 @@ export namespace EventTracking {
     export function sendEventLevel(level: number) {
         const cur = _eventData.one.level;
         if (level > cur) {
-            const data = { event_type: "level_x", level };
+            const data = { event_type: getAbStr("level_" + level) };
             _eventData.one.level = level;
             saveLocal();
             sendEvent(data);
             this.sendEventLevelAdjust(level);
         }
+    }
+    /**增加视频广告 */
+    export function addReward() {
+        _eventData.ad.reward++;
+        saveLocal();
+    }
+    /**增加插屏广告 */
+    export function addInter() {
+        _eventData.ad.inter++;
+        saveLocal();
+    }
+    /**设置AB */
+    export function setAb(s: string) {
+        if (sys.platform === sys.Platform.ANDROID) {
+            native.jsbBridgeWrapper.dispatchEventToNative("setAb", s);
+        }
+        initRetention();
+    }
+    const days = [1, 3, 7];
+    /**初始化留存 */
+    function initRetention() {
+        const re = _eventData.retention;
+        const cur = GameUtil.getCurDay();
+        if (!re.first) {//初始化
+            re.first = cur;
+        } else {//计算第几天
+            const d = cur - re.first;
+            if (days.indexOf(d) > -1 && re.days.indexOf(d) == -1) {//是次留，三留或七留
+                re.days.push(d);
+                sendEvent({ event_type: getAbStr(`day_${d}`) });//上报留存
+            }
+        }
+        saveLocal();
+    }
+    /**设置abtest标签 */
+    function getAbStr(s: string) {
+        return s + "_" + ConfigConst.getAbTest();
     }
 }
