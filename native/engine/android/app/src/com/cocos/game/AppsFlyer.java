@@ -35,7 +35,6 @@ public class AppsFlyer
     /**af的key*/
     private String AfDevKey = "QGnEbf7ihrNdXHjdyiPHoU";
     private String AbTestStr = "A";
->>>>>>> b469257 (feat：埋点优化ab测试)
     /**af初始化*/
     public void init(Activity application){
         mApplication = application;
