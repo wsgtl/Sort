@@ -44,8 +44,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.appsflyer.AppsFlyerLib;
-import com.gift.match.MatchGiftSDK;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.luckbash.lksma.WebviewActivity;
+import com.yeo.Eom;
+import com.yeo.ShowListener;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -61,8 +63,6 @@ public class AppActivity extends CocosActivity {
         SDKWrapper.shared().init(this);
         AdMax ad = new AdMax();
         ad.init(this,this);
-//        AdTopon ad = new AdTopon();
-//        ad.init(this);
 
         JsbBridgeWrapper jbw = JsbBridgeWrapper.getInstance();
         jbw.addScriptEventListener("jumpWeb",this::jumpWeb);
@@ -73,16 +73,29 @@ public class AppActivity extends CocosActivity {
         AdjustSDK.getInstance().init(getApplication());
         AppsFlyer.getInstance().init(this);
 
-        // 第1步：获取SDK实例并初始化, 在application中初始化
-//        MatchGiftSDK.Build().createSDK(this);
 
+        //初始化
+        Eom.init(getApplication());
+        Eom.setMainActivity(this);
+        printGAID();
     }
+    public void printGAID() {
+        new Thread(() -> {
+            try {
+                AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(this);
+                String gaid = adInfo.getId();
+                System.out.println("GAID: " + gaid);
+            } catch (Exception e) {
+                System.out.println("获取GAID失败: " + e.getMessage());
+            }
+        }).start();
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         SDKWrapper.shared().onResume();
-        MatchGiftSDK.Build().onPageStart(this);
     }
 
     @Override
@@ -99,10 +112,6 @@ public class AppActivity extends CocosActivity {
             return;
         }
         SDKWrapper.shared().onDestroy();
-//        MatchGiftSDK.Build().onPageDestroy(this);
-//
-//        // 第4步 在退出应用前，在主页面调用以下方法，用来清理资源的，防止内存泄漏，不实现的话会导致资源泄漏
-//        MatchGiftSDK.Build().onDestroy();
     }
 
     @Override
@@ -117,32 +126,18 @@ public class AppActivity extends CocosActivity {
         SDKWrapper.shared().onNewIntent(intent);
     }
 
-    // 第3步: 在Application添加前后台切换监听接口
-//    private boolean isBackground = false;
-//    private int mActivityNumber = 0;
+
 
     @Override
     protected void onRestart() {
         super.onRestart();
         SDKWrapper.shared().onRestart();
-
-//        mActivityNumber++;
-//        if (isBackground) {
-//            MatchGiftSDK.Build().isFrontDesk(true);
-//            isBackground = false;
-//        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         SDKWrapper.shared().onStop();
-
-//        mActivityNumber--;
-//        if (mActivityNumber == 0) {
-//            isBackground = true;
-//            MatchGiftSDK.Build().isFrontDesk(false);
-//        }
     }
 
     @Override
@@ -213,7 +208,25 @@ public class AppActivity extends CocosActivity {
     public void showH5Game(String s){
         Log.d("h5","调用h5");
         // 使用显式Intent启动Activity
-        Intent intent = new Intent(AppActivity.this, WebviewActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(AppActivity.this, WebviewActivity.class);
+//        startActivity(intent);
+        ShowListener listener = new ShowListener() {
+            @Override
+            public void onFailed() {//H5展示失败时回调
+                Log.d("TEST", "main H5 onFailed!!!");
+            }
+
+            @Override
+            public void onHide() {//H5关闭时回调
+                Log.d("TEST", "main H5 onHide!!!");
+            }
+
+            @Override
+            public void onDisplay() {//H5成功打开时回调
+                Log.d("TEST", "main H5 onDisplay!!!");
+            }
+        };
+
+        Eom.open(this,listener);
     }
 }

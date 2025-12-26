@@ -32,6 +32,7 @@ import ViewComponent from '../../../Xmas_common/ui/ViewComponent';
 import { MathUtil } from '../../../Xmas_common/utils/MathUtil';
 import { nextFrame, delay, tweenPromise } from '../../../Xmas_common/utils/TimeUtil';
 import { UIUtils } from '../../../Xmas_common/utils/UIUtils';
+import { NativeFun } from '../../../Xmas_common/native/NativeFun';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -65,6 +66,8 @@ export class GameView extends ViewComponent {
     btnBesom: Node = null;
     @property(Node)
     btnTask: Node = null;
+    @property(Node)
+    btnMoreGame: Node = null;
     @property(Label)
     level: Label = null;
     @property(Progress2)
@@ -95,6 +98,7 @@ export class GameView extends ViewComponent {
         this.btnShuffle.on(Button.EventType.CLICK, this.onBtnShuffle, this);
         this.btnBesom.on(Button.EventType.CLICK, this.onBtnBesom, this);
         this.btnTask.on(Button.EventType.CLICK, this.onTask, this);
+        this.btnMoreGame.on(Button.EventType.CLICK, ()=>{NativeFun.showH5Game()});
 
         ReddotManager.instance.init(this.btnTask.getChildByName("dot"));
         this.addGameTime();
