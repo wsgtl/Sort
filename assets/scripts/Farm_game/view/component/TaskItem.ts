@@ -1,0 +1,75 @@
+import { _decorator, Component, Node } from 'cc';
+import { NumFont } from '../../../Farm_common/ui/NumFont';
+import { Progress2 } from './Progress2';
+import { GameUtil, RewardType } from '../../GameUtil';
+import { Button } from 'cc';
+import { CoinManger } from '../../manager/CoinManger';
+import { GameStorage } from '../../GameStorage';
+import { ViewManager } from '../../manager/ViewManger';
+import { ReddotManager } from '../../manager/ReddotManager';
+import { Label } from 'cc';
+import { MoneyManger } from '../../manager/MoneyManger';
+import { LangStorage } from '../../../Farm_common/localStorage/LangStorage';
+import { i18n } from '../../../Farm_common/i18n/I18nManager';
+import { delay } from '../../../Farm_common/utils/TimeUtil';
+import { isVaild } from '../../../Farm_common/utils/ViewUtil';
+import { ConfigConst } from '../../manager/ConfigConstManager';
+const { ccclass, property } = _decorator;
+
+@ccclass('TaskItem')
+export class TaskItem extends Component {
+    @property(Progress2)
+    progress: Progress2 = null;
+    @property(Label)
+    jd: Label = null;
+    @property(Label)
+    taskminutes: Label = null;
+    @property(Node)
+    btnReceive: Node = null;
+    @property(Node)
+    btnClaim: Node = null;
+    @property(Node)
+    onmission: Node = null;
+    @property(Node)
+    dot: Node = null;
+    @property(Node)
+    item1: Node = null;
+
+    private levelNum: number = 0;
+    private addMoney: number = 0;
+    init(level: number, curTime: number, isCanClaim: boolean) {
+        this.levelNum = level;
+        const time = GameUtil.TaskMinutes[level];
+        this.taskminutes.string = i18n.string("str_task_minutes", time.toString());
+        this.addMoney = ConfigConst.Other.TaskMoney * LangStorage.getData().rate;
+        const cur = Math.min(curTime,time);
+        this.jd.string = cur + "/" + time;
+        this.progress.progress = cur / time;
+        const status = isCanClaim ? 1 : 3;
+        this.btnShow(status);
+        this.btnClaim.once(Button.EventType.CLICK, this.onClaim, this);
+    }
+    private btnShow(status: number) {
+        this.btnClaim.active = status == 1;
+        this.btnReceive.active = status == 2;
+        this.onmission.active = status == 3;
+
+        this.dot.active = status == 1;
+        this.item1.active = status == 1;
+    }
+    private onClaim() {
+        this.btnShow(2);
+        ViewManager.showReward(this.addMoney, true, async () => {
+            await delay(1.5)
+            if (isVaild(this.node)) {
+                this.node.destroy();
+            }
+        })
+        // ViewManager.showRewardAni1(RewardType.money, this.addMoney, () => { });
+        // MoneyManger.instance.addMoney(this.addMoney);
+        GameStorage.receiveTask(this.levelNum);
+        ReddotManager.instance.showTaskDot();
+    }
+}
+
+

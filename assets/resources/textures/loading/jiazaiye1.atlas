@@ -1,0 +1,174 @@
+
+jiazaiye1.png
+size: 1284,1284
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+go1
+  rotate: true
+  xy: 470, 283
+  size: 86, 151
+  orig: 86, 151
+  offset: 0, 0
+  index: -1
+go10
+  rotate: false
+  xy: 285, 214
+  size: 183, 155
+  orig: 183, 162
+  offset: 0, 7
+  index: -1
+go11
+  rotate: true
+  xy: 1143, 566
+  size: 106, 113
+  orig: 106, 113
+  offset: 0, 0
+  index: -1
+go2
+  rotate: false
+  xy: 57, 6
+  size: 25, 28
+  orig: 25, 28
+  offset: 0, 0
+  index: -1
+go3
+  rotate: false
+  xy: 1211, 1236
+  size: 68, 44
+  orig: 68, 44
+  offset: 0, 0
+  index: -1
+go4
+  rotate: false
+  xy: 84, 8
+  size: 25, 26
+  orig: 25, 26
+  offset: 0, 0
+  index: -1
+go5
+  rotate: false
+  xy: 1050, 69
+  size: 192, 188
+  orig: 192, 188
+  offset: 0, 0
+  index: -1
+go6
+  rotate: false
+  xy: 1050, 259
+  size: 194, 147
+  orig: 194, 147
+  offset: 0, 0
+  index: -1
+go7
+  rotate: false
+  xy: 2, 36
+  size: 281, 333
+  orig: 281, 333
+  offset: 0, 0
+  index: -1
+go8
+  rotate: false
+  xy: 1211, 1099
+  size: 66, 135
+  orig: 66, 135
+  offset: 0, 0
+  index: -1
+go9
+  rotate: false
+  xy: 470, 199
+  size: 82, 82
+  orig: 82, 82
+  offset: 0, 0
+  index: -1
+hu1
+  rotate: true
+  xy: 1143, 466
+  size: 98, 110
+  orig: 98, 110
+  offset: 0, 0
+  index: -1
+hu2
+  rotate: true
+  xy: 554, 209
+  size: 72, 75
+  orig: 72, 75
+  offset: 0, 0
+  index: -1
+hu3
+  rotate: true
+  xy: 1143, 674
+  size: 116, 120
+  orig: 116, 120
+  offset: 0, 0
+  index: -1
+ren1
+  rotate: false
+  xy: 637, 408
+  size: 504, 456
+  orig: 504, 456
+  offset: 0, 0
+  index: -1
+ren10
+  rotate: false
+  xy: 637, 866
+  size: 572, 414
+  orig: 572, 414
+  offset: 0, 0
+  index: -1
+ren2
+  rotate: false
+  xy: 2, 5
+  size: 26, 29
+  orig: 26, 29
+  offset: 0, 0
+  index: -1
+ren3
+  rotate: false
+  xy: 30, 5
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: -1
+ren4
+  rotate: false
+  xy: 1143, 792
+  size: 137, 72
+  orig: 137, 72
+  offset: 0, 0
+  index: -1
+ren5
+  rotate: true
+  xy: 1211, 937
+  size: 111, 56
+  orig: 111, 56
+  offset: 0, 0
+  index: -1
+ren6
+  rotate: false
+  xy: 1211, 900
+  size: 52, 35
+  orig: 52, 35
+  offset: 0, 0
+  index: -1
+ren7
+  rotate: false
+  xy: 1211, 1050
+  size: 57, 47
+  orig: 57, 47
+  offset: 0, 0
+  index: -1
+ren8
+  rotate: true
+  xy: 637, 14
+  size: 392, 411
+  orig: 392, 411
+  offset: 0, 0
+  index: -1
+ren9
+  rotate: false
+  xy: 2, 371
+  size: 633, 909
+  orig: 633, 909
+  offset: 0, 0
+  index: -1
