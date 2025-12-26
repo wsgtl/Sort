@@ -13,10 +13,10 @@ export namespace NativeFun {
      * @param amplitude 震动幅度
      */
     export function vibrate(duration: number, amplitude: number = -1) {
-        if (sys.platform === sys.Platform.ANDROID) {
+        if (sys.platform === sys.Platform.ANDROID || sys.platform === sys.Platform.IOS) {
             const str = "{\"duration\":" + duration + ", \"amplitude\":" + amplitude + "}";
-                native.jsbBridgeWrapper.dispatchEventToNative("vibrate", str);
-           
+            native.jsbBridgeWrapper.dispatchEventToNative("vibrate", str);
+
         }
     }
     /**弹出h5游戏窗口*/

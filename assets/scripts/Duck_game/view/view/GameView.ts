@@ -35,6 +35,7 @@ import { MoneyManger } from '../../manager/MoneyManger';
 import { ReddotManager } from '../../manager/ReddotManager';
 import { EventTracking } from '../../../Duck_common/native/EventTracking';
 import { PropAni } from '../component/PropAni';
+import { Jsb } from '../../../Duck_common/platform/Jsb';
 const { ccclass, property } = _decorator;
 
 const debug = Debugger("GameView")
@@ -110,7 +111,7 @@ export class GameView extends ViewComponent {
 
         let sc = 1;//缩放比例
         if (cha > 150) {
-            this.topContent.getComponent(Widget).top = -30;
+            this.topContent.getComponent(Widget).top = Jsb.ios() ? 0 : -30;
             this.bottomContent.y = -860 - cha * .47;
             this.content.y = -500 - cha * 0.43;
             this.progress.node.scale = v3(1, 1, 1);
@@ -323,8 +324,8 @@ export class GameView extends ViewComponent {
         GameManger.instance.isAni = true;
         const rn = GameStorage.getPropCurLevel(PropType.resurrection);
         if (rn.all >= ConfigConst.Other.PropLimit) {
-            delay(0.2).then(()=>{
-             this.gameOver(false);
+            delay(0.2).then(() => {
+                this.gameOver(false);
             })
             return;
         }

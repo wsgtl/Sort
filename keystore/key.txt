@@ -12,6 +12,7 @@ af key:
 
 
 隐私政策网址：https://sites.google.com/view/hjklcjioj20989fhjduhfdduec/home
+ios隐私政策网址：https://sites.google.com/view/hjciueihjc2378837jdhududddxxsd/home
 
 //生成output.zip秘钥
 java -jar E:\szhy\keystore/pepk.jar --keystore=key.jks --alias=key0 --output=output.zip --include-cert --rsa-aes-encryption --encryption-key-path=encryption_public_key.pem

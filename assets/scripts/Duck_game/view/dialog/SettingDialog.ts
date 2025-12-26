@@ -9,6 +9,7 @@ import { NativeFun } from '../../../Duck_common/native/NativeFun';
 import { DialogComponent } from '../../../Duck_common/ui/DialogComtnet';
 import { Label } from 'cc';
 import { ConfigConst } from '../../manager/ConfigConstManager';
+import { Jsb } from '../../../Duck_common/platform/Jsb';
 const { ccclass, property } = _decorator;
 
 @ccclass('SettingDialog')
@@ -41,8 +42,11 @@ export class SettingDialog extends DialogComponent {
         ViewManager.showHome();
     }
     onBtnPrivacy() {//跳转隐私协议
-        NativeFun.jumpWeb("https://sites.google.com/view/hjklcjioj20989fhjduhfdduec/home");
-
+        if(Jsb.ios())
+            sys.openURL("https://sites.google.com/view/hjciueihjc2378837jdhududddxxsd/home");
+        else
+            NativeFun.jumpWeb("https://sites.google.com/view/hjklcjioj20989fhjduhfdduec/home");
+        
     }
     onBtnMusic() {
         const mute = !AudioManager.getIsPlayBGM();

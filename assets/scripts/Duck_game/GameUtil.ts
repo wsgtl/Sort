@@ -73,7 +73,7 @@ export enum PropType {
 
 export namespace GameUtil {
    export const IsTest: boolean = false;
-   export const IsNoAd: boolean = false;//是否无广告
+   export const IsNoAd: boolean = true;//是否无广告
    export const CellW: number = 145;//格子宽
    export const CellH: number = 208;//格子高
    export const DownW: number = 132;//下方每个格子宽

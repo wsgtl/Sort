@@ -26,8 +26,11 @@ export class Loading extends ViewComponent {
     loading: Label = null;
     @property(Node)
     qq: Node = null;
+    @property(Node)
+    k: Node = null;
 
     async showProgress() {
+        this.k.active = !ConfigConst.isShowA;
         const pro = WebManger.getData();
         EventTracking.sendOneEvent("loading");
         const all = !Jsb.browser() ? 100 : 10;
